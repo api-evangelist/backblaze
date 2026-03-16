@@ -2,14 +2,17 @@ aid: backblaze
 url: >-
   https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/apis.yml
 apis:
-  - aid: backblaze:backblaze
-    name: Backblaze
+  - aid: backblaze:backblaze-b2-cloud-storage-api
+    name: Backblaze B2 Cloud Storage API
     tags:
       - Storage
-    humanURL: ' https://www.backblaze.com/'
+      - Cloud Storage
+    humanURL: https://www.backblaze.com/b2/cloud-storage.html
     properties:
-      - url: ' https://www.backblaze.com/'
-        type: Documentation
+      - type: Documentation
+        url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+      - type: Getting Started
+        url: https://www.backblaze.com/docs/cloud-storage-quick-start-guide
     description: >-
       Backblaze is a cloud-based data storage provider that offers scalable,
       secure, and reliable solutions for businesses and individuals looking to
@@ -28,7 +31,7 @@ type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2025-03-01'
-modified: '2025-03-01'
+modified: '2026-03-16'
 position: Consumer
 description: >-
   Backblaze is a data storage and backup service that offers customers a secure
@@ -43,5 +46,5 @@ description: >-
   all times.
 maintainers:
   - FN: Kin Lane
-    email: info@apievangelist.com
+    email: kin@apievangelist.com
 specificationVersion: '0.19'
