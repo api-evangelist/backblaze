@@ -5,8 +5,8 @@ apis:
   - aid: backblaze:backblaze-b2-cloud-storage-api
     name: Backblaze B2 Cloud Storage API
     tags:
-      - Storage
       - Cloud Storage
+      - Storage
     humanURL: https://www.backblaze.com/b2/cloud-storage.html
     properties:
       - type: Documentation
