@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-get-download-authorization-request-structure.json",
+  "name": "GetDownloadAuthorizationRequest",
+  "description": "GetDownloadAuthorizationRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "bucketId": {
+      "type": "string",
+      "description": "Bucket to authorize downloads from",
+      "example": "e73ede9969c64355ef8b"
+    },
+    "fileNamePrefix": {
+      "type": "string",
+      "description": "Files must have this name prefix",
+      "example": "photos/"
+    },
+    "validDurationInSeconds": {
+      "type": "int32",
+      "description": "Duration (1 to 604800) the token is valid",
+      "example": 3600
+    }
+  },
+  "required": [
+    "bucketId",
+    "fileNamePrefix",
+    "validDurationInSeconds"
+  ]
+}

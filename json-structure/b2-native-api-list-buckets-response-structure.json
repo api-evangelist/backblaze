@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-list-buckets-response-structure.json",
+  "name": "ListBucketsResponse",
+  "description": "ListBucketsResponse schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "buckets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Bucket"
+      }
+    }
+  }
+}

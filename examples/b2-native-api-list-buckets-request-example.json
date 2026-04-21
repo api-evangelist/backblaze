@@ -1,0 +1,8 @@
+{
+  "accountId": "abc123def456",
+  "bucketId": "abc123def456",
+  "bucketName": "my-resource-name",
+  "bucketTypes": [
+    "standard"
+  ]
+}

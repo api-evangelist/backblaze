@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-api-info-structure.json",
+  "name": "ApiInfo",
+  "description": "API endpoint information",
+  "type": "object",
+  "properties": {
+    "storageApi": {
+      "type": "object",
+      "properties": {
+        "absoluteMinimumPartSize": {
+          "type": "int32",
+          "description": "Minimum part size in bytes for large files",
+          "example": 5000000
+        },
+        "recommendedPartSize": {
+          "type": "int32",
+          "description": "Recommended part size in bytes",
+          "example": 100000000
+        },
+        "apiUrl": {
+          "type": "string",
+          "description": "URL to use for subsequent API calls",
+          "example": "https://api005.backblazeb2.com"
+        },
+        "downloadUrl": {
+          "type": "string",
+          "description": "URL to use for downloading files",
+          "example": "https://f005.backblazeb2.com"
+        },
+        "s3ApiUrl": {
+          "type": "string",
+          "description": "S3-compatible API URL",
+          "example": "https://s3.us-west-004.backblazeb2.com"
+        }
+      }
+    }
+  }
+}

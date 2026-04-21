@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-create-key-request-structure.json",
+  "name": "CreateKeyRequest",
+  "description": "CreateKeyRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "example": "abc123def456"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of capabilities for the key"
+    },
+    "keyName": {
+      "type": "string",
+      "description": "A name for the key (letters, numbers, hyphens)",
+      "example": "my-app-key"
+    },
+    "validDurationInSeconds": {
+      "type": "int32",
+      "description": "Duration before key expires"
+    },
+    "bucketId": {
+      "type": "string",
+      "description": "Restrict key to this bucket"
+    },
+    "namePrefix": {
+      "type": "string",
+      "description": "Restrict key to files with this prefix"
+    }
+  },
+  "required": [
+    "accountId",
+    "capabilities",
+    "keyName"
+  ]
+}

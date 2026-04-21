@@ -1,0 +1,8 @@
+{
+  "bucketId": "e73ede9969c64355ef8b",
+  "startFileName": "my-resource-name",
+  "startFileId": "abc123def456",
+  "maxFileCount": 100,
+  "prefix": "sample-value",
+  "delimiter": "sample-value"
+}

@@ -1,0 +1,9 @@
+{
+  "storageApi": {
+    "absoluteMinimumPartSize": 5000000,
+    "recommendedPartSize": 100000000,
+    "apiUrl": "https://api005.backblazeb2.com",
+    "downloadUrl": "https://f005.backblazeb2.com",
+    "s3ApiUrl": "https://s3.us-west-004.backblazeb2.com"
+  }
+}

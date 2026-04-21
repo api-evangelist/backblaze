@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-bucket-structure.json",
+  "name": "Bucket",
+  "description": "Represents a B2 bucket",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "description": "The account that owns the bucket",
+      "example": "abc123def456"
+    },
+    "bucketId": {
+      "type": "string",
+      "description": "The unique ID of the bucket",
+      "example": "e73ede9969c64355ef8b"
+    },
+    "bucketName": {
+      "type": "string",
+      "description": "The unique name of the bucket",
+      "example": "my-media-bucket"
+    },
+    "bucketType": {
+      "type": "string",
+      "enum": [
+        "allPublic",
+        "allPrivate",
+        "snapshot"
+      ],
+      "description": "The bucket privacy setting",
+      "example": "allPrivate"
+    },
+    "bucketInfo": {
+      "type": "object",
+      "description": "User-defined information stored with the bucket"
+    },
+    "corsRules": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "CORS rules for the bucket"
+    },
+    "lifecycleRules": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Lifecycle rules for the bucket"
+    },
+    "revision": {
+      "type": "int32",
+      "description": "The number of times the bucket info has been modified",
+      "example": 1
+    }
+  }
+}

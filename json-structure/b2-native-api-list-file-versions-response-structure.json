@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-list-file-versions-response-structure.json",
+  "name": "ListFileVersionsResponse",
+  "description": "ListFileVersionsResponse schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/FileInfo"
+      }
+    },
+    "nextFileName": {
+      "type": "string",
+      "nullable": true
+    },
+    "nextFileId": {
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

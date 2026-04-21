@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-list-keys-request-schema.json",
+  "title": "ListKeysRequest",
+  "description": "ListKeysRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "example": "abc123def456"
+    },
+    "maxKeyCount": {
+      "type": "integer",
+      "description": "Maximum number of keys to return"
+    },
+    "startApplicationKeyId": {
+      "type": "string",
+      "description": "Start listing from this key ID"
+    }
+  },
+  "required": [
+    "accountId"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-authorize-account-response-schema.json",
+  "title": "AuthorizeAccountResponse",
+  "description": "Response from the b2_authorize_account operation",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "description": "The identifier for the account",
+      "example": "abc123def456"
+    },
+    "authorizationToken": {
+      "type": "string",
+      "description": "An authorization token to use with all calls other than b2_authorize_account",
+      "example": "4_002acd2a08df7f8c0c4d21e9deef28c7"
+    },
+    "allowed": {
+      "$ref": "#/components/schemas/AllowedCapabilities"
+    },
+    "apiInfo": {
+      "$ref": "#/components/schemas/ApiInfo"
+    }
+  }
+}

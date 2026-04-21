@@ -1,0 +1,12 @@
+{
+  "parts": [
+    {
+      "fileId": "abc123def456",
+      "partNumber": 244,
+      "contentLength": 255,
+      "contentSha1": "sample-value",
+      "uploadTimestamp": 1660000000000
+    }
+  ],
+  "nextPartNumber": 850
+}

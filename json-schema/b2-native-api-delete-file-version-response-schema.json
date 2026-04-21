@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-delete-file-version-response-schema.json",
+  "title": "DeleteFileVersionResponse",
+  "description": "DeleteFileVersionResponse schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "fileId": {
+      "type": "string",
+      "example": "4_h4a48fe8875c6214145260818"
+    },
+    "fileName": {
+      "type": "string",
+      "example": "photos/image.jpg"
+    }
+  }
+}

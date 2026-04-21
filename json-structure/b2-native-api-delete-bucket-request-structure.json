@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-delete-bucket-request-structure.json",
+  "name": "DeleteBucketRequest",
+  "description": "DeleteBucketRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "description": "The account ID",
+      "example": "abc123def456"
+    },
+    "bucketId": {
+      "type": "string",
+      "description": "The ID of the bucket to delete",
+      "example": "e73ede9969c64355ef8b"
+    }
+  },
+  "required": [
+    "accountId",
+    "bucketId"
+  ]
+}

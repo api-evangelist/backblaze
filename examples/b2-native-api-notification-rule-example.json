@@ -1,0 +1,11 @@
+{
+  "name": "my-notification",
+  "eventTypes": [
+    "b2:ObjectCreated:Upload"
+  ],
+  "isEnabled": true,
+  "targetConfiguration": {
+    "targetType": "url",
+    "url": "https://my-app.example.com/webhooks/b2"
+  }
+}

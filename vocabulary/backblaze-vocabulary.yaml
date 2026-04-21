@@ -1,0 +1,409 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Backblaze"
+  description: "Unified taxonomy for the Backblaze B2 Cloud Storage API covering object storage operations, bucket management, file versioning, large file uploads, application key management, and event notifications."
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - namespace: b2-native-api
+      label: Backblaze B2 Native API
+      version: v4
+      baseUrl: https://api.backblazeb2.com
+      status: active
+    - namespace: b2-s3-compatible-api
+      label: Backblaze S3-Compatible API
+      version: current
+      baseUrl: https://s3.<region>.backblazeb2.com
+      status: active
+
+  resources:
+    - name: buckets
+      description: Containers for storing files with configurable access controls, lifecycle rules, and CORS
+      apis:
+        - b2-native-api
+      actions:
+        - create
+        - list
+        - update
+        - delete
+    - name: files
+      description: Individual objects stored within buckets with metadata, versioning, and checksum verification
+      apis:
+        - b2-native-api
+      actions:
+        - upload
+        - download
+        - list
+        - delete
+        - copy
+        - hide
+        - get-info
+    - name: large-files
+      description: Multi-part file uploads for objects larger than 5GB
+      apis:
+        - b2-native-api
+      actions:
+        - start
+        - upload-part
+        - finish
+        - cancel
+        - list
+        - list-parts
+    - name: application-keys
+      description: Scoped credentials providing capability-based access to account resources
+      apis:
+        - b2-native-api
+      actions:
+        - create
+        - list
+        - delete
+    - name: notifications
+      description: Webhook-based event notification rules triggered by bucket object events
+      apis:
+        - b2-native-api
+      actions:
+        - get
+        - set
+    - name: authorization
+      description: Authentication tokens for API access and time-limited download authorization
+      apis:
+        - b2-native-api
+      actions:
+        - authorize-account
+        - get-download-authorization
+
+  actions:
+    - name: authorize
+      description: Obtain an API authorization token using application key credentials
+      methods:
+        - GET
+      pattern: read
+    - name: list
+      description: Retrieve a paginated list of resources
+      methods:
+        - POST
+      pattern: read
+    - name: get
+      description: Retrieve metadata or details about a single resource
+      methods:
+        - POST
+      pattern: read
+    - name: create
+      description: Create a new resource
+      methods:
+        - POST
+      pattern: write
+    - name: update
+      description: Modify the configuration of an existing resource
+      methods:
+        - POST
+      pattern: write
+    - name: delete
+      description: Permanently remove a resource
+      methods:
+        - POST
+      pattern: destructive
+    - name: upload
+      description: Store a file in a bucket
+      methods:
+        - POST
+      pattern: write
+    - name: download
+      description: Retrieve file content from a bucket
+      methods:
+        - GET
+      pattern: read
+    - name: copy
+      description: Duplicate a file to a new name or bucket
+      methods:
+        - POST
+      pattern: write
+    - name: hide
+      description: Mark a file as hidden so it does not appear in name-based listings
+      methods:
+        - POST
+      pattern: write
+    - name: start
+      description: Initiate a multi-part large file upload session
+      methods:
+        - POST
+      pattern: write
+    - name: finish
+      description: Complete a multi-part large file upload by assembling all parts
+      methods:
+        - POST
+      pattern: write
+    - name: cancel
+      description: Abort a multi-part large file upload and remove uploaded parts
+      methods:
+        - POST
+      pattern: destructive
+    - name: set
+      description: Replace all notification rules for a bucket
+      methods:
+        - POST
+      pattern: write
+
+  schemas:
+    core:
+      - name: Bucket
+        description: A B2 storage container with access controls, CORS rules, and lifecycle rules
+        key_properties:
+          - bucketId
+          - bucketName
+          - bucketType
+          - accountId
+          - lifecycleRules
+          - corsRules
+      - name: FileInfo
+        description: Metadata for a stored file version including ID, checksum, and timestamps
+        key_properties:
+          - fileId
+          - fileName
+          - contentLength
+          - contentSha1
+          - contentType
+          - uploadTimestamp
+          - action
+      - name: ApplicationKey
+        description: A scoped credential with specific capabilities and optional bucket/prefix restrictions
+        key_properties:
+          - applicationKeyId
+          - keyName
+          - capabilities
+          - bucketId
+          - namePrefix
+          - expirationTimestamp
+      - name: NotificationRule
+        description: A webhook rule triggered by specific bucket object events
+        key_properties:
+          - name
+          - eventTypes
+          - isEnabled
+          - targetConfiguration
+    authorization:
+      - name: AuthorizeAccountResponse
+        description: Response from account authorization containing tokens and API URLs
+        key_properties:
+          - accountId
+          - authorizationToken
+          - allowed
+          - apiInfo
+
+  parameters:
+    pagination:
+      - name: startFileName
+        description: Start listing from this file name for cursor pagination
+      - name: startFileId
+        description: Start listing from this file ID for version pagination
+      - name: maxFileCount
+        description: Maximum number of file entries to return (1-10000)
+      - name: nextFileName
+        description: Next file name cursor for subsequent pages
+    identifiers:
+      - name: accountId
+        description: Unique identifier for the Backblaze account
+      - name: bucketId
+        description: Unique identifier for a B2 bucket
+      - name: fileId
+        description: Unique identifier for a specific file version
+      - name: applicationKeyId
+        description: Unique identifier for an application key
+    filters:
+      - name: prefix
+        description: Filter files by name prefix
+      - name: delimiter
+        description: Delimiter for virtual folder simulation in listings
+      - name: bucketType
+        description: Filter buckets by type (allPublic, allPrivate, snapshot)
+    security:
+      - name: authorizationToken
+        description: Bearer token obtained from b2_authorize_account for API calls
+      - name: validDurationInSeconds
+        description: Duration in seconds a download authorization token remains valid
+
+  enums:
+    bucket-types:
+      - allPublic
+      - allPrivate
+      - snapshot
+    file-actions:
+      - upload
+      - hide
+      - start
+      - copy
+    key-capabilities:
+      - listKeys
+      - writeKeys
+      - deleteKeys
+      - listBuckets
+      - readBuckets
+      - writeBuckets
+      - deleteBuckets
+      - listFiles
+      - readFiles
+      - shareFiles
+      - writeFiles
+      - deleteFiles
+    event-types:
+      - b2:ObjectCreated:Upload
+      - b2:ObjectCreated:MultipartUpload
+      - b2:ObjectCreated:Copy
+      - b2:ObjectDeleted:Delete
+      - b2:ObjectDeleted:LifecycleRule
+
+  authentication:
+    schemes:
+      - name: BasicAuth
+        type: basic
+        description: HTTP Basic auth with applicationKeyId as username and applicationKey as password; used only for b2_authorize_account
+      - name: ApplicationKeyAuth
+        type: bearer
+        description: Authorization token returned by b2_authorize_account; used for all subsequent API calls
+
+capability:
+  workflows:
+    - name: Cloud Storage Management
+      file: capabilities/cloud-storage-management.yaml
+      description: Unified workflow for bucket administration, file lifecycle, large file uploads, key management, and event notifications
+      apis_combined:
+        - b2-native-api
+      tool_count: 24
+      personas:
+        - Developer
+        - DevOps Engineer
+        - Application Integrator
+      domains:
+        - Cloud Storage
+        - Object Storage
+        - Infrastructure
+
+  personas:
+    - id: developer
+      name: Developer
+      description: Application developer building on B2 for file storage and delivery
+      workflows:
+        - Cloud Storage Management
+    - id: devops-engineer
+      name: DevOps Engineer
+      description: Operations engineer managing B2 buckets, lifecycle rules, and application keys as infrastructure
+      workflows:
+        - Cloud Storage Management
+    - id: application-integrator
+      name: Application Integrator
+      description: Integration specialist connecting third-party tools (backup, CDN, media) to B2
+      workflows:
+        - Cloud Storage Management
+
+  domains:
+    - name: Cloud Storage
+      description: Object storage for application data, media, and backups
+      resources:
+        - buckets
+        - files
+        - large-files
+      workflows:
+        - Cloud Storage Management
+    - name: Access Control
+      description: Application key management for scoped, least-privilege API access
+      resources:
+        - application-keys
+        - authorization
+      workflows:
+        - Cloud Storage Management
+    - name: Event-Driven Workflows
+      description: Webhook-based event notifications for real-time storage event processing
+      resources:
+        - notifications
+      workflows:
+        - Cloud Storage Management
+
+  namespaces:
+    - namespace: b2-native-api
+      type: consumed
+      description: Backblaze B2 Native API
+    - namespace: backblaze-storage-api
+      type: rest-exposed
+      port: 8080
+    - namespace: backblaze-storage-mcp
+      type: mcp-exposed
+      port: 9080
+    - namespace: b2-native-rest
+      type: rest-exposed
+      port: 8100
+    - namespace: b2-native-mcp
+      type: mcp-exposed
+      port: 9100
+
+  binds:
+    - name: B2_APPLICATION_KEY_ID
+      description: Backblaze B2 application key ID (username for Basic auth)
+      workflows:
+        - Cloud Storage Management
+    - name: B2_APPLICATION_KEY
+      description: Backblaze B2 application key secret (password for Basic auth)
+      workflows:
+        - Cloud Storage Management
+
+crossReference:
+  - resource: buckets
+    operations:
+      - createBucket
+      - listBuckets
+      - updateBucket
+      - deleteBucket
+    workflows:
+      - Cloud Storage Management
+    personas:
+      - Developer
+      - DevOps Engineer
+  - resource: files
+    operations:
+      - getUploadUrl
+      - uploadFile
+      - downloadFileById
+      - downloadFileByName
+      - getFileInfo
+      - deleteFileVersion
+      - listFileNames
+      - listFileVersions
+      - copyFile
+      - hideFile
+    workflows:
+      - Cloud Storage Management
+    personas:
+      - Developer
+      - Application Integrator
+  - resource: large-files
+    operations:
+      - startLargeFile
+      - getUploadPartUrl
+      - finishLargeFile
+      - cancelLargeFile
+      - listParts
+      - listUnfinishedLargeFiles
+    workflows:
+      - Cloud Storage Management
+    personas:
+      - Developer
+  - resource: application-keys
+    operations:
+      - createKey
+      - listKeys
+      - deleteKey
+    workflows:
+      - Cloud Storage Management
+    personas:
+      - DevOps Engineer
+  - resource: notifications
+    operations:
+      - getBucketNotificationRules
+      - setBucketNotificationRules
+    workflows:
+      - Cloud Storage Management
+    personas:
+      - Developer
+      - Application Integrator

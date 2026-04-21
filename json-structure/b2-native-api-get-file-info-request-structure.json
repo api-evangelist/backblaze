@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-get-file-info-request-structure.json",
+  "name": "GetFileInfoRequest",
+  "description": "GetFileInfoRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "fileId": {
+      "type": "string",
+      "description": "The ID of the file",
+      "example": "4_h4a48fe8875c6214145260818"
+    }
+  },
+  "required": [
+    "fileId"
+  ]
+}

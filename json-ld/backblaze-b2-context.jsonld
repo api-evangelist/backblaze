@@ -1,0 +1,332 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "b2": "https://www.backblaze.com/apidocs/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AllowedCapabilities": "b2:AllowedCapabilities",
+    "ApiInfo": "b2:ApiInfo",
+    "ApplicationKey": "b2:ApplicationKey",
+    "AuthorizeAccountResponse": "b2:AuthorizeAccountResponse",
+    "Bucket": "b2:Bucket",
+    "BucketNotificationRulesResponse": "b2:BucketNotificationRulesResponse",
+    "CancelLargeFileRequest": "b2:CancelLargeFileRequest",
+    "CancelLargeFileResponse": "b2:CancelLargeFileResponse",
+    "CopyFileRequest": "b2:CopyFileRequest",
+    "CreateBucketRequest": "b2:CreateBucketRequest",
+    "CreateKeyRequest": "b2:CreateKeyRequest",
+    "DeleteBucketRequest": "b2:DeleteBucketRequest",
+    "DeleteFileVersionRequest": "b2:DeleteFileVersionRequest",
+    "DeleteFileVersionResponse": "b2:DeleteFileVersionResponse",
+    "DeleteKeyRequest": "b2:DeleteKeyRequest",
+    "FileInfo": "b2:FileInfo",
+    "FinishLargeFileRequest": "b2:FinishLargeFileRequest",
+    "GetBucketNotificationRulesRequest": "b2:GetBucketNotificationRulesRequest",
+    "GetDownloadAuthorizationRequest": "b2:GetDownloadAuthorizationRequest",
+    "GetDownloadAuthorizationResponse": "b2:GetDownloadAuthorizationResponse",
+    "GetFileInfoRequest": "b2:GetFileInfoRequest",
+    "GetUploadPartUrlRequest": "b2:GetUploadPartUrlRequest",
+    "GetUploadPartUrlResponse": "b2:GetUploadPartUrlResponse",
+    "GetUploadUrlRequest": "b2:GetUploadUrlRequest",
+    "GetUploadUrlResponse": "b2:GetUploadUrlResponse",
+    "HideFileRequest": "b2:HideFileRequest",
+    "ListBucketsRequest": "b2:ListBucketsRequest",
+    "ListBucketsResponse": "b2:ListBucketsResponse",
+    "ListFileNamesRequest": "b2:ListFileNamesRequest",
+    "ListFileNamesResponse": "b2:ListFileNamesResponse",
+    "ListFileVersionsRequest": "b2:ListFileVersionsRequest",
+    "ListFileVersionsResponse": "b2:ListFileVersionsResponse",
+    "ListKeysRequest": "b2:ListKeysRequest",
+    "ListKeysResponse": "b2:ListKeysResponse",
+    "ListPartsRequest": "b2:ListPartsRequest",
+    "ListPartsResponse": "b2:ListPartsResponse",
+    "ListUnfinishedLargeFilesRequest": "b2:ListUnfinishedLargeFilesRequest",
+    "ListUnfinishedLargeFilesResponse": "b2:ListUnfinishedLargeFilesResponse",
+    "NotificationRule": "b2:NotificationRule",
+    "SetBucketNotificationRulesRequest": "b2:SetBucketNotificationRulesRequest",
+    "StartLargeFileRequest": "b2:StartLargeFileRequest",
+    "UpdateBucketRequest": "b2:UpdateBucketRequest",
+    "absoluteMinimumPartSize": {
+      "@id": "b2:absoluteMinimumPartSize",
+      "@type": "xsd:integer"
+    },
+    "accountId": {
+      "@id": "b2:accountId",
+      "@type": "xsd:string"
+    },
+    "action": {
+      "@id": "b2:action",
+      "@type": "xsd:string"
+    },
+    "allowed": {
+      "@id": "b2:allowed",
+      "@type": "xsd:string"
+    },
+    "apiInfo": {
+      "@id": "b2:apiInfo",
+      "@type": "xsd:string"
+    },
+    "apiUrl": {
+      "@id": "b2:apiUrl",
+      "@type": "xsd:string"
+    },
+    "applicationKey": {
+      "@id": "b2:applicationKey",
+      "@type": "xsd:string"
+    },
+    "applicationKeyId": {
+      "@id": "b2:applicationKeyId",
+      "@type": "xsd:string"
+    },
+    "authorizationToken": {
+      "@id": "b2:authorizationToken",
+      "@type": "xsd:string"
+    },
+    "bucketId": {
+      "@id": "b2:bucketId",
+      "@type": "xsd:string"
+    },
+    "bucketInfo": {
+      "@id": "b2:bucketInfo",
+      "@type": "xsd:string"
+    },
+    "bucketName": {
+      "@id": "b2:bucketName",
+      "@type": "xsd:string"
+    },
+    "bucketType": {
+      "@id": "b2:bucketType",
+      "@type": "xsd:string"
+    },
+    "bucketTypes": {
+      "@id": "b2:bucketTypes",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "buckets": {
+      "@id": "b2:buckets",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "bypassGovernance": {
+      "@id": "b2:bypassGovernance",
+      "@type": "xsd:boolean"
+    },
+    "capabilities": {
+      "@id": "b2:capabilities",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "contentLength": {
+      "@id": "b2:contentLength",
+      "@type": "xsd:integer"
+    },
+    "contentSha1": {
+      "@id": "b2:contentSha1",
+      "@type": "xsd:string"
+    },
+    "contentType": {
+      "@id": "b2:contentType",
+      "@type": "xsd:string"
+    },
+    "corsRules": {
+      "@id": "b2:corsRules",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "delimiter": {
+      "@id": "b2:delimiter",
+      "@type": "xsd:string"
+    },
+    "destinationBucketId": {
+      "@id": "b2:destinationBucketId",
+      "@type": "xsd:string"
+    },
+    "downloadUrl": {
+      "@id": "b2:downloadUrl",
+      "@type": "xsd:string"
+    },
+    "eventTypes": {
+      "@id": "b2:eventTypes",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "expirationTimestamp": {
+      "@id": "b2:expirationTimestamp",
+      "@type": "xsd:integer"
+    },
+    "fileId": {
+      "@id": "b2:fileId",
+      "@type": "xsd:string"
+    },
+    "fileInfo": {
+      "@id": "b2:fileInfo",
+      "@type": "xsd:string"
+    },
+    "fileName": {
+      "@id": "b2:fileName",
+      "@type": "xsd:string"
+    },
+    "fileNamePrefix": {
+      "@id": "b2:fileNamePrefix",
+      "@type": "xsd:string"
+    },
+    "files": {
+      "@id": "b2:files",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "ifRevisionIs": {
+      "@id": "b2:ifRevisionIs",
+      "@type": "xsd:integer"
+    },
+    "isEnabled": {
+      "@id": "b2:isEnabled",
+      "@type": "xsd:boolean"
+    },
+    "keyName": {
+      "@id": "b2:keyName",
+      "@type": "xsd:string"
+    },
+    "keys": {
+      "@id": "b2:keys",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "lifecycleRules": {
+      "@id": "b2:lifecycleRules",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "maxFileCount": {
+      "@id": "b2:maxFileCount",
+      "@type": "xsd:integer"
+    },
+    "maxKeyCount": {
+      "@id": "b2:maxKeyCount",
+      "@type": "xsd:integer"
+    },
+    "maxPartCount": {
+      "@id": "b2:maxPartCount",
+      "@type": "xsd:integer"
+    },
+    "metadataDirective": {
+      "@id": "b2:metadataDirective",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name"
+    },
+    "namePrefix": {
+      "@id": "b2:namePrefix",
+      "@type": "xsd:string"
+    },
+    "nextApplicationKeyId": {
+      "@id": "b2:nextApplicationKeyId",
+      "@type": "xsd:string"
+    },
+    "nextFileId": {
+      "@id": "b2:nextFileId",
+      "@type": "xsd:string"
+    },
+    "nextFileName": {
+      "@id": "b2:nextFileName",
+      "@type": "xsd:string"
+    },
+    "nextPartNumber": {
+      "@id": "b2:nextPartNumber",
+      "@type": "xsd:integer"
+    },
+    "partNumber": {
+      "@id": "b2:partNumber",
+      "@type": "xsd:integer"
+    },
+    "partSha1Array": {
+      "@id": "b2:partSha1Array",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "parts": {
+      "@id": "b2:parts",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "prefix": {
+      "@id": "b2:prefix",
+      "@type": "xsd:string"
+    },
+    "range": {
+      "@id": "b2:range",
+      "@type": "xsd:string"
+    },
+    "recommendedPartSize": {
+      "@id": "b2:recommendedPartSize",
+      "@type": "xsd:integer"
+    },
+    "revision": {
+      "@id": "b2:revision",
+      "@type": "xsd:integer"
+    },
+    "rules": {
+      "@id": "b2:rules",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "s3ApiUrl": {
+      "@id": "b2:s3ApiUrl",
+      "@type": "xsd:string"
+    },
+    "serverSideEncryption": {
+      "@id": "b2:serverSideEncryption",
+      "@type": "xsd:string"
+    },
+    "sourceFileId": {
+      "@id": "b2:sourceFileId",
+      "@type": "xsd:string"
+    },
+    "startApplicationKeyId": {
+      "@id": "b2:startApplicationKeyId",
+      "@type": "xsd:string"
+    },
+    "startFileId": {
+      "@id": "b2:startFileId",
+      "@type": "xsd:string"
+    },
+    "startFileName": {
+      "@id": "b2:startFileName",
+      "@type": "xsd:string"
+    },
+    "startPartNumber": {
+      "@id": "b2:startPartNumber",
+      "@type": "xsd:integer"
+    },
+    "storageApi": {
+      "@id": "b2:storageApi",
+      "@type": "xsd:string"
+    },
+    "targetConfiguration": {
+      "@id": "b2:targetConfiguration",
+      "@type": "xsd:string"
+    },
+    "targetType": {
+      "@id": "b2:targetType",
+      "@type": "xsd:string"
+    },
+    "uploadTimestamp": {
+      "@id": "b2:uploadTimestamp",
+      "@type": "xsd:integer"
+    },
+    "uploadUrl": {
+      "@id": "b2:uploadUrl",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "schema:url"
+    },
+    "validDurationInSeconds": {
+      "@id": "b2:validDurationInSeconds",
+      "@type": "xsd:integer"
+    }
+  }
+}

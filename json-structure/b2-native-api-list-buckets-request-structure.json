@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-list-buckets-request-structure.json",
+  "name": "ListBucketsRequest",
+  "description": "ListBucketsRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "description": "The account ID",
+      "example": "abc123def456"
+    },
+    "bucketId": {
+      "type": "string",
+      "description": "Filter to a specific bucket"
+    },
+    "bucketName": {
+      "type": "string",
+      "description": "Filter by bucket name"
+    },
+    "bucketTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Filter by bucket type"
+    }
+  },
+  "required": [
+    "accountId"
+  ]
+}

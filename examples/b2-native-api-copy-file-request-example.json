@@ -1,0 +1,7 @@
+{
+  "sourceFileId": "4_h4a48fe8875c6214145260818",
+  "fileName": "photos/image-copy.jpg",
+  "destinationBucketId": "abc123def456",
+  "range": "sample-value",
+  "metadataDirective": "COPY"
+}

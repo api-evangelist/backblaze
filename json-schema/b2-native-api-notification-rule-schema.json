@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-notification-rule-schema.json",
+  "title": "NotificationRule",
+  "description": "NotificationRule schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for this notification rule",
+      "example": "my-notification"
+    },
+    "eventTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Event types that trigger this notification",
+      "example": [
+        "b2:ObjectCreated:Upload"
+      ]
+    },
+    "isEnabled": {
+      "type": "boolean",
+      "description": "Whether this rule is enabled",
+      "example": true
+    },
+    "targetConfiguration": {
+      "type": "object",
+      "properties": {
+        "targetType": {
+          "type": "string",
+          "enum": [
+            "url"
+          ],
+          "description": "Type of notification target"
+        },
+        "url": {
+          "type": "string",
+          "description": "Webhook URL to send notifications to",
+          "example": "https://my-app.example.com/webhooks/b2"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "capabilities": [
+    "sample-value"
+  ],
+  "bucketId": "abc123def456",
+  "bucketName": "my-resource-name",
+  "namePrefix": "my-resource-name"
+}

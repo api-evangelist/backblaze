@@ -1,0 +1,797 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Backblaze B2 Native API"
+  description: "Backblaze B2 Native API for account authorization, bucket management, file operations, large file uploads, application key management, and event notifications."
+  tags:
+    - Backblaze
+    - Cloud Storage
+    - Object Storage
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      B2_APPLICATION_KEY_ID: B2_APPLICATION_KEY_ID
+      B2_APPLICATION_KEY: B2_APPLICATION_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: b2-native-api
+      baseUri: https://api.backblazeb2.com
+      description: "Backblaze B2 Native API v4 for cloud object storage management"
+      authentication:
+        type: basic
+        username: "{{B2_APPLICATION_KEY_ID}}"
+        password: "{{B2_APPLICATION_KEY}}"
+      resources:
+        - name: authorization
+          path: /b2api/v4
+          description: Account authorization and download token generation
+          operations:
+            - name: authorize-account
+              method: GET
+              description: Log in to the B2 API and obtain an authorization token
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: get-download-authorization
+              method: POST
+              description: Generate a time-limited token for downloading private files
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+                  fileNamePrefix: "{{tools.file_name_prefix}}"
+                  validDurationInSeconds: "{{tools.valid_duration_in_seconds}}"
+        - name: buckets
+          path: /b2api/v4
+          description: Bucket creation, listing, updating, and deletion
+          operations:
+            - name: create-bucket
+              method: POST
+              description: Create a new B2 bucket
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  accountId: "{{tools.account_id}}"
+                  bucketName: "{{tools.bucket_name}}"
+                  bucketType: "{{tools.bucket_type}}"
+            - name: list-buckets
+              method: POST
+              description: List all buckets in the account
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  accountId: "{{tools.account_id}}"
+            - name: update-bucket
+              method: POST
+              description: Update bucket settings, CORS rules, or lifecycle rules
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  accountId: "{{tools.account_id}}"
+                  bucketId: "{{tools.bucket_id}}"
+            - name: delete-bucket
+              method: POST
+              description: Delete an empty bucket
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  accountId: "{{tools.account_id}}"
+                  bucketId: "{{tools.bucket_id}}"
+        - name: files
+          path: /b2api/v4
+          description: File upload, download, listing, deletion, and metadata operations
+          operations:
+            - name: get-upload-url
+              method: POST
+              description: Get a URL for uploading a file to a specific bucket
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+            - name: get-file-info
+              method: POST
+              description: Get metadata and info about a specific file version
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fileId: "{{tools.file_id}}"
+            - name: list-file-names
+              method: POST
+              description: List file names in a bucket with optional prefix filtering
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+                  maxFileCount: "{{tools.max_file_count}}"
+                  prefix: "{{tools.prefix}}"
+            - name: list-file-versions
+              method: POST
+              description: List all versions of all files in a bucket
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+            - name: delete-file-version
+              method: POST
+              description: Delete a specific version of a file
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fileName: "{{tools.file_name}}"
+                  fileId: "{{tools.file_id}}"
+            - name: copy-file
+              method: POST
+              description: Copy a file to create a new version or rename
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  sourceFileId: "{{tools.source_file_id}}"
+                  fileName: "{{tools.file_name}}"
+            - name: hide-file
+              method: POST
+              description: Hide a file so it is not returned when listing by name
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+                  fileName: "{{tools.file_name}}"
+        - name: large-files
+          path: /b2api/v4
+          description: Multi-part upload operations for large files
+          operations:
+            - name: start-large-file
+              method: POST
+              description: Prepare for uploading a large file in parts
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+                  fileName: "{{tools.file_name}}"
+                  contentType: "{{tools.content_type}}"
+            - name: get-upload-part-url
+              method: POST
+              description: Get a URL for uploading one part of a large file
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fileId: "{{tools.file_id}}"
+            - name: finish-large-file
+              method: POST
+              description: Assemble all uploaded parts into a complete file
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fileId: "{{tools.file_id}}"
+                  partSha1Array: "{{tools.part_sha1_array}}"
+            - name: cancel-large-file
+              method: POST
+              description: Cancel a large file upload and remove all uploaded parts
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fileId: "{{tools.file_id}}"
+            - name: list-parts
+              method: POST
+              description: List parts uploaded for an in-progress large file
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  fileId: "{{tools.file_id}}"
+            - name: list-unfinished-large-files
+              method: POST
+              description: List large file uploads that have been started but not finished
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+        - name: application-keys
+          path: /b2api/v4
+          description: Application key creation, listing, and deletion
+          operations:
+            - name: create-key
+              method: POST
+              description: Create a new application key with specified capabilities
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  accountId: "{{tools.account_id}}"
+                  capabilities: "{{tools.capabilities}}"
+                  keyName: "{{tools.key_name}}"
+            - name: list-keys
+              method: POST
+              description: List all application keys for the account
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  accountId: "{{tools.account_id}}"
+            - name: delete-key
+              method: POST
+              description: Delete an application key
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  applicationKeyId: "{{tools.application_key_id}}"
+        - name: notifications
+          path: /b2api/v4
+          description: Bucket event notification rule configuration
+          operations:
+            - name: get-bucket-notification-rules
+              method: POST
+              description: Get the event notification rules configured for a bucket
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+            - name: set-bucket-notification-rules
+              method: POST
+              description: Set or replace all event notification rules for a bucket
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  bucketId: "{{tools.bucket_id}}"
+                  rules: "{{tools.rules}}"
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: b2-native-rest
+      resources:
+        - path: /v1/authorize
+          name: authorization
+          description: Account authorization
+          operations:
+            - method: GET
+              name: authorize-account
+              description: Authorize account and obtain token
+              call: "b2-native-api.authorize-account"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/buckets
+          name: buckets
+          description: Bucket management
+          operations:
+            - method: GET
+              name: list-buckets
+              description: List all buckets
+              call: "b2-native-api.list-buckets"
+              with:
+                account_id: "rest.account_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-bucket
+              description: Create a new bucket
+              call: "b2-native-api.create-bucket"
+              with:
+                account_id: "rest.account_id"
+                bucket_name: "rest.bucket_name"
+                bucket_type: "rest.bucket_type"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/buckets/{bucket_id}
+          name: bucket
+          description: Single bucket operations
+          operations:
+            - method: PUT
+              name: update-bucket
+              description: Update bucket settings
+              call: "b2-native-api.update-bucket"
+              with:
+                bucket_id: "rest.bucket_id"
+                account_id: "rest.account_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-bucket
+              description: Delete a bucket
+              call: "b2-native-api.delete-bucket"
+              with:
+                account_id: "rest.account_id"
+                bucket_id: "rest.bucket_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/files
+          name: files
+          description: File listing and management
+          operations:
+            - method: GET
+              name: list-file-names
+              description: List file names in a bucket
+              call: "b2-native-api.list-file-names"
+              with:
+                bucket_id: "rest.bucket_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/files/{file_id}
+          name: file
+          description: Single file operations
+          operations:
+            - method: GET
+              name: get-file-info
+              description: Get file metadata
+              call: "b2-native-api.get-file-info"
+              with:
+                file_id: "rest.file_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-file-version
+              description: Delete a file version
+              call: "b2-native-api.delete-file-version"
+              with:
+                file_id: "rest.file_id"
+                file_name: "rest.file_name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/keys
+          name: application-keys
+          description: Application key management
+          operations:
+            - method: GET
+              name: list-keys
+              description: List all application keys
+              call: "b2-native-api.list-keys"
+              with:
+                account_id: "rest.account_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-key
+              description: Create a new application key
+              call: "b2-native-api.create-key"
+              with:
+                account_id: "rest.account_id"
+                capabilities: "rest.capabilities"
+                key_name: "rest.key_name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/keys/{key_id}
+          name: application-key
+          description: Single key management
+          operations:
+            - method: DELETE
+              name: delete-key
+              description: Delete an application key
+              call: "b2-native-api.delete-key"
+              with:
+                application_key_id: "rest.key_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: b2-native-mcp
+      transport: http
+      tools:
+        - name: authorize-account
+          description: Log in to the B2 API and obtain an authorization token
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.authorize-account"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-buckets
+          description: List all buckets in the account
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.list-buckets"
+          with:
+            account_id: "tools.account_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-bucket
+          description: Create a new B2 bucket
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "b2-native-api.create-bucket"
+          with:
+            account_id: "tools.account_id"
+            bucket_name: "tools.bucket_name"
+            bucket_type: "tools.bucket_type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: update-bucket
+          description: Update bucket settings, type, CORS rules, or lifecycle rules
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "b2-native-api.update-bucket"
+          with:
+            account_id: "tools.account_id"
+            bucket_id: "tools.bucket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: delete-bucket
+          description: Delete an empty B2 bucket
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "b2-native-api.delete-bucket"
+          with:
+            account_id: "tools.account_id"
+            bucket_id: "tools.bucket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-upload-url
+          description: Get a URL for uploading a file to a bucket
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.get-upload-url"
+          with:
+            bucket_id: "tools.bucket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-file-info
+          description: Get metadata and information about a specific file version
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.get-file-info"
+          with:
+            file_id: "tools.file_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-file-names
+          description: List file names in a bucket with optional prefix and pagination
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.list-file-names"
+          with:
+            bucket_id: "tools.bucket_id"
+            max_file_count: "tools.max_file_count"
+            prefix: "tools.prefix"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-file-versions
+          description: List all versions of all files in a bucket
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.list-file-versions"
+          with:
+            bucket_id: "tools.bucket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: delete-file-version
+          description: Delete a specific version of a file from B2
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "b2-native-api.delete-file-version"
+          with:
+            file_name: "tools.file_name"
+            file_id: "tools.file_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: copy-file
+          description: Copy a file to create a new version with a different name or in another bucket
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "b2-native-api.copy-file"
+          with:
+            source_file_id: "tools.source_file_id"
+            file_name: "tools.file_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: hide-file
+          description: Hide a file so it is not returned when downloading by name
+          hints:
+            readOnly: false
+            destructive: false
+          call: "b2-native-api.hide-file"
+          with:
+            bucket_id: "tools.bucket_id"
+            file_name: "tools.file_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: start-large-file
+          description: Initiate a multi-part upload for a large file
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "b2-native-api.start-large-file"
+          with:
+            bucket_id: "tools.bucket_id"
+            file_name: "tools.file_name"
+            content_type: "tools.content_type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: finish-large-file
+          description: Complete a large file upload by assembling all parts
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "b2-native-api.finish-large-file"
+          with:
+            file_id: "tools.file_id"
+            part_sha1_array: "tools.part_sha1_array"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: cancel-large-file
+          description: Cancel a large file upload and delete all uploaded parts
+          hints:
+            readOnly: false
+            destructive: true
+          call: "b2-native-api.cancel-large-file"
+          with:
+            file_id: "tools.file_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-parts
+          description: List uploaded parts for an in-progress large file upload
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.list-parts"
+          with:
+            file_id: "tools.file_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-unfinished-large-files
+          description: List large file uploads that have been started but not yet completed
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.list-unfinished-large-files"
+          with:
+            bucket_id: "tools.bucket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-key
+          description: Create a new application key with specific capabilities and optional restrictions
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "b2-native-api.create-key"
+          with:
+            account_id: "tools.account_id"
+            capabilities: "tools.capabilities"
+            key_name: "tools.key_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-keys
+          description: List all application keys for the account
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.list-keys"
+          with:
+            account_id: "tools.account_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: delete-key
+          description: Delete an application key
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "b2-native-api.delete-key"
+          with:
+            application_key_id: "tools.application_key_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-download-authorization
+          description: Generate a time-limited download authorization token for private bucket files
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.get-download-authorization"
+          with:
+            bucket_id: "tools.bucket_id"
+            file_name_prefix: "tools.file_name_prefix"
+            valid_duration_in_seconds: "tools.valid_duration_in_seconds"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-bucket-notification-rules
+          description: Get the event notification rules configured for a bucket
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "b2-native-api.get-bucket-notification-rules"
+          with:
+            bucket_id: "tools.bucket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: set-bucket-notification-rules
+          description: Set or replace all event notification rules for a bucket
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "b2-native-api.set-bucket-notification-rules"
+          with:
+            bucket_id: "tools.bucket_id"
+            rules: "tools.rules"
+          outputParameters:
+            - type: object
+              mapping: "$."

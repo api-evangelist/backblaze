@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-application-key-schema.json",
+  "title": "ApplicationKey",
+  "description": "A Backblaze B2 application key",
+  "type": "object",
+  "properties": {
+    "keyName": {
+      "type": "string",
+      "description": "A name for this key",
+      "example": "my-app-key"
+    },
+    "applicationKeyId": {
+      "type": "string",
+      "description": "The ID of the newly created key",
+      "example": "0014a98f9d9e8d0000000001"
+    },
+    "applicationKey": {
+      "type": "string",
+      "description": "The secret key - only returned at creation time",
+      "example": "K0014a98f9d9e8d0000000001a9b2c3d4"
+    },
+    "accountId": {
+      "type": "string",
+      "description": "The account this key is associated with",
+      "example": "abc123def456"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "A list of capabilities this key has"
+    },
+    "expirationTimestamp": {
+      "type": "integer",
+      "nullable": true,
+      "description": "When this key expires, or null for no expiration"
+    },
+    "bucketId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Restrict key to this bucket, or null for all buckets"
+    },
+    "namePrefix": {
+      "type": "string",
+      "nullable": true,
+      "description": "Restrict key to file names starting with this prefix"
+    }
+  }
+}

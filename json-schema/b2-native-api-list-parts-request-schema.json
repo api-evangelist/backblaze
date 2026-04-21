@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-list-parts-request-schema.json",
+  "title": "ListPartsRequest",
+  "description": "ListPartsRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "fileId": {
+      "type": "string",
+      "example": "4_za71c4725f4f4a14a14a14a14a"
+    },
+    "startPartNumber": {
+      "type": "integer",
+      "description": "Start listing from this part number"
+    },
+    "maxPartCount": {
+      "type": "integer",
+      "description": "Maximum number of parts to return"
+    }
+  },
+  "required": [
+    "fileId"
+  ]
+}

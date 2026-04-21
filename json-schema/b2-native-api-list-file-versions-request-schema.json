@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-list-file-versions-request-schema.json",
+  "title": "ListFileVersionsRequest",
+  "description": "ListFileVersionsRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "bucketId": {
+      "type": "string",
+      "description": "The bucket to list",
+      "example": "e73ede9969c64355ef8b"
+    },
+    "startFileName": {
+      "type": "string"
+    },
+    "startFileId": {
+      "type": "string"
+    },
+    "maxFileCount": {
+      "type": "integer",
+      "example": 100
+    },
+    "prefix": {
+      "type": "string"
+    },
+    "delimiter": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucketId"
+  ]
+}

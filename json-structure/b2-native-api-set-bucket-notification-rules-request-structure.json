@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-set-bucket-notification-rules-request-structure.json",
+  "name": "SetBucketNotificationRulesRequest",
+  "description": "SetBucketNotificationRulesRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "bucketId": {
+      "type": "string",
+      "example": "e73ede9969c64355ef8b"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/NotificationRule"
+      }
+    }
+  },
+  "required": [
+    "bucketId",
+    "rules"
+  ]
+}

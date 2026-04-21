@@ -1,0 +1,13 @@
+{
+  "accountId": "abc123def456",
+  "bucketId": "e73ede9969c64355ef8b",
+  "bucketType": "allPublic",
+  "bucketInfo": {},
+  "corsRules": [
+    {}
+  ],
+  "lifecycleRules": [
+    {}
+  ],
+  "ifRevisionIs": 559
+}

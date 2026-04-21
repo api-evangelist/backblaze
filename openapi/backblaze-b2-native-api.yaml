@@ -1,0 +1,2218 @@
+openapi: 3.0.3
+info:
+  title: Backblaze B2 Native API
+  description: >-
+    The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage.
+    It covers account authorization, bucket management, file upload and download, lifecycle
+    rules, application key management, large file handling, replication, and event notifications.
+    The API uses HTTPS with JSON request and response bodies. Authentication is performed via
+    the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
+  version: v4
+  x-generated-from: documentation
+  contact:
+    name: Backblaze Developer Support
+    url: https://www.backblaze.com/docs
+  license:
+    name: Proprietary
+    url: https://www.backblaze.com/company/terms-of-service
+servers:
+  - url: https://api.backblazeb2.com
+    description: Backblaze B2 API (cluster-specific URL returned by b2_authorize_account)
+security:
+  - ApplicationKeyAuth: []
+tags:
+  - name: Authorization
+    description: Account authorization and token management
+  - name: Buckets
+    description: Bucket creation, management, and configuration
+  - name: Files
+    description: File upload, download, listing, deletion, and metadata
+  - name: Large Files
+    description: Multi-part upload for large files
+  - name: Application Keys
+    description: Create and manage application keys for access control
+  - name: Lifecycle Rules
+    description: Manage lifecycle rules for automatic file management
+  - name: Replication
+    description: Cross-region and cross-account replication management
+  - name: Notifications
+    description: Bucket event notification configuration
+paths:
+  /b2api/v4/b2_authorize_account:
+    get:
+      operationId: authorizeAccount
+      summary: Backblaze B2 Native API Authorize Account
+      description: >-
+        Used to log in to the B2 API. Returns an authorization token that can be used
+        for account-level operations. The authorization token is valid for at most 24 hours.
+        This endpoint uses HTTP Basic authentication with the application key ID as the
+        username and the application key as the password.
+      tags:
+        - Authorization
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Successful authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizeAccountResponse'
+              examples:
+                AuthorizeAccount200Example:
+                  summary: Default authorizeAccount 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    authorizationToken: 4_002acd2a08df7f8c0c4d21e9deef28c7
+                    allowed:
+                      capabilities:
+                        - listKeys
+                        - writeKeys
+                        - deleteKeys
+                        - listBuckets
+                        - readBuckets
+                        - writeBuckets
+                        - deleteBuckets
+                        - listFiles
+                        - readFiles
+                        - shareFiles
+                        - writeFiles
+                        - deleteFiles
+                      bucketId: null
+                      bucketName: null
+                      namePrefix: null
+                    apiInfo:
+                      storageApi:
+                        absoluteMinimumPartSize: 5000000
+                        recommendedPartSize: 100000000
+                        apiUrl: https://api005.backblazeb2.com
+                        downloadUrl: https://f005.backblazeb2.com
+                        s3ApiUrl: https://s3.us-west-004.backblazeb2.com
+        '401':
+          description: Unauthorized - invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_create_bucket:
+    post:
+      operationId: createBucket
+      summary: Backblaze B2 Native API Create Bucket
+      description: Creates a new bucket. A bucket must be globally unique across all of Backblaze B2 or the request will fail.
+      tags:
+        - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBucketRequest'
+            examples:
+              CreateBucketRequestExample:
+                summary: Default createBucket request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  bucketName: my-media-bucket
+                  bucketType: allPrivate
+      responses:
+        '200':
+          description: Bucket created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+              examples:
+                CreateBucket200Example:
+                  summary: Default createBucket 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    bucketName: my-media-bucket
+                    bucketType: allPrivate
+                    bucketInfo: {}
+                    corsRules: []
+                    lifecycleRules: []
+                    revision: 1
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_delete_bucket:
+    post:
+      operationId: deleteBucket
+      summary: Backblaze B2 Native API Delete Bucket
+      description: Deletes the bucket specified. Only buckets that contain no version of any files can be deleted.
+      tags:
+        - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteBucketRequest'
+            examples:
+              DeleteBucketRequestExample:
+                summary: Default deleteBucket request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: Bucket deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+              examples:
+                DeleteBucket200Example:
+                  summary: Default deleteBucket 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    bucketName: my-media-bucket
+                    bucketType: allPrivate
+                    bucketInfo: {}
+                    corsRules: []
+                    lifecycleRules: []
+                    revision: 1
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_buckets:
+    post:
+      operationId: listBuckets
+      summary: Backblaze B2 Native API List Buckets
+      description: Lists buckets associated with an account, in alphabetical order by bucket name.
+      tags:
+        - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListBucketsRequest'
+            examples:
+              ListBucketsRequestExample:
+                summary: Default listBuckets request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+      responses:
+        '200':
+          description: List of buckets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBucketsResponse'
+              examples:
+                ListBuckets200Example:
+                  summary: Default listBuckets 200 response
+                  x-microcks-default: true
+                  value:
+                    buckets:
+                      - accountId: abc123def456
+                        bucketId: e73ede9969c64355ef8b
+                        bucketName: my-media-bucket
+                        bucketType: allPrivate
+                        bucketInfo: {}
+                        corsRules: []
+                        lifecycleRules: []
+                        revision: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_update_bucket:
+    post:
+      operationId: updateBucket
+      summary: Backblaze B2 Native API Update Bucket
+      description: Update an existing bucket. Can be used to change the bucket type, bucket info, CORS rules, and lifecycle rules.
+      tags:
+        - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBucketRequest'
+            examples:
+              UpdateBucketRequestExample:
+                summary: Default updateBucket request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  bucketId: e73ede9969c64355ef8b
+                  bucketType: allPublic
+      responses:
+        '200':
+          description: Bucket updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+              examples:
+                UpdateBucket200Example:
+                  summary: Default updateBucket 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    bucketName: my-media-bucket
+                    bucketType: allPublic
+                    bucketInfo: {}
+                    corsRules: []
+                    lifecycleRules: []
+                    revision: 2
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_get_upload_url:
+    post:
+      operationId: getUploadUrl
+      summary: Backblaze B2 Native API Get Upload URL
+      description: Gets a URL for uploading a single file to a bucket. The URL returned is specific to the bucket and can only be used to upload to that bucket.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUploadUrlRequest'
+            examples:
+              GetUploadUrlRequestExample:
+                summary: Default getUploadUrl request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: Upload URL details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUploadUrlResponse'
+              examples:
+                GetUploadUrl200Example:
+                  summary: Default getUploadUrl 200 response
+                  x-microcks-default: true
+                  value:
+                    bucketId: e73ede9969c64355ef8b
+                    uploadUrl: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_file
+                    authorizationToken: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_upload_file:
+    post:
+      operationId: uploadFile
+      summary: Backblaze B2 Native API Upload File
+      description: Uploads one file to B2, returning its unique file ID. The file data is the request body. Before calling this function, b2_get_upload_url must be called to get the URL and authorization token.
+      tags:
+        - Files
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Upload authorization token from b2_get_upload_url
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+        - name: X-Bz-File-Name
+          in: header
+          required: true
+          schema:
+            type: string
+          description: URL-encoded name of the file
+          example: photos%2Fimage.jpg
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          description: MIME type of the file
+          example: image/jpeg
+        - name: Content-Length
+          in: header
+          required: true
+          schema:
+            type: integer
+          description: Length of the file in bytes
+          example: 102400
+        - name: X-Bz-Content-Sha1
+          in: header
+          required: true
+          schema:
+            type: string
+          description: SHA1 checksum of the file content
+          example: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                UploadFile200Example:
+                  summary: Default uploadFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_h4a48fe8875c6214145260818
+                    fileName: photos/image.jpg
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentLength: 102400
+                    contentSha1: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                    contentType: image/jpeg
+                    fileInfo: {}
+                    uploadTimestamp: 1660000000000
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_download_file_by_id:
+    get:
+      operationId: downloadFileById
+      summary: Backblaze B2 Native API Download File by ID
+      description: Downloads one file by its file ID. Can be used to download a specific version of a file.
+      tags:
+        - Files
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The unique file ID to download
+          example: 4_h4a48fe8875c6214145260818
+      responses:
+        '200':
+          description: File content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_download_file_by_name/{bucketName}/{fileName}:
+    get:
+      operationId: downloadFileByName
+      summary: Backblaze B2 Native API Download File by Name
+      description: Downloads one file from a public or private bucket by name.
+      tags:
+        - Files
+      parameters:
+        - name: bucketName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Name of the bucket containing the file
+          example: my-media-bucket
+        - name: fileName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Full name of the file including any prefix
+          example: photos/image.jpg
+      responses:
+        '200':
+          description: File content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_get_file_info:
+    post:
+      operationId: getFileInfo
+      summary: Backblaze B2 Native API Get File Info
+      description: Gets information about one file stored in B2.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetFileInfoRequest'
+            examples:
+              GetFileInfoRequestExample:
+                summary: Default getFileInfo request
+                x-microcks-default: true
+                value:
+                  fileId: 4_h4a48fe8875c6214145260818
+      responses:
+        '200':
+          description: File information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                GetFileInfo200Example:
+                  summary: Default getFileInfo 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_h4a48fe8875c6214145260818
+                    fileName: photos/image.jpg
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentLength: 102400
+                    contentSha1: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                    contentType: image/jpeg
+                    fileInfo: {}
+                    uploadTimestamp: 1660000000000
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_delete_file_version:
+    post:
+      operationId: deleteFileVersion
+      summary: Backblaze B2 Native API Delete File Version
+      description: Deletes one version of a file from B2. If the version you delete is the latest version, and there are older versions, then the most recent older version will become the current version of the file.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteFileVersionRequest'
+            examples:
+              DeleteFileVersionRequestExample:
+                summary: Default deleteFileVersion request
+                x-microcks-default: true
+                value:
+                  fileName: photos/image.jpg
+                  fileId: 4_h4a48fe8875c6214145260818
+      responses:
+        '200':
+          description: File version deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteFileVersionResponse'
+              examples:
+                DeleteFileVersion200Example:
+                  summary: Default deleteFileVersion 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_h4a48fe8875c6214145260818
+                    fileName: photos/image.jpg
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_file_names:
+    post:
+      operationId: listFileNames
+      summary: Backblaze B2 Native API List File Names
+      description: Lists the names of all files in a bucket, starting at a given name. Returns at most 1000 file names, but it can be set to return fewer.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListFileNamesRequest'
+            examples:
+              ListFileNamesRequestExample:
+                summary: Default listFileNames request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  maxFileCount: 100
+      responses:
+        '200':
+          description: List of file names
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFileNamesResponse'
+              examples:
+                ListFileNames200Example:
+                  summary: Default listFileNames 200 response
+                  x-microcks-default: true
+                  value:
+                    files:
+                      - fileId: 4_h4a48fe8875c6214145260818
+                        fileName: photos/image.jpg
+                        contentLength: 102400
+                        contentType: image/jpeg
+                        uploadTimestamp: 1660000000000
+                    nextFileName: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_file_versions:
+    post:
+      operationId: listFileVersions
+      summary: Backblaze B2 Native API List File Versions
+      description: Lists all of the versions of all of the files contained in one bucket, in alphabetical order by file name, and by reverse of date/time uploaded for versions of files with the same name.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListFileVersionsRequest'
+            examples:
+              ListFileVersionsRequestExample:
+                summary: Default listFileVersions request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: List of file versions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFileVersionsResponse'
+              examples:
+                ListFileVersions200Example:
+                  summary: Default listFileVersions 200 response
+                  x-microcks-default: true
+                  value:
+                    files:
+                      - fileId: 4_h4a48fe8875c6214145260818
+                        fileName: photos/image.jpg
+                        action: upload
+                        contentLength: 102400
+                        contentType: image/jpeg
+                        uploadTimestamp: 1660000000000
+                    nextFileName: null
+                    nextFileId: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_copy_file:
+    post:
+      operationId: copyFile
+      summary: Backblaze B2 Native API Copy File
+      description: Creates a new file by copying from an existing file. It copies the source file's contents and optionally overrides some of the source file's metadata.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyFileRequest'
+            examples:
+              CopyFileRequestExample:
+                summary: Default copyFile request
+                x-microcks-default: true
+                value:
+                  sourceFileId: 4_h4a48fe8875c6214145260818
+                  fileName: photos/image-copy.jpg
+      responses:
+        '200':
+          description: File copied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                CopyFile200Example:
+                  summary: Default copyFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_z71c4725f4f4a14a14a14a14a
+                    fileName: photos/image-copy.jpg
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentLength: 102400
+                    contentSha1: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                    contentType: image/jpeg
+                    fileInfo: {}
+                    uploadTimestamp: 1660500000000
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_hide_file:
+    post:
+      operationId: hideFile
+      summary: Backblaze B2 Native API Hide File
+      description: Hides a file so that downloading by name will not find the file, but previous versions of the file are still stored. Can be used to effectively delete a file if versioning is enabled.
+      tags:
+        - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HideFileRequest'
+            examples:
+              HideFileRequestExample:
+                summary: Default hideFile request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  fileName: photos/image.jpg
+      responses:
+        '200':
+          description: File hidden successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                HideFile200Example:
+                  summary: Default hideFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_h4a48fe8875c6214145260818
+                    fileName: photos/image.jpg
+                    action: hide
+                    contentLength: 0
+                    uploadTimestamp: 1660500000000
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_get_download_authorization:
+    post:
+      operationId: getDownloadAuthorization
+      summary: Backblaze B2 Native API Get Download Authorization
+      description: Used to generate an authorization token that can be used to download files with the specified prefix from a private bucket.
+      tags:
+        - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDownloadAuthorizationRequest'
+            examples:
+              GetDownloadAuthorizationRequestExample:
+                summary: Default getDownloadAuthorization request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  fileNamePrefix: photos/
+                  validDurationInSeconds: 3600
+      responses:
+        '200':
+          description: Download authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDownloadAuthorizationResponse'
+              examples:
+                GetDownloadAuthorization200Example:
+                  summary: Default getDownloadAuthorization 200 response
+                  x-microcks-default: true
+                  value:
+                    bucketId: e73ede9969c64355ef8b
+                    fileNamePrefix: photos/
+                    authorizationToken: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_start_large_file:
+    post:
+      operationId: startLargeFile
+      summary: Backblaze B2 Native API Start Large File
+      description: Prepares for uploading the parts of a large file. Files over 100MB must be uploaded in parts. Returns a fileId that is used when uploading parts of this file, finishing this file, and canceling this file.
+      tags:
+        - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartLargeFileRequest'
+            examples:
+              StartLargeFileRequestExample:
+                summary: Default startLargeFile request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  fileName: videos/large-video.mp4
+                  contentType: video/mp4
+      responses:
+        '200':
+          description: Large file started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                StartLargeFile200Example:
+                  summary: Default startLargeFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    fileName: videos/large-video.mp4
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentType: video/mp4
+                    fileInfo: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_get_upload_part_url:
+    post:
+      operationId: getUploadPartUrl
+      summary: Backblaze B2 Native API Get Upload Part URL
+      description: Gets an URL to use for uploading parts of a large file.
+      tags:
+        - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUploadPartUrlRequest'
+            examples:
+              GetUploadPartUrlRequestExample:
+                summary: Default getUploadPartUrl request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+      responses:
+        '200':
+          description: Upload part URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUploadPartUrlResponse'
+              examples:
+                GetUploadPartUrl200Example:
+                  summary: Default getUploadPartUrl 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    uploadUrl: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
+                    authorizationToken: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_finish_large_file:
+    post:
+      operationId: finishLargeFile
+      summary: Backblaze B2 Native API Finish Large File
+      description: Converts the parts that have been uploaded into a single B2 file.
+      tags:
+        - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinishLargeFileRequest'
+            examples:
+              FinishLargeFileRequestExample:
+                summary: Default finishLargeFile request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+                  partSha1Array:
+                    - a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                    - b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3
+      responses:
+        '200':
+          description: Large file finished
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                FinishLargeFile200Example:
+                  summary: Default finishLargeFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    fileName: videos/large-video.mp4
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentLength: 2048000000
+                    contentSha1: none
+                    contentType: video/mp4
+                    fileInfo: {}
+                    uploadTimestamp: 1660600000000
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_cancel_large_file:
+    post:
+      operationId: cancelLargeFile
+      summary: Backblaze B2 Native API Cancel Large File
+      description: Cancels a large file upload and deletes all of the parts that have been uploaded.
+      tags:
+        - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelLargeFileRequest'
+            examples:
+              CancelLargeFileRequestExample:
+                summary: Default cancelLargeFile request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+      responses:
+        '200':
+          description: Large file upload cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelLargeFileResponse'
+              examples:
+                CancelLargeFile200Example:
+                  summary: Default cancelLargeFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    fileName: videos/large-video.mp4
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_parts:
+    post:
+      operationId: listParts
+      summary: Backblaze B2 Native API List Parts
+      description: Lists the parts that have been uploaded for a large file, in order of part number.
+      tags:
+        - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListPartsRequest'
+            examples:
+              ListPartsRequestExample:
+                summary: Default listParts request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+      responses:
+        '200':
+          description: List of parts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPartsResponse'
+              examples:
+                ListParts200Example:
+                  summary: Default listParts 200 response
+                  x-microcks-default: true
+                  value:
+                    parts:
+                      - fileId: 4_za71c4725f4f4a14a14a14a14a
+                        partNumber: 1
+                        contentLength: 100000000
+                        contentSha1: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                        uploadTimestamp: 1660500000000
+                    nextPartNumber: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_unfinished_large_files:
+    post:
+      operationId: listUnfinishedLargeFiles
+      summary: Backblaze B2 Native API List Unfinished Large Files
+      description: Lists information about large file uploads that have been started but not finished or cancelled.
+      tags:
+        - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListUnfinishedLargeFilesRequest'
+            examples:
+              ListUnfinishedLargeFilesRequestExample:
+                summary: Default listUnfinishedLargeFiles request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: List of unfinished large files
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUnfinishedLargeFilesResponse'
+              examples:
+                ListUnfinishedLargeFiles200Example:
+                  summary: Default listUnfinishedLargeFiles 200 response
+                  x-microcks-default: true
+                  value:
+                    files:
+                      - fileId: 4_za71c4725f4f4a14a14a14a14a
+                        fileName: videos/large-video.mp4
+                        accountId: abc123def456
+                        bucketId: e73ede9969c64355ef8b
+                        contentType: video/mp4
+                        uploadTimestamp: 1660500000000
+                    nextFileId: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_create_key:
+    post:
+      operationId: createKey
+      summary: Backblaze B2 Native API Create Key
+      description: Creates a new application key. The key returned by this API can only be used to access the account that created it.
+      tags:
+        - Application Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKeyRequest'
+            examples:
+              CreateKeyRequestExample:
+                summary: Default createKey request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  capabilities:
+                    - listFiles
+                    - readFiles
+                    - writeFiles
+                  keyName: my-app-key
+      responses:
+        '200':
+          description: Application key created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationKey'
+              examples:
+                CreateKey200Example:
+                  summary: Default createKey 200 response
+                  x-microcks-default: true
+                  value:
+                    keyName: my-app-key
+                    applicationKeyId: 0014a98f9d9e8d0000000001
+                    applicationKey: K0014a98f9d9e8d0000000001a9b2c3d4
+                    accountId: abc123def456
+                    capabilities:
+                      - listFiles
+                      - readFiles
+                      - writeFiles
+                    expirationTimestamp: null
+                    bucketId: null
+                    namePrefix: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_delete_key:
+    post:
+      operationId: deleteKey
+      summary: Backblaze B2 Native API Delete Key
+      description: Deletes the application key specified.
+      tags:
+        - Application Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteKeyRequest'
+            examples:
+              DeleteKeyRequestExample:
+                summary: Default deleteKey request
+                x-microcks-default: true
+                value:
+                  applicationKeyId: 0014a98f9d9e8d0000000001
+      responses:
+        '200':
+          description: Key deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationKey'
+              examples:
+                DeleteKey200Example:
+                  summary: Default deleteKey 200 response
+                  x-microcks-default: true
+                  value:
+                    keyName: my-app-key
+                    applicationKeyId: 0014a98f9d9e8d0000000001
+                    accountId: abc123def456
+                    capabilities:
+                      - listFiles
+                      - readFiles
+                      - writeFiles
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_keys:
+    post:
+      operationId: listKeys
+      summary: Backblaze B2 Native API List Keys
+      description: Lists application keys associated with an account.
+      tags:
+        - Application Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListKeysRequest'
+            examples:
+              ListKeysRequestExample:
+                summary: Default listKeys request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+      responses:
+        '200':
+          description: List of application keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListKeysResponse'
+              examples:
+                ListKeys200Example:
+                  summary: Default listKeys 200 response
+                  x-microcks-default: true
+                  value:
+                    keys:
+                      - keyName: my-app-key
+                        applicationKeyId: 0014a98f9d9e8d0000000001
+                        accountId: abc123def456
+                        capabilities:
+                          - listFiles
+                          - readFiles
+                          - writeFiles
+                    nextApplicationKeyId: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_get_bucket_notification_rules:
+    post:
+      operationId: getBucketNotificationRules
+      summary: Backblaze B2 Native API Get Bucket Notification Rules
+      description: Returns the notification rules for a bucket.
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetBucketNotificationRulesRequest'
+            examples:
+              GetBucketNotificationRulesRequestExample:
+                summary: Default getBucketNotificationRules request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: Bucket notification rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BucketNotificationRulesResponse'
+              examples:
+                GetBucketNotificationRules200Example:
+                  summary: Default getBucketNotificationRules 200 response
+                  x-microcks-default: true
+                  value:
+                    bucketId: e73ede9969c64355ef8b
+                    rules: []
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_set_bucket_notification_rules:
+    post:
+      operationId: setBucketNotificationRules
+      summary: Backblaze B2 Native API Set Bucket Notification Rules
+      description: Sets the notification rules for a bucket. Replaces all existing notification rules.
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetBucketNotificationRulesRequest'
+            examples:
+              SetBucketNotificationRulesRequestExample:
+                summary: Default setBucketNotificationRules request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  rules:
+                    - name: my-notification
+                      eventTypes:
+                        - b2:ObjectCreated:Upload
+                      isEnabled: true
+                      targetConfiguration:
+                        targetType: url
+                        url: https://my-app.example.com/webhooks/b2
+      responses:
+        '200':
+          description: Notification rules set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BucketNotificationRulesResponse'
+              examples:
+                SetBucketNotificationRules200Example:
+                  summary: Default setBucketNotificationRules 200 response
+                  x-microcks-default: true
+                  value:
+                    bucketId: e73ede9969c64355ef8b
+                    rules:
+                      - name: my-notification
+                        eventTypes:
+                          - b2:ObjectCreated:Upload
+                        isEnabled: true
+                        targetConfiguration:
+                          targetType: url
+                          url: https://my-app.example.com/webhooks/b2
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    ApplicationKeyAuth:
+      type: http
+      scheme: bearer
+      description: Authorization token obtained from b2_authorize_account
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic auth using applicationKeyId as username and applicationKey as password
+  schemas:
+    AuthorizeAccountResponse:
+      title: AuthorizeAccountResponse
+      type: object
+      description: Response from the b2_authorize_account operation
+      properties:
+        accountId:
+          type: string
+          description: The identifier for the account
+          example: abc123def456
+        authorizationToken:
+          type: string
+          description: An authorization token to use with all calls other than b2_authorize_account
+          example: 4_002acd2a08df7f8c0c4d21e9deef28c7
+        allowed:
+          $ref: '#/components/schemas/AllowedCapabilities'
+        apiInfo:
+          $ref: '#/components/schemas/ApiInfo'
+    AllowedCapabilities:
+      title: AllowedCapabilities
+      type: object
+      description: What the credentials allow
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of capabilities
+        bucketId:
+          type: string
+          nullable: true
+          description: Bucket ID restricted to, or null
+        bucketName:
+          type: string
+          nullable: true
+          description: Bucket name restricted to, or null
+        namePrefix:
+          type: string
+          nullable: true
+          description: File name prefix restriction, or null
+    ApiInfo:
+      title: ApiInfo
+      type: object
+      description: API endpoint information
+      properties:
+        storageApi:
+          type: object
+          properties:
+            absoluteMinimumPartSize:
+              type: integer
+              description: Minimum part size in bytes for large files
+              example: 5000000
+            recommendedPartSize:
+              type: integer
+              description: Recommended part size in bytes
+              example: 100000000
+            apiUrl:
+              type: string
+              description: URL to use for subsequent API calls
+              example: https://api005.backblazeb2.com
+            downloadUrl:
+              type: string
+              description: URL to use for downloading files
+              example: https://f005.backblazeb2.com
+            s3ApiUrl:
+              type: string
+              description: S3-compatible API URL
+              example: https://s3.us-west-004.backblazeb2.com
+    Bucket:
+      title: Bucket
+      type: object
+      description: Represents a B2 bucket
+      properties:
+        accountId:
+          type: string
+          description: The account that owns the bucket
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The unique ID of the bucket
+          example: e73ede9969c64355ef8b
+        bucketName:
+          type: string
+          description: The unique name of the bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+            - allPublic
+            - allPrivate
+            - snapshot
+          description: The bucket privacy setting
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined information stored with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+        revision:
+          type: integer
+          description: The number of times the bucket info has been modified
+          example: 1
+    FileInfo:
+      title: FileInfo
+      type: object
+      description: Information about a stored file
+      properties:
+        fileId:
+          type: string
+          description: The unique identifier for this version of this file
+          example: 4_h4a48fe8875c6214145260818
+        fileName:
+          type: string
+          description: The name of the file
+          example: photos/image.jpg
+        accountId:
+          type: string
+          description: The account that owns the file
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The bucket that the file is in
+          example: e73ede9969c64355ef8b
+        contentLength:
+          type: integer
+          description: The size of the file in bytes
+          example: 102400
+        contentSha1:
+          type: string
+          description: The SHA1 checksum of the bytes in the file
+          example: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+        contentType:
+          type: string
+          description: The MIME type of the file
+          example: image/jpeg
+        fileInfo:
+          type: object
+          description: Custom information about the file
+        action:
+          type: string
+          enum:
+            - upload
+            - hide
+            - start
+            - copy
+          description: The action that created this file version
+          example: upload
+        uploadTimestamp:
+          type: integer
+          description: Milliseconds since midnight, January 1, 1970 UTC
+          example: 1660000000000
+    ApplicationKey:
+      title: ApplicationKey
+      type: object
+      description: A Backblaze B2 application key
+      properties:
+        keyName:
+          type: string
+          description: A name for this key
+          example: my-app-key
+        applicationKeyId:
+          type: string
+          description: The ID of the newly created key
+          example: 0014a98f9d9e8d0000000001
+        applicationKey:
+          type: string
+          description: The secret key - only returned at creation time
+          example: K0014a98f9d9e8d0000000001a9b2c3d4
+        accountId:
+          type: string
+          description: The account this key is associated with
+          example: abc123def456
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of capabilities this key has
+        expirationTimestamp:
+          type: integer
+          nullable: true
+          description: When this key expires, or null for no expiration
+        bucketId:
+          type: string
+          nullable: true
+          description: Restrict key to this bucket, or null for all buckets
+        namePrefix:
+          type: string
+          nullable: true
+          description: Restrict key to file names starting with this prefix
+    CreateBucketRequest:
+      title: CreateBucketRequest
+      type: object
+      required:
+        - accountId
+        - bucketName
+        - bucketType
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketName:
+          type: string
+          description: The name of the new bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+            - allPublic
+            - allPrivate
+          description: Privacy setting for the bucket
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined info to store with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+    DeleteBucketRequest:
+      title: DeleteBucketRequest
+      type: object
+      required:
+        - accountId
+        - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to delete
+          example: e73ede9969c64355ef8b
+    ListBucketsRequest:
+      title: ListBucketsRequest
+      type: object
+      required:
+        - accountId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: Filter to a specific bucket
+        bucketName:
+          type: string
+          description: Filter by bucket name
+        bucketTypes:
+          type: array
+          items:
+            type: string
+          description: Filter by bucket type
+    ListBucketsResponse:
+      title: ListBucketsResponse
+      type: object
+      properties:
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bucket'
+    UpdateBucketRequest:
+      title: UpdateBucketRequest
+      type: object
+      required:
+        - accountId
+        - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to update
+          example: e73ede9969c64355ef8b
+        bucketType:
+          type: string
+          enum:
+            - allPublic
+            - allPrivate
+          description: New privacy setting
+        bucketInfo:
+          type: object
+          description: New bucket info
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: New CORS rules
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: New lifecycle rules
+        ifRevisionIs:
+          type: integer
+          description: Only update if bucket revision matches this value
+    GetUploadUrlRequest:
+      title: GetUploadUrlRequest
+      type: object
+      required:
+        - bucketId
+      properties:
+        bucketId:
+          type: string
+          description: The ID of the bucket to upload to
+          example: e73ede9969c64355ef8b
+    GetUploadUrlResponse:
+      title: GetUploadUrlResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        uploadUrl:
+          type: string
+          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_file
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    GetFileInfoRequest:
+      title: GetFileInfoRequest
+      type: object
+      required:
+        - fileId
+      properties:
+        fileId:
+          type: string
+          description: The ID of the file
+          example: 4_h4a48fe8875c6214145260818
+    DeleteFileVersionRequest:
+      title: DeleteFileVersionRequest
+      type: object
+      required:
+        - fileName
+        - fileId
+      properties:
+        fileName:
+          type: string
+          description: The name of the file
+          example: photos/image.jpg
+        fileId:
+          type: string
+          description: The ID of the file version to delete
+          example: 4_h4a48fe8875c6214145260818
+        bypassGovernance:
+          type: boolean
+          description: Set to true to bypass object lock governance mode
+    DeleteFileVersionResponse:
+      title: DeleteFileVersionResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_h4a48fe8875c6214145260818
+        fileName:
+          type: string
+          example: photos/image.jpg
+    ListFileNamesRequest:
+      title: ListFileNamesRequest
+      type: object
+      required:
+        - bucketId
+      properties:
+        bucketId:
+          type: string
+          description: The bucket to list
+          example: e73ede9969c64355ef8b
+        startFileName:
+          type: string
+          description: Start listing from this file name
+        maxFileCount:
+          type: integer
+          description: Maximum number of files to return (1-10000)
+          example: 100
+        prefix:
+          type: string
+          description: Prefix to filter file names
+        delimiter:
+          type: string
+          description: Delimiter used for virtual folder simulation
+    ListFileNamesResponse:
+      title: ListFileNamesResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileName:
+          type: string
+          nullable: true
+          description: Next file name for pagination
+    ListFileVersionsRequest:
+      title: ListFileVersionsRequest
+      type: object
+      required:
+        - bucketId
+      properties:
+        bucketId:
+          type: string
+          description: The bucket to list
+          example: e73ede9969c64355ef8b
+        startFileName:
+          type: string
+        startFileId:
+          type: string
+        maxFileCount:
+          type: integer
+          example: 100
+        prefix:
+          type: string
+        delimiter:
+          type: string
+    ListFileVersionsResponse:
+      title: ListFileVersionsResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileName:
+          type: string
+          nullable: true
+        nextFileId:
+          type: string
+          nullable: true
+    CopyFileRequest:
+      title: CopyFileRequest
+      type: object
+      required:
+        - sourceFileId
+        - fileName
+      properties:
+        sourceFileId:
+          type: string
+          description: The ID of the file to copy
+          example: 4_h4a48fe8875c6214145260818
+        fileName:
+          type: string
+          description: The name for the new file
+          example: photos/image-copy.jpg
+        destinationBucketId:
+          type: string
+          description: Bucket ID to copy to (defaults to source bucket)
+        range:
+          type: string
+          description: Byte range to copy
+        metadataDirective:
+          type: string
+          enum:
+            - COPY
+            - REPLACE
+          description: Whether to copy or replace metadata
+    HideFileRequest:
+      title: HideFileRequest
+      type: object
+      required:
+        - bucketId
+        - fileName
+      properties:
+        bucketId:
+          type: string
+          description: The bucket containing the file
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          description: The name of the file to hide
+          example: photos/image.jpg
+    GetDownloadAuthorizationRequest:
+      title: GetDownloadAuthorizationRequest
+      type: object
+      required:
+        - bucketId
+        - fileNamePrefix
+        - validDurationInSeconds
+      properties:
+        bucketId:
+          type: string
+          description: Bucket to authorize downloads from
+          example: e73ede9969c64355ef8b
+        fileNamePrefix:
+          type: string
+          description: Files must have this name prefix
+          example: photos/
+        validDurationInSeconds:
+          type: integer
+          description: Duration (1 to 604800) the token is valid
+          example: 3600
+    GetDownloadAuthorizationResponse:
+      title: GetDownloadAuthorizationResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileNamePrefix:
+          type: string
+          example: photos/
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    StartLargeFileRequest:
+      title: StartLargeFileRequest
+      type: object
+      required:
+        - bucketId
+        - fileName
+        - contentType
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+        contentType:
+          type: string
+          example: video/mp4
+        fileInfo:
+          type: object
+          description: Custom file info
+        serverSideEncryption:
+          type: object
+          description: Server side encryption settings
+    GetUploadPartUrlRequest:
+      title: GetUploadPartUrlRequest
+      type: object
+      required:
+        - fileId
+      properties:
+        fileId:
+          type: string
+          description: The file ID from b2_start_large_file
+          example: 4_za71c4725f4f4a14a14a14a14a
+    GetUploadPartUrlResponse:
+      title: GetUploadPartUrlResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        uploadUrl:
+          type: string
+          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    FinishLargeFileRequest:
+      title: FinishLargeFileRequest
+      type: object
+      required:
+        - fileId
+        - partSha1Array
+      properties:
+        fileId:
+          type: string
+          description: The file ID from b2_start_large_file
+          example: 4_za71c4725f4f4a14a14a14a14a
+        partSha1Array:
+          type: array
+          items:
+            type: string
+          description: SHA1 checksums of each part in order
+    CancelLargeFileRequest:
+      title: CancelLargeFileRequest
+      type: object
+      required:
+        - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+    CancelLargeFileResponse:
+      title: CancelLargeFileResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        accountId:
+          type: string
+          example: abc123def456
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+    ListPartsRequest:
+      title: ListPartsRequest
+      type: object
+      required:
+        - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        startPartNumber:
+          type: integer
+          description: Start listing from this part number
+        maxPartCount:
+          type: integer
+          description: Maximum number of parts to return
+    ListPartsResponse:
+      title: ListPartsResponse
+      type: object
+      properties:
+        parts:
+          type: array
+          items:
+            type: object
+            properties:
+              fileId:
+                type: string
+              partNumber:
+                type: integer
+              contentLength:
+                type: integer
+              contentSha1:
+                type: string
+              uploadTimestamp:
+                type: integer
+        nextPartNumber:
+          type: integer
+          nullable: true
+    ListUnfinishedLargeFilesRequest:
+      title: ListUnfinishedLargeFilesRequest
+      type: object
+      required:
+        - bucketId
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        namePrefix:
+          type: string
+        startFileId:
+          type: string
+        maxFileCount:
+          type: integer
+    ListUnfinishedLargeFilesResponse:
+      title: ListUnfinishedLargeFilesResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileId:
+          type: string
+          nullable: true
+    CreateKeyRequest:
+      title: CreateKeyRequest
+      type: object
+      required:
+        - accountId
+        - capabilities
+        - keyName
+      properties:
+        accountId:
+          type: string
+          example: abc123def456
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: List of capabilities for the key
+        keyName:
+          type: string
+          description: A name for the key (letters, numbers, hyphens)
+          example: my-app-key
+        validDurationInSeconds:
+          type: integer
+          description: Duration before key expires
+        bucketId:
+          type: string
+          description: Restrict key to this bucket
+        namePrefix:
+          type: string
+          description: Restrict key to files with this prefix
+    DeleteKeyRequest:
+      title: DeleteKeyRequest
+      type: object
+      required:
+        - applicationKeyId
+      properties:
+        applicationKeyId:
+          type: string
+          description: The ID of the key to delete
+          example: 0014a98f9d9e8d0000000001
+    ListKeysRequest:
+      title: ListKeysRequest
+      type: object
+      required:
+        - accountId
+      properties:
+        accountId:
+          type: string
+          example: abc123def456
+        maxKeyCount:
+          type: integer
+          description: Maximum number of keys to return
+        startApplicationKeyId:
+          type: string
+          description: Start listing from this key ID
+    ListKeysResponse:
+      title: ListKeysResponse
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationKey'
+        nextApplicationKeyId:
+          type: string
+          nullable: true
+    GetBucketNotificationRulesRequest:
+      title: GetBucketNotificationRulesRequest
+      type: object
+      required:
+        - bucketId
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+    SetBucketNotificationRulesRequest:
+      title: SetBucketNotificationRulesRequest
+      type: object
+      required:
+        - bucketId
+        - rules
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRule'
+    NotificationRule:
+      title: NotificationRule
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name for this notification rule
+          example: my-notification
+        eventTypes:
+          type: array
+          items:
+            type: string
+          description: Event types that trigger this notification
+          example:
+            - b2:ObjectCreated:Upload
+        isEnabled:
+          type: boolean
+          description: Whether this rule is enabled
+          example: true
+        targetConfiguration:
+          type: object
+          properties:
+            targetType:
+              type: string
+              enum:
+                - url
+              description: Type of notification target
+            url:
+              type: string
+              description: Webhook URL to send notifications to
+              example: https://my-app.example.com/webhooks/b2
+    BucketNotificationRulesResponse:
+      title: BucketNotificationRulesResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRule'
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid

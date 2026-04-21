@@ -1,0 +1,14 @@
+{
+  "accountId": "abc123def456",
+  "bucketId": "e73ede9969c64355ef8b",
+  "bucketName": "my-media-bucket",
+  "bucketType": "allPrivate",
+  "bucketInfo": {},
+  "corsRules": [
+    {}
+  ],
+  "lifecycleRules": [
+    {}
+  ],
+  "revision": 1
+}

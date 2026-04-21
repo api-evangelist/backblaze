@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-allowed-capabilities-structure.json",
+  "name": "AllowedCapabilities",
+  "description": "What the credentials allow",
+  "type": "object",
+  "properties": {
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "A list of capabilities"
+    },
+    "bucketId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Bucket ID restricted to, or null"
+    },
+    "bucketName": {
+      "type": "string",
+      "nullable": true,
+      "description": "Bucket name restricted to, or null"
+    },
+    "namePrefix": {
+      "type": "string",
+      "nullable": true,
+      "description": "File name prefix restriction, or null"
+    }
+  }
+}

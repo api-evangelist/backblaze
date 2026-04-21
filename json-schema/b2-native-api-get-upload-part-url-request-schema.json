@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-get-upload-part-url-request-schema.json",
+  "title": "GetUploadPartUrlRequest",
+  "description": "GetUploadPartUrlRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "fileId": {
+      "type": "string",
+      "description": "The file ID from b2_start_large_file",
+      "example": "4_za71c4725f4f4a14a14a14a14a"
+    }
+  },
+  "required": [
+    "fileId"
+  ]
+}

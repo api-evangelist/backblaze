@@ -1,0 +1,12 @@
+{
+  "keyName": "my-app-key",
+  "applicationKeyId": "0014a98f9d9e8d0000000001",
+  "applicationKey": "K0014a98f9d9e8d0000000001a9b2c3d4",
+  "accountId": "abc123def456",
+  "capabilities": [
+    "sample-value"
+  ],
+  "expirationTimestamp": 1660000000000,
+  "bucketId": "abc123def456",
+  "namePrefix": "my-resource-name"
+}

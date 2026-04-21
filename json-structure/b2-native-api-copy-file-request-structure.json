@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-copy-file-request-structure.json",
+  "name": "CopyFileRequest",
+  "description": "CopyFileRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "sourceFileId": {
+      "type": "string",
+      "description": "The ID of the file to copy",
+      "example": "4_h4a48fe8875c6214145260818"
+    },
+    "fileName": {
+      "type": "string",
+      "description": "The name for the new file",
+      "example": "photos/image-copy.jpg"
+    },
+    "destinationBucketId": {
+      "type": "string",
+      "description": "Bucket ID to copy to (defaults to source bucket)"
+    },
+    "range": {
+      "type": "string",
+      "description": "Byte range to copy"
+    },
+    "metadataDirective": {
+      "type": "string",
+      "enum": [
+        "COPY",
+        "REPLACE"
+      ],
+      "description": "Whether to copy or replace metadata"
+    }
+  },
+  "required": [
+    "sourceFileId",
+    "fileName"
+  ]
+}

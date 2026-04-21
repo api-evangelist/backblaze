@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-update-bucket-request-structure.json",
+  "name": "UpdateBucketRequest",
+  "description": "UpdateBucketRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "description": "The account ID",
+      "example": "abc123def456"
+    },
+    "bucketId": {
+      "type": "string",
+      "description": "The ID of the bucket to update",
+      "example": "e73ede9969c64355ef8b"
+    },
+    "bucketType": {
+      "type": "string",
+      "enum": [
+        "allPublic",
+        "allPrivate"
+      ],
+      "description": "New privacy setting"
+    },
+    "bucketInfo": {
+      "type": "object",
+      "description": "New bucket info"
+    },
+    "corsRules": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "New CORS rules"
+    },
+    "lifecycleRules": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "New lifecycle rules"
+    },
+    "ifRevisionIs": {
+      "type": "int32",
+      "description": "Only update if bucket revision matches this value"
+    }
+  },
+  "required": [
+    "accountId",
+    "bucketId"
+  ]
+}

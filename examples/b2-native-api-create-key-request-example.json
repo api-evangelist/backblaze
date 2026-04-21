@@ -1,0 +1,10 @@
+{
+  "accountId": "abc123def456",
+  "capabilities": [
+    "sample-value"
+  ],
+  "keyName": "my-app-key",
+  "validDurationInSeconds": 524,
+  "bucketId": "abc123def456",
+  "namePrefix": "my-resource-name"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-structure/b2-native-api-get-upload-part-url-response-structure.json",
+  "name": "GetUploadPartUrlResponse",
+  "description": "GetUploadPartUrlResponse schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "fileId": {
+      "type": "string",
+      "example": "4_za71c4725f4f4a14a14a14a14a"
+    },
+    "uploadUrl": {
+      "type": "string",
+      "example": "https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part"
+    },
+    "authorizationToken": {
+      "type": "string",
+      "example": "3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP"
+    }
+  }
+}

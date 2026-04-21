@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-list-parts-response-schema.json",
+  "title": "ListPartsResponse",
+  "description": "ListPartsResponse schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "parts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string"
+          },
+          "partNumber": {
+            "type": "integer"
+          },
+          "contentLength": {
+            "type": "integer"
+          },
+          "contentSha1": {
+            "type": "string"
+          },
+          "uploadTimestamp": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "nextPartNumber": {
+      "type": "integer",
+      "nullable": true
+    }
+  }
+}

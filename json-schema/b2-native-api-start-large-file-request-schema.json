@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/json-schema/b2-native-api-start-large-file-request-schema.json",
+  "title": "StartLargeFileRequest",
+  "description": "StartLargeFileRequest schema from Backblaze B2 Native API",
+  "type": "object",
+  "properties": {
+    "bucketId": {
+      "type": "string",
+      "example": "e73ede9969c64355ef8b"
+    },
+    "fileName": {
+      "type": "string",
+      "example": "videos/large-video.mp4"
+    },
+    "contentType": {
+      "type": "string",
+      "example": "video/mp4"
+    },
+    "fileInfo": {
+      "type": "object",
+      "description": "Custom file info"
+    },
+    "serverSideEncryption": {
+      "type": "object",
+      "description": "Server side encryption settings"
+    }
+  },
+  "required": [
+    "bucketId",
+    "fileName",
+    "contentType"
+  ]
+}
