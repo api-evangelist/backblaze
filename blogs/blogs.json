@@ -1,0 +1,13 @@
+{
+  "repo": "backblaze",
+  "feeds": [
+    {
+      "source": "https://www.backblaze.com/blog/",
+      "feed_url": "https://www.backblaze.com/blog/feed/",
+      "saved": 9,
+      "title": "Backblaze Blog | Cloud Storage & Cloud Backup"
+    }
+  ],
+  "post_count": 9,
+  "fetched": "2026-05-03T23:23:29Z"
+}
