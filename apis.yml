@@ -153,6 +153,8 @@ common:
         description: Infrastructure as code support via the official Terraform provider.
       - name: rclone
         description: Command-line sync tool with native B2 Native and S3-compatible API support.
+  - type: Integrations
+    url: https://www.backblaze.com/cloud-backup/personal/landing/podcast/marketplace
 created: '2025-03-01'
 modified: '2026-04-19'
 position: Consumer
@@ -163,6 +165,15 @@ description: >-
   unlimited data at a fraction of major cloud provider costs. Features include file
   versioning, lifecycle rules, event notifications, object lock, cross-region replication,
   and a Cloudflare bandwidth alliance for zero-egress CDN delivery.
+integrations:
+  - name: arrow
+  - name: checkmark
+  - name: PCWorld
+  - name: The New York Times
+  - name: TNW
+  - name: Daring Fireball
+  - name: The Verge
+  - name: 9TO5Mac
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
