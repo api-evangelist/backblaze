@@ -1,0 +1,290 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Backblaze B2 Native API — Large Files
+  description: 'Backblaze B2 Native API — Large Files. 6 operations. Lead operation: Backblaze B2 Native API Cancel Large
+    File. Self-contained Naftiko capability covering one Backblaze business surface.'
+  tags:
+  - Backblaze
+  - Large Files
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BACKBLAZE_API_KEY: BACKBLAZE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: b2-native-large-files
+    baseUri: https://api.backblazeb2.com
+    description: Backblaze B2 Native API — Large Files business capability. Self-contained, no shared references.
+    resources:
+    - name: b2api-v4-b2_cancel_large_file
+      path: /b2api/v4/b2_cancel_large_file
+      operations:
+      - name: cancellargefile
+        method: POST
+        description: Backblaze B2 Native API Cancel Large File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_finish_large_file
+      path: /b2api/v4/b2_finish_large_file
+      operations:
+      - name: finishlargefile
+        method: POST
+        description: Backblaze B2 Native API Finish Large File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_get_upload_part_url
+      path: /b2api/v4/b2_get_upload_part_url
+      operations:
+      - name: getuploadparturl
+        method: POST
+        description: Backblaze B2 Native API Get Upload Part URL
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_list_parts
+      path: /b2api/v4/b2_list_parts
+      operations:
+      - name: listparts
+        method: POST
+        description: Backblaze B2 Native API List Parts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_list_unfinished_large_files
+      path: /b2api/v4/b2_list_unfinished_large_files
+      operations:
+      - name: listunfinishedlargefiles
+        method: POST
+        description: Backblaze B2 Native API List Unfinished Large Files
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_start_large_file
+      path: /b2api/v4/b2_start_large_file
+      operations:
+      - name: startlargefile
+        method: POST
+        description: Backblaze B2 Native API Start Large File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.BACKBLAZE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: b2-native-large-files-rest
+    port: 8080
+    description: REST adapter for Backblaze B2 Native API — Large Files. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/b2api/v4/b2-cancel-large-file
+      name: b2api-v4-b2-cancel-large-file
+      description: REST surface for b2api-v4-b2_cancel_large_file.
+      operations:
+      - method: POST
+        name: cancellargefile
+        description: Backblaze B2 Native API Cancel Large File
+        call: b2-native-large-files.cancellargefile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-finish-large-file
+      name: b2api-v4-b2-finish-large-file
+      description: REST surface for b2api-v4-b2_finish_large_file.
+      operations:
+      - method: POST
+        name: finishlargefile
+        description: Backblaze B2 Native API Finish Large File
+        call: b2-native-large-files.finishlargefile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-get-upload-part-url
+      name: b2api-v4-b2-get-upload-part-url
+      description: REST surface for b2api-v4-b2_get_upload_part_url.
+      operations:
+      - method: POST
+        name: getuploadparturl
+        description: Backblaze B2 Native API Get Upload Part URL
+        call: b2-native-large-files.getuploadparturl
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-list-parts
+      name: b2api-v4-b2-list-parts
+      description: REST surface for b2api-v4-b2_list_parts.
+      operations:
+      - method: POST
+        name: listparts
+        description: Backblaze B2 Native API List Parts
+        call: b2-native-large-files.listparts
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-list-unfinished-large-files
+      name: b2api-v4-b2-list-unfinished-large-files
+      description: REST surface for b2api-v4-b2_list_unfinished_large_files.
+      operations:
+      - method: POST
+        name: listunfinishedlargefiles
+        description: Backblaze B2 Native API List Unfinished Large Files
+        call: b2-native-large-files.listunfinishedlargefiles
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-start-large-file
+      name: b2api-v4-b2-start-large-file
+      description: REST surface for b2api-v4-b2_start_large_file.
+      operations:
+      - method: POST
+        name: startlargefile
+        description: Backblaze B2 Native API Start Large File
+        call: b2-native-large-files.startlargefile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: b2-native-large-files-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Backblaze B2 Native API — Large Files. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: backblaze-b2-native-api-cancel
+      description: Backblaze B2 Native API Cancel Large File
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: b2-native-large-files.cancellargefile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-finish
+      description: Backblaze B2 Native API Finish Large File
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: b2-native-large-files.finishlargefile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-get
+      description: Backblaze B2 Native API Get Upload Part URL
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: b2-native-large-files.getuploadparturl
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-list
+      description: Backblaze B2 Native API List Parts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: b2-native-large-files.listparts
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-list-2
+      description: Backblaze B2 Native API List Unfinished Large Files
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: b2-native-large-files.listunfinishedlargefiles
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-start
+      description: Backblaze B2 Native API Start Large File
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: b2-native-large-files.startlargefile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

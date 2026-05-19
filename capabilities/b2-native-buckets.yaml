@@ -1,0 +1,206 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Backblaze B2 Native API — Buckets
+  description: 'Backblaze B2 Native API — Buckets. 4 operations. Lead operation: Backblaze B2 Native API Create Bucket. Self-contained
+    Naftiko capability covering one Backblaze business surface.'
+  tags:
+  - Backblaze
+  - Buckets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BACKBLAZE_API_KEY: BACKBLAZE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: b2-native-buckets
+    baseUri: https://api.backblazeb2.com
+    description: Backblaze B2 Native API — Buckets business capability. Self-contained, no shared references.
+    resources:
+    - name: b2api-v4-b2_create_bucket
+      path: /b2api/v4/b2_create_bucket
+      operations:
+      - name: createbucket
+        method: POST
+        description: Backblaze B2 Native API Create Bucket
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_delete_bucket
+      path: /b2api/v4/b2_delete_bucket
+      operations:
+      - name: deletebucket
+        method: POST
+        description: Backblaze B2 Native API Delete Bucket
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_list_buckets
+      path: /b2api/v4/b2_list_buckets
+      operations:
+      - name: listbuckets
+        method: POST
+        description: Backblaze B2 Native API List Buckets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: b2api-v4-b2_update_bucket
+      path: /b2api/v4/b2_update_bucket
+      operations:
+      - name: updatebucket
+        method: POST
+        description: Backblaze B2 Native API Update Bucket
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.BACKBLAZE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: b2-native-buckets-rest
+    port: 8080
+    description: REST adapter for Backblaze B2 Native API — Buckets. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/b2api/v4/b2-create-bucket
+      name: b2api-v4-b2-create-bucket
+      description: REST surface for b2api-v4-b2_create_bucket.
+      operations:
+      - method: POST
+        name: createbucket
+        description: Backblaze B2 Native API Create Bucket
+        call: b2-native-buckets.createbucket
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-delete-bucket
+      name: b2api-v4-b2-delete-bucket
+      description: REST surface for b2api-v4-b2_delete_bucket.
+      operations:
+      - method: POST
+        name: deletebucket
+        description: Backblaze B2 Native API Delete Bucket
+        call: b2-native-buckets.deletebucket
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-list-buckets
+      name: b2api-v4-b2-list-buckets
+      description: REST surface for b2api-v4-b2_list_buckets.
+      operations:
+      - method: POST
+        name: listbuckets
+        description: Backblaze B2 Native API List Buckets
+        call: b2-native-buckets.listbuckets
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/b2api/v4/b2-update-bucket
+      name: b2api-v4-b2-update-bucket
+      description: REST surface for b2api-v4-b2_update_bucket.
+      operations:
+      - method: POST
+        name: updatebucket
+        description: Backblaze B2 Native API Update Bucket
+        call: b2-native-buckets.updatebucket
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: b2-native-buckets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Backblaze B2 Native API — Buckets. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: backblaze-b2-native-api-create
+      description: Backblaze B2 Native API Create Bucket
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: b2-native-buckets.createbucket
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-delete
+      description: Backblaze B2 Native API Delete Bucket
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: b2-native-buckets.deletebucket
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-list
+      description: Backblaze B2 Native API List Buckets
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: b2-native-buckets.listbuckets
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: backblaze-b2-native-api-update
+      description: Backblaze B2 Native API Update Bucket
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: b2-native-buckets.updatebucket
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
