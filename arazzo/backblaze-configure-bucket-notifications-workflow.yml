@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Configure Bucket Event Notifications
+  summary: Authorize, set a webhook notification rule on a bucket, then read the rules back to confirm.
+  description: >-
+    Wires a bucket's object events to a webhook endpoint. The account is
+    authorized, b2_set_bucket_notification_rules replaces the bucket's
+    notification rules with a single rule that posts the selected event types to
+    a target URL, and b2_get_bucket_notification_rules reads the rules back to
+    confirm the configuration took effect. The bucketId is reused across both
+    notification calls. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: configure-bucket-notifications
+  summary: Set a webhook notification rule on a bucket and verify it.
+  description: >-
+    Authorizes the account, sets a single enabled webhook notification rule on
+    the bucket, then reads the rules back to confirm they were stored.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    - ruleName
+    - eventTypes
+    - webhookUrl
+    properties:
+      bucketId:
+        type: string
+        description: The bucket to configure notifications for.
+      ruleName:
+        type: string
+        description: Name for the notification rule.
+      eventTypes:
+        type: array
+        description: Event types that trigger the notification.
+        items:
+          type: string
+      webhookUrl:
+        type: string
+        description: The webhook URL that receives notifications.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: setRules
+    description: >-
+      Replace the bucket's notification rules with a single enabled rule that
+      posts the selected event types to the webhook URL.
+    operationId: setBucketNotificationRules
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+        rules:
+        - name: $inputs.ruleName
+          eventTypes: $inputs.eventTypes
+          isEnabled: true
+          targetConfiguration:
+            targetType: url
+            url: $inputs.webhookUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      rules: $response.body#/rules
+  - stepId: confirmRules
+    description: Read the bucket's notification rules back to confirm they were stored.
+    operationId: getBucketNotificationRules
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      rules: $response.body#/rules
+  outputs:
+    appliedRules: $steps.setRules.outputs.rules
+    confirmedRules: $steps.confirmRules.outputs.rules

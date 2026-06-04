@@ -1,0 +1,97 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Browse Bucket Files
+  summary: Authorize, list buckets, list the file names in a bucket, then fetch full info for the first file.
+  description: >-
+    A read-only discovery chain for navigating account storage. It authorizes
+    the account, lists the buckets owned by that account, lists the file names
+    inside the chosen bucket, and then retrieves the full metadata for the first
+    file returned. The fileId of the first listed file flows into the
+    get-file-info call so the deepest detail is fetched without any manual
+    identifier handling. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: browse-bucket-files
+  summary: List buckets, list a bucket's files, and inspect the first file.
+  description: >-
+    Authorizes the account, enumerates buckets and the files in a target
+    bucket, then fetches full information for the first file found.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    properties:
+      bucketId:
+        type: string
+        description: The bucket whose file names should be listed.
+      maxFileCount:
+        type: integer
+        description: Maximum number of file names to return (1-10000).
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the accountId and authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accountId: $response.body#/accountId
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: listBuckets
+    description: List the buckets owned by the authorized account.
+    operationId: listBuckets
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $steps.authorize.outputs.accountId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      buckets: $response.body#/buckets
+  - stepId: listFileNames
+    description: >-
+      List the file names contained in the target bucket, returning at most the
+      requested number of files.
+    operationId: listFileNames
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+        maxFileCount: $inputs.maxFileCount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      files: $response.body#/files
+      firstFileId: $response.body#/files/0/fileId
+    onSuccess:
+    - name: filesFound
+      type: goto
+      stepId: getFileInfo
+      criteria:
+      - context: $response.body
+        condition: $.files.length > 0
+        type: jsonpath
+  - stepId: getFileInfo
+    description: >-
+      Fetch the full metadata for the first file returned by the listing using
+      its fileId.
+    operationId: getFileInfo
+    requestBody:
+      contentType: application/json
+      payload:
+        fileId: $steps.listFileNames.outputs.firstFileId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileId: $response.body#/fileId
+      fileName: $response.body#/fileName
+      contentLength: $response.body#/contentLength
+      contentType: $response.body#/contentType
+  outputs:
+    buckets: $steps.listBuckets.outputs.buckets
+    files: $steps.listFileNames.outputs.files
+    inspectedFileId: $steps.getFileInfo.outputs.fileId

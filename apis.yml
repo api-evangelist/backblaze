@@ -56,6 +56,48 @@ type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 common:
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/backblaze-authorize-and-provision-bucket-workflow.yml
+    name: Backblaze Authorize and Provision Bucket
+    summary: Authorize the account, then create a new private bucket using the returned account context.
+  - url: arazzo/backblaze-browse-bucket-files-workflow.yml
+    name: Backblaze Browse Bucket Files
+    summary: Authorize, list buckets, list the file names in a bucket, then fetch full info for the first file.
+  - url: arazzo/backblaze-cleanup-unfinished-large-files-workflow.yml
+    name: Backblaze Clean Up Unfinished Large Files
+    summary: Authorize, list unfinished large files in a bucket, then cancel the first stalled upload found.
+  - url: arazzo/backblaze-configure-bucket-notifications-workflow.yml
+    name: Backblaze Configure Bucket Event Notifications
+    summary: Authorize, set a webhook notification rule on a bucket, then read the rules back to confirm.
+  - url: arazzo/backblaze-copy-file-into-bucket-workflow.yml
+    name: Backblaze Copy a File Into Another Bucket
+    summary: Authorize, locate a source file by listing, then server-side copy it into a destination bucket.
+  - url: arazzo/backblaze-create-application-key-workflow.yml
+    name: Backblaze Create Scoped Application Key
+    summary: Authorize, create a capability-scoped application key, then confirm it appears in the key list.
+  - url: arazzo/backblaze-large-file-upload-workflow.yml
+    name: Backblaze Large File Multi-Part Upload
+    summary: Authorize, start a large file, get a part upload URL, then finish the large file from its parts.
+  - url: arazzo/backblaze-provision-bucket-and-upload-workflow.yml
+    name: Backblaze Provision Bucket and Upload First File
+    summary: Authorize, create a bucket, get its upload URL, and upload the first file end to end.
+  - url: arazzo/backblaze-purge-file-versions-workflow.yml
+    name: Backblaze Purge a File's Versions
+    summary: Authorize, list a file's versions by prefix, then delete the most recent version found.
+  - url: arazzo/backblaze-rotate-application-key-workflow.yml
+    name: Backblaze Rotate Application Key
+    summary: Authorize, create a replacement application key, then delete the old key it supersedes.
+  - url: arazzo/backblaze-share-private-files-workflow.yml
+    name: Backblaze Share Private Files
+    summary: Authorize, mint a prefix-scoped download authorization token, then download a private file by name.
+  - url: arazzo/backblaze-teardown-bucket-workflow.yml
+    name: Backblaze Tear Down a Bucket
+    summary: Authorize, list a bucket's file names, delete the first file version, then delete the empty bucket.
+  - url: arazzo/backblaze-upload-file-workflow.yml
+    name: Backblaze Upload a File
+    summary: Authorize, request a bucket upload URL, then upload a single file to that bucket.
 - type: LinkedIn
   url: https://www.linkedin.com/company/backblaze
 - type: Website

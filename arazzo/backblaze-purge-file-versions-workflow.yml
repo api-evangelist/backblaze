@@ -1,0 +1,85 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Purge a File's Versions
+  summary: Authorize, list a file's versions by prefix, then delete the most recent version found.
+  description: >-
+    A targeted deletion chain for removing stored file versions. The account is
+    authorized, b2_list_file_versions enumerates the versions matching a file
+    name prefix, and when a version is found the workflow deletes it with
+    b2_delete_file_version using both the fileName and fileId, which the delete
+    endpoint requires together. The first listed version's name and id flow into
+    the delete call. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: purge-file-versions
+  summary: Find a file version by prefix and delete it.
+  description: >-
+    Authorizes the account, lists file versions in a bucket filtered by prefix,
+    and deletes the first matching version using its fileName and fileId.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    - prefix
+    properties:
+      bucketId:
+        type: string
+        description: The bucket containing the file versions.
+      prefix:
+        type: string
+        description: File name prefix used to locate the version to delete.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: listVersions
+    description: >-
+      List the file versions in the bucket matching the supplied prefix, newest
+      version first.
+    operationId: listFileVersions
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+        prefix: $inputs.prefix
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      files: $response.body#/files
+      targetFileId: $response.body#/files/0/fileId
+      targetFileName: $response.body#/files/0/fileName
+    onSuccess:
+    - name: versionFound
+      type: goto
+      stepId: deleteVersion
+      criteria:
+      - context: $response.body
+        condition: $.files.length > 0
+        type: jsonpath
+  - stepId: deleteVersion
+    description: >-
+      Delete the most recent version found, supplying both the fileName and
+      fileId as the delete endpoint requires.
+    operationId: deleteFileVersion
+    requestBody:
+      contentType: application/json
+      payload:
+        fileName: $steps.listVersions.outputs.targetFileName
+        fileId: $steps.listVersions.outputs.targetFileId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deletedFileId: $response.body#/fileId
+      deletedFileName: $response.body#/fileName
+  outputs:
+    versions: $steps.listVersions.outputs.files
+    deletedFileId: $steps.deleteVersion.outputs.deletedFileId

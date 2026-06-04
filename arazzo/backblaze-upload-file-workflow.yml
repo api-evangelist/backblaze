@@ -1,0 +1,110 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Upload a File
+  summary: Authorize, request a bucket upload URL, then upload a single file to that bucket.
+  description: >-
+    The standard single-file upload chain for Backblaze B2. The account is
+    authorized to obtain the authorization token, b2_get_upload_url is then
+    called to obtain a bucket-specific upload URL plus its own short-lived
+    upload authorization token, and finally b2_upload_file streams the file body
+    to that URL using the upload token and the required X-Bz file headers. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: upload-file
+  summary: Upload a single file to a bucket via a freshly issued upload URL.
+  description: >-
+    Authorizes the account, requests an upload URL and token for the target
+    bucket, and uploads the file content with the required content metadata
+    headers.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    - fileName
+    - contentType
+    - contentLength
+    - contentSha1
+    - fileContent
+    properties:
+      bucketId:
+        type: string
+        description: The ID of the bucket to upload the file into.
+      fileName:
+        type: string
+        description: URL-encoded name of the file (e.g. photos%2Fimage.jpg).
+      contentType:
+        type: string
+        description: MIME type of the file being uploaded.
+      contentLength:
+        type: integer
+        description: Length of the file content in bytes.
+      contentSha1:
+        type: string
+        description: SHA1 checksum of the file content.
+      fileContent:
+        type: string
+        description: The raw file bytes to upload as the request body.
+  steps:
+  - stepId: authorize
+    description: >-
+      Log in to the B2 API to obtain the authorization token required before an
+      upload URL can be requested.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationToken: $response.body#/authorizationToken
+      apiUrl: $response.body#/apiInfo/storageApi/apiUrl
+  - stepId: getUploadUrl
+    description: >-
+      Request an upload URL and a short-lived upload authorization token scoped
+      to the target bucket.
+    operationId: getUploadUrl
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      uploadUrl: $response.body#/uploadUrl
+      uploadAuthorizationToken: $response.body#/authorizationToken
+  - stepId: uploadFile
+    description: >-
+      Upload the file content to the bucket-specific upload URL using the upload
+      authorization token and the required X-Bz content metadata headers.
+    operationId: uploadFile
+    parameters:
+    - name: Authorization
+      in: header
+      value: $steps.getUploadUrl.outputs.uploadAuthorizationToken
+    - name: X-Bz-File-Name
+      in: header
+      value: $inputs.fileName
+    - name: Content-Type
+      in: header
+      value: $inputs.contentType
+    - name: Content-Length
+      in: header
+      value: $inputs.contentLength
+    - name: X-Bz-Content-Sha1
+      in: header
+      value: $inputs.contentSha1
+    requestBody:
+      contentType: application/octet-stream
+      payload: $inputs.fileContent
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileId: $response.body#/fileId
+      fileName: $response.body#/fileName
+      contentSha1: $response.body#/contentSha1
+  outputs:
+    fileId: $steps.uploadFile.outputs.fileId
+    fileName: $steps.uploadFile.outputs.fileName

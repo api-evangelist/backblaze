@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Tear Down a Bucket
+  summary: Authorize, list a bucket's file names, delete the first file version, then delete the empty bucket.
+  description: >-
+    A decommissioning chain that empties and removes a bucket. A bucket can only
+    be deleted once it contains no file versions, so the flow authorizes the
+    account, lists the file names in the bucket, deletes the first file version
+    when one exists, and then deletes the now-emptier bucket. The accountId from
+    authorize is required by the delete-bucket call, and the first listed file's
+    name and id feed the delete-file-version call. For buckets holding many
+    files this single-pass flow would be run repeatedly until the listing is
+    empty. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: teardown-bucket
+  summary: Empty a file from a bucket and then delete the bucket.
+  description: >-
+    Authorizes the account, lists the bucket's files and deletes the first file
+    version found, then deletes the bucket itself.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    properties:
+      bucketId:
+        type: string
+        description: The bucket to empty and delete.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the accountId and authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accountId: $response.body#/accountId
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: listFiles
+    description: List the file names in the bucket to find a version to remove.
+    operationId: listFileNames
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      files: $response.body#/files
+      firstFileId: $response.body#/files/0/fileId
+      firstFileName: $response.body#/files/0/fileName
+    onSuccess:
+    - name: hasFiles
+      type: goto
+      stepId: deleteFile
+      criteria:
+      - context: $response.body
+        condition: $.files.length > 0
+        type: jsonpath
+    - name: alreadyEmpty
+      type: goto
+      stepId: deleteBucket
+      criteria:
+      - context: $response.body
+        condition: $.files.length == 0
+        type: jsonpath
+  - stepId: deleteFile
+    description: >-
+      Delete the first file version found so the bucket moves toward an empty
+      state.
+    operationId: deleteFileVersion
+    requestBody:
+      contentType: application/json
+      payload:
+        fileName: $steps.listFiles.outputs.firstFileName
+        fileId: $steps.listFiles.outputs.firstFileId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deletedFileId: $response.body#/fileId
+  - stepId: deleteBucket
+    description: >-
+      Delete the bucket. This succeeds only when the bucket no longer contains
+      any file versions.
+    operationId: deleteBucket
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $steps.authorize.outputs.accountId
+        bucketId: $inputs.bucketId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deletedBucketId: $response.body#/bucketId
+      deletedBucketName: $response.body#/bucketName
+  outputs:
+    deletedFileId: $steps.deleteFile.outputs.deletedFileId
+    deletedBucketId: $steps.deleteBucket.outputs.deletedBucketId

@@ -1,0 +1,67 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Authorize and Provision Bucket
+  summary: Authorize the account, then create a new private bucket using the returned account context.
+  description: >-
+    The canonical Backblaze entry-point flow. It first calls
+    b2_authorize_account, which returns the accountId, the cluster-specific
+    apiUrl, and an authorization token that every subsequent call depends on.
+    Those values are captured as step outputs and threaded into a create-bucket
+    call so a brand-new private bucket is provisioned in a single chained run.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: authorize-and-provision-bucket
+  summary: Authorize the account and create a private bucket.
+  description: >-
+    Logs in to the B2 API to obtain the account context and authorization
+    token, then creates a new private bucket owned by that account.
+  inputs:
+    type: object
+    required:
+    - bucketName
+    properties:
+      bucketName:
+        type: string
+        description: Globally unique name for the new bucket.
+      bucketType:
+        type: string
+        description: Privacy setting for the bucket (allPublic or allPrivate).
+  steps:
+  - stepId: authorize
+    description: >-
+      Log in to the B2 API. Returns the accountId, the cluster apiUrl, and the
+      authorization token used to authenticate all subsequent calls.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accountId: $response.body#/accountId
+      authorizationToken: $response.body#/authorizationToken
+      apiUrl: $response.body#/apiInfo/storageApi/apiUrl
+  - stepId: createBucket
+    description: >-
+      Create a new bucket owned by the authorized account. The bucket name must
+      be globally unique across all of Backblaze B2.
+    operationId: createBucket
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $steps.authorize.outputs.accountId
+        bucketName: $inputs.bucketName
+        bucketType: $inputs.bucketType
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      bucketId: $response.body#/bucketId
+      bucketName: $response.body#/bucketName
+      bucketType: $response.body#/bucketType
+  outputs:
+    accountId: $steps.authorize.outputs.accountId
+    bucketId: $steps.createBucket.outputs.bucketId
+    bucketName: $steps.createBucket.outputs.bucketName

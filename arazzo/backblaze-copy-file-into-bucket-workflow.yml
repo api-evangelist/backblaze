@@ -1,0 +1,95 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Copy a File Into Another Bucket
+  summary: Authorize, locate a source file by listing, then server-side copy it into a destination bucket.
+  description: >-
+    A server-side copy chain that duplicates an existing object without
+    re-uploading its bytes. The account is authorized, the source bucket's file
+    versions are listed to resolve the source fileId, and b2_copy_file then
+    creates a new file in the destination bucket from that source. The first
+    listed file version's id flows into the copy request as the sourceFileId.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: copy-file-into-bucket
+  summary: Resolve a source file and copy it into a destination bucket.
+  description: >-
+    Authorizes the account, lists file versions in the source bucket to find the
+    source fileId, then server-side copies that file into the destination
+    bucket under a new name.
+  inputs:
+    type: object
+    required:
+    - sourceBucketId
+    - destinationBucketId
+    - newFileName
+    properties:
+      sourceBucketId:
+        type: string
+        description: The bucket to read the source file from.
+      destinationBucketId:
+        type: string
+        description: The bucket to copy the file into.
+      newFileName:
+        type: string
+        description: The name for the copied file in the destination bucket.
+      prefix:
+        type: string
+        description: Optional prefix to narrow the source file listing.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: findSourceFile
+    description: >-
+      List the file versions in the source bucket to resolve the fileId of the
+      file to copy.
+    operationId: listFileVersions
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.sourceBucketId
+        prefix: $inputs.prefix
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      sourceFileId: $response.body#/files/0/fileId
+      sourceFileName: $response.body#/files/0/fileName
+    onSuccess:
+    - name: sourceFound
+      type: goto
+      stepId: copyFile
+      criteria:
+      - context: $response.body
+        condition: $.files.length > 0
+        type: jsonpath
+  - stepId: copyFile
+    description: >-
+      Create a new file in the destination bucket by server-side copying the
+      resolved source file.
+    operationId: copyFile
+    requestBody:
+      contentType: application/json
+      payload:
+        sourceFileId: $steps.findSourceFile.outputs.sourceFileId
+        fileName: $inputs.newFileName
+        destinationBucketId: $inputs.destinationBucketId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileId: $response.body#/fileId
+      fileName: $response.body#/fileName
+      bucketId: $response.body#/bucketId
+  outputs:
+    sourceFileId: $steps.findSourceFile.outputs.sourceFileId
+    copiedFileId: $steps.copyFile.outputs.fileId
+    copiedFileName: $steps.copyFile.outputs.fileName

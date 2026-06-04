@@ -1,0 +1,79 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Clean Up Unfinished Large Files
+  summary: Authorize, list unfinished large files in a bucket, then cancel the first stalled upload found.
+  description: >-
+    A housekeeping chain that reclaims storage left behind by abandoned
+    multi-part uploads. The account is authorized,
+    b2_list_unfinished_large_files enumerates large uploads that were started
+    but never finished or cancelled, and when at least one is found the workflow
+    branches to b2_cancel_large_file to delete the first stalled upload and its
+    parts. The fileId of the first unfinished file flows directly into the
+    cancel call. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: cleanup-unfinished-large-files
+  summary: Find an abandoned large upload in a bucket and cancel it.
+  description: >-
+    Authorizes the account, lists unfinished large files in the target bucket,
+    and cancels the first one found to free its parts.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    properties:
+      bucketId:
+        type: string
+        description: The bucket to scan for unfinished large file uploads.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: listUnfinished
+    description: >-
+      List large file uploads that have been started but not finished or
+      cancelled in the target bucket.
+    operationId: listUnfinishedLargeFiles
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      files: $response.body#/files
+      firstUnfinishedFileId: $response.body#/files/0/fileId
+    onSuccess:
+    - name: unfinishedFound
+      type: goto
+      stepId: cancelLargeFile
+      criteria:
+      - context: $response.body
+        condition: $.files.length > 0
+        type: jsonpath
+  - stepId: cancelLargeFile
+    description: >-
+      Cancel the first unfinished large file upload, deleting all of the parts
+      that had been uploaded for it.
+    operationId: cancelLargeFile
+    requestBody:
+      contentType: application/json
+      payload:
+        fileId: $steps.listUnfinished.outputs.firstUnfinishedFileId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      cancelledFileId: $response.body#/fileId
+      cancelledFileName: $response.body#/fileName
+  outputs:
+    unfinishedFiles: $steps.listUnfinished.outputs.files
+    cancelledFileId: $steps.cancelLargeFile.outputs.cancelledFileId

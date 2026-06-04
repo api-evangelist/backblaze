@@ -1,0 +1,88 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Create Scoped Application Key
+  summary: Authorize, create a capability-scoped application key, then confirm it appears in the key list.
+  description: >-
+    Provisions a least-privilege application key. The account is authorized to
+    obtain the accountId and token, a new key is created with an explicit set of
+    capabilities and (optionally) a bucket and name-prefix restriction, and the
+    key list is then read back to confirm the new key is present. The accountId
+    from the authorize step is reused by both the create and list calls. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: create-application-key
+  summary: Create a capability-scoped application key and verify it was registered.
+  description: >-
+    Authorizes the account, creates a new application key restricted to the
+    supplied capabilities, then lists keys to confirm the new key exists.
+  inputs:
+    type: object
+    required:
+    - keyName
+    - capabilities
+    properties:
+      keyName:
+        type: string
+        description: Name for the new key (letters, numbers, hyphens).
+      capabilities:
+        type: array
+        description: List of capabilities granted to the key.
+        items:
+          type: string
+      bucketId:
+        type: string
+        description: Optional bucket the key is restricted to.
+      namePrefix:
+        type: string
+        description: Optional file name prefix the key is restricted to.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the accountId and authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accountId: $response.body#/accountId
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: createKey
+    description: >-
+      Create a new application key scoped to the supplied capabilities and
+      optional bucket / name-prefix restrictions.
+    operationId: createKey
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $steps.authorize.outputs.accountId
+        capabilities: $inputs.capabilities
+        keyName: $inputs.keyName
+        bucketId: $inputs.bucketId
+        namePrefix: $inputs.namePrefix
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      applicationKeyId: $response.body#/applicationKeyId
+      applicationKey: $response.body#/applicationKey
+      keyName: $response.body#/keyName
+  - stepId: confirmKey
+    description: >-
+      List the account's application keys to confirm the newly created key has
+      been registered.
+    operationId: listKeys
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $steps.authorize.outputs.accountId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      keys: $response.body#/keys
+  outputs:
+    applicationKeyId: $steps.createKey.outputs.applicationKeyId
+    applicationKey: $steps.createKey.outputs.applicationKey
+    keys: $steps.confirmKey.outputs.keys

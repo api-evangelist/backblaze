@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Rotate Application Key
+  summary: Authorize, create a replacement application key, then delete the old key it supersedes.
+  description: >-
+    A safe key-rotation chain that always creates the replacement before
+    revoking the old credential, so access is never interrupted. The account is
+    authorized, a new key is minted with the desired capabilities, and the
+    previous applicationKeyId is then deleted. The accountId from authorize
+    feeds the create call and the old key id is supplied as an input to the
+    delete call. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: rotate-application-key
+  summary: Create a replacement application key and revoke the previous one.
+  description: >-
+    Authorizes the account, creates a new key with the requested capabilities,
+    then deletes the superseded key so only the fresh credential remains.
+  inputs:
+    type: object
+    required:
+    - keyName
+    - capabilities
+    - oldApplicationKeyId
+    properties:
+      keyName:
+        type: string
+        description: Name for the replacement key.
+      capabilities:
+        type: array
+        description: Capabilities granted to the replacement key.
+        items:
+          type: string
+      oldApplicationKeyId:
+        type: string
+        description: The applicationKeyId of the key being rotated out.
+  steps:
+  - stepId: authorize
+    description: Log in to the B2 API to obtain the accountId and authorization token.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accountId: $response.body#/accountId
+      authorizationToken: $response.body#/authorizationToken
+  - stepId: createReplacementKey
+    description: Create the replacement application key before revoking the old one.
+    operationId: createKey
+    requestBody:
+      contentType: application/json
+      payload:
+        accountId: $steps.authorize.outputs.accountId
+        capabilities: $inputs.capabilities
+        keyName: $inputs.keyName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      applicationKeyId: $response.body#/applicationKeyId
+      applicationKey: $response.body#/applicationKey
+  - stepId: deleteOldKey
+    description: >-
+      Delete the superseded key now that the replacement exists, completing the
+      rotation.
+    operationId: deleteKey
+    requestBody:
+      contentType: application/json
+      payload:
+        applicationKeyId: $inputs.oldApplicationKeyId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deletedKeyId: $response.body#/applicationKeyId
+  outputs:
+    newApplicationKeyId: $steps.createReplacementKey.outputs.applicationKeyId
+    newApplicationKey: $steps.createReplacementKey.outputs.applicationKey
+    deletedKeyId: $steps.deleteOldKey.outputs.deletedKeyId

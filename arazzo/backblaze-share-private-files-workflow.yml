@@ -1,0 +1,96 @@
+arazzo: 1.0.1
+info:
+  title: Backblaze Share Private Files
+  summary: Authorize, mint a prefix-scoped download authorization token, then download a private file by name.
+  description: >-
+    A secure sharing chain for private buckets. The account is authorized,
+    b2_get_download_authorization mints a time-limited token that authorizes
+    downloads of files under a given name prefix, and b2_download_file_by_name
+    then retrieves a specific private file. The downloadUrl returned by the
+    authorize step and the scoped download token together enable access to a
+    file that would otherwise be private. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: backblazeB2
+  url: ../openapi/backblaze-b2-native-api.yaml
+  type: openapi
+workflows:
+- workflowId: share-private-files
+  summary: Issue a scoped download token and download a private file by name.
+  description: >-
+    Authorizes the account, generates a prefix-scoped download authorization
+    token valid for a set duration, then downloads a named file from the private
+    bucket.
+  inputs:
+    type: object
+    required:
+    - bucketId
+    - bucketName
+    - fileNamePrefix
+    - fileName
+    - validDurationInSeconds
+    properties:
+      bucketId:
+        type: string
+        description: The private bucket to authorize downloads from.
+      bucketName:
+        type: string
+        description: The name of the bucket, used in the download-by-name path.
+      fileNamePrefix:
+        type: string
+        description: Files must share this name prefix to be downloadable.
+      fileName:
+        type: string
+        description: Full name of the file to download, including any prefix.
+      validDurationInSeconds:
+        type: integer
+        description: Seconds (1 to 604800) the download token remains valid.
+  steps:
+  - stepId: authorize
+    description: >-
+      Log in to the B2 API to obtain the authorization token and the cluster
+      downloadUrl.
+    operationId: authorizeAccount
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      authorizationToken: $response.body#/authorizationToken
+      downloadUrl: $response.body#/apiInfo/storageApi/downloadUrl
+  - stepId: getDownloadAuthorization
+    description: >-
+      Mint a time-limited token that authorizes downloads of files under the
+      supplied name prefix from the private bucket.
+    operationId: getDownloadAuthorization
+    requestBody:
+      contentType: application/json
+      payload:
+        bucketId: $inputs.bucketId
+        fileNamePrefix: $inputs.fileNamePrefix
+        validDurationInSeconds: $inputs.validDurationInSeconds
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      downloadAuthorizationToken: $response.body#/authorizationToken
+  - stepId: downloadFile
+    description: >-
+      Download the named file from the private bucket. The scoped download
+      authorization token minted in the previous step authorizes this request;
+      the spec models b2_download_file_by_name with only bucketName and fileName
+      path parameters, so only those are inlined here.
+    operationId: downloadFileByName
+    parameters:
+    - name: bucketName
+      in: path
+      value: $inputs.bucketName
+    - name: fileName
+      in: path
+      value: $inputs.fileName
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      fileContent: $response.body
+  outputs:
+    downloadAuthorizationToken: $steps.getDownloadAuthorization.outputs.downloadAuthorizationToken
+    fileContent: $steps.downloadFile.outputs.fileContent
