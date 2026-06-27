@@ -15,17 +15,17 @@ apis:
     url: https://www.backblaze.com/docs/cloud-storage-native-api
   - type: OpenAPI
     url: openapi/backblaze-b2-native-api.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/b2-native-application-keys.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/b2-native-authorization.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/b2-native-buckets.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/b2-native-files.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/b2-native-large-files.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/b2-native-notifications.yaml
   description: The Backblaze B2 Native API provides programmatic access to all B2 Cloud Storage functions including account
     authorization, bucket management, file upload and download, large file multi-part uploads, application key management,
@@ -58,154 +58,151 @@ access: 3rd-Party
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/backblaze/overview
-- type: ArazzoWorkflows
-  url: arazzo/
-  workflows:
-  - url: arazzo/backblaze-authorize-and-provision-bucket-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-authorize-and-provision-bucket-workflow.yml
     name: Backblaze Authorize and Provision Bucket
-    summary: Authorize the account, then create a new private bucket using the returned account context.
-  - url: arazzo/backblaze-browse-bucket-files-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-browse-bucket-files-workflow.yml
     name: Backblaze Browse Bucket Files
-    summary: Authorize, list buckets, list the file names in a bucket, then fetch full info for the first file.
-  - url: arazzo/backblaze-cleanup-unfinished-large-files-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-cleanup-unfinished-large-files-workflow.yml
     name: Backblaze Clean Up Unfinished Large Files
-    summary: Authorize, list unfinished large files in a bucket, then cancel the first stalled upload found.
-  - url: arazzo/backblaze-configure-bucket-notifications-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-configure-bucket-notifications-workflow.yml
     name: Backblaze Configure Bucket Event Notifications
-    summary: Authorize, set a webhook notification rule on a bucket, then read the rules back to confirm.
-  - url: arazzo/backblaze-copy-file-into-bucket-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-copy-file-into-bucket-workflow.yml
     name: Backblaze Copy a File Into Another Bucket
-    summary: Authorize, locate a source file by listing, then server-side copy it into a destination bucket.
-  - url: arazzo/backblaze-create-application-key-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-create-application-key-workflow.yml
     name: Backblaze Create Scoped Application Key
-    summary: Authorize, create a capability-scoped application key, then confirm it appears in the key list.
-  - url: arazzo/backblaze-large-file-upload-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-large-file-upload-workflow.yml
     name: Backblaze Large File Multi-Part Upload
-    summary: Authorize, start a large file, get a part upload URL, then finish the large file from its parts.
-  - url: arazzo/backblaze-provision-bucket-and-upload-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-provision-bucket-and-upload-workflow.yml
     name: Backblaze Provision Bucket and Upload First File
-    summary: Authorize, create a bucket, get its upload URL, and upload the first file end to end.
-  - url: arazzo/backblaze-purge-file-versions-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-purge-file-versions-workflow.yml
     name: Backblaze Purge a File's Versions
-    summary: Authorize, list a file's versions by prefix, then delete the most recent version found.
-  - url: arazzo/backblaze-rotate-application-key-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-rotate-application-key-workflow.yml
     name: Backblaze Rotate Application Key
-    summary: Authorize, create a replacement application key, then delete the old key it supersedes.
-  - url: arazzo/backblaze-share-private-files-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-share-private-files-workflow.yml
     name: Backblaze Share Private Files
-    summary: Authorize, mint a prefix-scoped download authorization token, then download a private file by name.
-  - url: arazzo/backblaze-teardown-bucket-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-teardown-bucket-workflow.yml
     name: Backblaze Tear Down a Bucket
-    summary: Authorize, list a bucket's file names, delete the first file version, then delete the empty bucket.
-  - url: arazzo/backblaze-upload-file-workflow.yml
+  - type: Arazzo
+    url: arazzo/backblaze-upload-file-workflow.yml
     name: Backblaze Upload a File
-    summary: Authorize, request a bucket upload URL, then upload a single file to that bucket.
-- type: LinkedIn
-  url: https://www.linkedin.com/company/backblaze
-- type: Website
-  url: https://www.backblaze.com
-- type: Portal
-  url: https://www.backblaze.com/docs
-- type: Documentation
-  url: https://www.backblaze.com/apidocs/
-- type: GettingStarted
-  url: https://www.backblaze.com/docs/cloud-storage-native-api
-- type: Pricing
-  url: https://www.backblaze.com/cloud-storage/pricing
-- type: SignUp
-  url: https://www.backblaze.com/b2/sign-up.html
-- type: Blog
-  url: https://www.backblaze.com/blog/
-- type: StatusPage
-  url: https://status.backblaze.com
-- type: Support
-  url: https://help.backblaze.com
-- type: TermsOfService
-  url: https://www.backblaze.com/company/terms-of-service
-- type: PrivacyPolicy
-  url: https://www.backblaze.com/company/privacy.html
-- type: GitHubOrganization
-  url: https://github.com/Backblaze
-- type: GitHubRepository
-  url: https://github.com/Backblaze/b2-sdk-python
-- type: SDK
-  url: https://pypi.org/project/b2/
-  title: Python SDK (B2 CLI & SDK)
-- type: SDK
-  url: https://github.com/Backblaze/b2-sdk-java
-  title: Java SDK
-- type: SDK
-  url: https://github.com/Backblaze/blazer
-  title: Go SDK
-- type: CLI
-  url: https://github.com/Backblaze/B2_Command_Line_Tool
-  title: B2 Command Line Tool
-- type: Tools
-  url: https://github.com/Backblaze/terraform-provider-b2
-  title: Terraform Provider
-- type: SpectralRules
-  url: rules/backblaze-spectral-rules.yml
-- type: Vocabulary
-  url: vocabulary/backblaze-vocabulary.yaml
-- name: Features
-  type: Features
-  data:
-  - name: Object Storage
-    description: Store and retrieve any amount of data with a simple flat namespace and unique file IDs.
-  - name: S3-Compatible API
-    description: Use existing S3 tools and libraries without modification via the S3-compatible API endpoint.
-  - name: Large File Multi-Part Upload
-    description: Upload files larger than 5GB using the multi-part upload API (b2_start_large_file / b2_upload_part / b2_finish_large_file).
-  - name: Application Key Management
-    description: Create and manage scoped application keys with per-bucket and per-prefix restrictions.
-  - name: Lifecycle Rules
-    description: Automatically delete or hide files after a specified number of days using lifecycle rules.
-  - name: File Versioning
-    description: Keep multiple versions of files; older versions are preserved and accessible by file ID.
-  - name: Event Notifications
-    description: Configure webhook-based event notifications when objects are created, modified, or deleted.
-  - name: Object Lock
-    description: Protect files from deletion or modification for a specified retention period using object lock.
-  - name: Cross-Region Replication
-    description: Replicate buckets to other regions or accounts for disaster recovery and data locality.
-  - name: Server-Side Encryption
-    description: Encrypt data at rest using Backblaze-managed or customer-managed keys.
-  - name: Cloudflare Bandwidth Alliance
-    description: Zero egress fees when serving B2 data through Cloudflare CDN.
-- name: UseCases
-  type: UseCases
-  data:
-  - name: Application Data Storage
-    description: Store application data, user-uploaded content, and media files in the cloud.
-  - name: Backup and Disaster Recovery
-    description: Use Backblaze B2 as the storage backend for backup tools like Arq, MSP360, and Veeam.
-  - name: Media Hosting and Delivery
-    description: Host images, videos, and other media files and serve them via CDN integration.
-  - name: Archival Storage
-    description: Store infrequently accessed archival data at low cost with lifecycle-based management.
-  - name: Data Migration
-    description: Migrate data from S3 or other cloud storage providers using the S3-compatible API.
-  - name: CI/CD Artifact Storage
-    description: Store build artifacts, logs, and deployment packages in B2 buckets.
-- name: Integrations
-  type: Integrations
-  data:
-  - name: Cloudflare
-    description: Zero egress bandwidth alliance for CDN delivery of B2 content.
-  - name: Arq Backup
-    description: Popular Mac and Windows backup application with native B2 support.
-  - name: Synology
-    description: Synology NAS Hyper Backup integration for cloud backup.
-  - name: Veeam
-    description: Enterprise backup and replication solution with B2 support.
-  - name: MSP360
-    description: Managed backup service with native B2 storage support.
-  - name: Terraform
-    description: Infrastructure as code support via the official Terraform provider.
-  - name: rclone
-    description: Command-line sync tool with native B2 Native and S3-compatible API support.
-- type: Integrations
-  url: https://www.backblaze.com/cloud-backup/personal/landing/podcast/marketplace
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/backblaze
+  - type: Website
+    url: https://www.backblaze.com
+  - type: Portal
+    url: https://www.backblaze.com/docs
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: Pricing
+    url: https://www.backblaze.com/cloud-storage/pricing
+  - type: Signup
+    url: https://www.backblaze.com/b2/sign-up.html
+  - type: Blog
+    url: https://www.backblaze.com/blog/
+  - type: StatusPage
+    url: https://status.backblaze.com
+  - type: Support
+    url: https://help.backblaze.com
+  - type: TermsOfService
+    url: https://www.backblaze.com/company/terms-of-service
+  - type: PrivacyPolicy
+    url: https://www.backblaze.com/company/privacy.html
+  - type: GitHubOrganization
+    url: https://github.com/Backblaze
+  - type: GitHubRepository
+    url: https://github.com/Backblaze/b2-sdk-python
+  - type: SDKs
+    url: https://pypi.org/project/b2/
+    title: Python SDK (B2 CLI & SDK)
+  - type: SDKs
+    url: https://github.com/Backblaze/b2-sdk-java
+    title: Java SDK
+  - type: SDKs
+    url: https://github.com/Backblaze/blazer
+    title: Go SDK
+  - type: CLI
+    url: https://github.com/Backblaze/B2_Command_Line_Tool
+    title: B2 Command Line Tool
+  - type: Tools
+    url: https://github.com/Backblaze/terraform-provider-b2
+    title: Terraform Provider
+  - type: SpectralRules
+    url: rules/backblaze-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/backblaze-vocabulary.yaml
+  - name: Features
+    type: Features
+    data:
+    - name: Object Storage
+      description: Store and retrieve any amount of data with a simple flat namespace and unique file IDs.
+    - name: S3-Compatible API
+      description: Use existing S3 tools and libraries without modification via the S3-compatible API endpoint.
+    - name: Large File Multi-Part Upload
+      description: Upload files larger than 5GB using the multi-part upload API (b2_start_large_file / b2_upload_part / b2_finish_large_file).
+    - name: Application Key Management
+      description: Create and manage scoped application keys with per-bucket and per-prefix restrictions.
+    - name: Lifecycle Rules
+      description: Automatically delete or hide files after a specified number of days using lifecycle rules.
+    - name: File Versioning
+      description: Keep multiple versions of files; older versions are preserved and accessible by file ID.
+    - name: Event Notifications
+      description: Configure webhook-based event notifications when objects are created, modified, or deleted.
+    - name: Object Lock
+      description: Protect files from deletion or modification for a specified retention period using object lock.
+    - name: Cross-Region Replication
+      description: Replicate buckets to other regions or accounts for disaster recovery and data locality.
+    - name: Server-Side Encryption
+      description: Encrypt data at rest using Backblaze-managed or customer-managed keys.
+    - name: Cloudflare Bandwidth Alliance
+      description: Zero egress fees when serving B2 data through Cloudflare CDN.
+  - name: UseCases
+    type: UseCases
+    data:
+    - name: Application Data Storage
+      description: Store application data, user-uploaded content, and media files in the cloud.
+    - name: Backup and Disaster Recovery
+      description: Use Backblaze B2 as the storage backend for backup tools like Arq, MSP360, and Veeam.
+    - name: Media Hosting and Delivery
+      description: Host images, videos, and other media files and serve them via CDN integration.
+    - name: Archival Storage
+      description: Store infrequently accessed archival data at low cost with lifecycle-based management.
+    - name: Data Migration
+      description: Migrate data from S3 or other cloud storage providers using the S3-compatible API.
+    - name: CI/CD Artifact Storage
+      description: Store build artifacts, logs, and deployment packages in B2 buckets.
+  - name: Integrations
+    type: Integrations
+    data:
+    - name: Cloudflare
+      description: Zero egress bandwidth alliance for CDN delivery of B2 content.
+    - name: Arq Backup
+      description: Popular Mac and Windows backup application with native B2 support.
+    - name: Synology
+      description: Synology NAS Hyper Backup integration for cloud backup.
+    - name: Veeam
+      description: Enterprise backup and replication solution with B2 support.
+    - name: MSP360
+      description: Managed backup service with native B2 storage support.
+    - name: Terraform
+      description: Infrastructure as code support via the official Terraform provider.
+    - name: rclone
+      description: Command-line sync tool with native B2 Native and S3-compatible API support.
+  - type: Integrations
+    url: https://www.backblaze.com/cloud-backup/personal/landing/podcast/marketplace
 created: '2025-03-01'
 modified: '2026-05-19'
 position: Consumer
