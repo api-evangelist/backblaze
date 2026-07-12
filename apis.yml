@@ -56,6 +56,10 @@ type: Index
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 common:
+  - type: DomainSecurity
+    url: security/backblaze-domain-security.yml
+  - type: Authentication
+    url: authentication/backblaze-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/backblaze/overview
   - type: Arazzo

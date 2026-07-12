@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/backblaze-b2-native-api.yaml
+summary:
+  types:
+  - http
+schemes:
+- name: ApplicationKeyAuth
+  type: http
+  scheme: bearer
+  description: Authorization token obtained from b2_authorize_account
+  sources:
+  - openapi/backblaze-b2-native-api.yaml
+- name: BasicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic auth using applicationKeyId as username and applicationKey as password
+  sources:
+  - openapi/backblaze-b2-native-api.yaml
