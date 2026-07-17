@@ -1,0 +1,77 @@
+generated: '2026-06-20'
+method: derived
+format: b2-error-object
+source: >-
+  Derived from the shared ErrorResponse schema and the 4xx/5xx responses across
+  openapi/backblaze-b2-native-api.yaml, enriched from the Backblaze B2 Native API
+  error documentation (backblaze.com/apidocs). B2 does NOT use RFC 9457
+  application/problem+json; every error returns application/json with a
+  { status, code, message } object.
+envelope:
+  media_type: application/json
+  shape: '{ "status": integer, "code": string, "message": string }'
+  fields:
+    status: HTTP status code (integer)
+    code: A single-identifier code that identifies the error (e.g. unauthorized, bad_request).
+    message: Human-readable message describing the error.
+problems:
+  - status: 400
+    code: bad_request
+    title: Bad Request
+    meaning: The request had the wrong fields or illegal values; the message says what is wrong.
+    remediation: Fix the request parameters named in the message and retry.
+  - status: 401
+    code: unauthorized
+    title: Unauthorized
+    meaning: The auth token is wrong or the application key does not have the required capability.
+    remediation: Re-run b2_authorize_account for a fresh token; verify the key's capabilities cover the operation.
+  - status: 401
+    code: bad_auth_token
+    title: Bad Auth Token
+    meaning: The authorization token is not valid.
+    remediation: Obtain a new token via b2_authorize_account (tokens are valid for at most 24 hours).
+  - status: 401
+    code: expired_auth_token
+    title: Expired Auth Token
+    meaning: The authorization token has expired.
+    remediation: Re-authorize to obtain a fresh token.
+  - status: 403
+    code: transaction_cap_exceeded
+    title: Transaction Cap Exceeded
+    meaning: Usage caps configured on the account have been exceeded.
+    remediation: Raise the account caps in the Backblaze web console or wait for the cap window to reset.
+  - status: 404
+    code: not_found
+    title: Not Found
+    meaning: The requested bucket, file, or key does not exist.
+    remediation: Verify the id/name; the resource may have been deleted or never existed.
+  - status: 405
+    code: method_not_allowed
+    title: Method Not Allowed
+    meaning: The request used an HTTP method other than the one the operation requires (B2 endpoints are POST, except downloads/auth GET).
+    remediation: Use the documented HTTP method for the operation.
+  - status: 408
+    code: request_timeout
+    title: Request Timeout
+    meaning: The service timed out reading the uploaded file.
+    remediation: Retry the upload, obtaining a fresh upload URL if needed.
+  - status: 416
+    code: range_not_satisfiable
+    title: Range Not Satisfiable
+    meaning: The Range header requested bytes outside the file.
+    remediation: Request a byte range within the file size.
+  - status: 429
+    code: too_many_requests
+    title: Too Many Requests
+    meaning: The client is being rate limited.
+    remediation: Honor the Retry-After header and back off before retrying. See rate-limits/backblaze-rate-limits.yml.
+  - status: 500
+    code: internal_error
+    title: Internal Error
+    meaning: An unexpected error occurred on the B2 service.
+    remediation: Retry with exponential backoff; if persistent, contact Backblaze support.
+  - status: 503
+    code: service_unavailable
+    title: Service Unavailable
+    meaning: The service is temporarily overloaded or the upload URL's server is busy.
+    remediation: Get a new upload URL (b2_get_upload_url / b2_get_upload_part_url) and retry with backoff.

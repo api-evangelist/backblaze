@@ -1,0 +1,56 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://www.backblaze.com/docs/cloud-storage-command-line-tools and
+  https://github.com/Backblaze/B2_Command_Line_Tool
+description: >-
+  The official Backblaze B2 command-line tool (`b2`). It wraps the b2sdk Python
+  library and drives both B2 Native and (via sync) the storage service. The CLI
+  binary/package is catalogued in packages/backblaze-packages.yml; this artifact
+  is its command surface. Version 4.x reorganized commands into resource
+  subgroups (account, bucket, file, key, replication).
+docs: https://www.backblaze.com/docs/cloud-storage-command-line-tools
+reference: https://b2-command-line-tool.readthedocs.io/en/master/
+repo: https://github.com/Backblaze/B2_Command_Line_Tool
+install:
+  pip: pip3 install --upgrade b2
+  homebrew: brew install b2-tools
+  binary: Self-contained binary downloads for Windows and Linux (no Python needed).
+  source: git clone https://github.com/Backblaze/B2_Command_Line_Tool.git
+commands:
+  account:
+    - {name: account authorize, description: Authorize with an application key id and key; caches credentials for later commands.}
+    - {name: account get, description: Show information about the authorized account.}
+    - {name: account clear, description: Remove the cached account authorization.}
+  bucket:
+    - {name: bucket create, description: Create a bucket (public/private, with optional lifecycle, encryption, object-lock settings).}
+    - {name: bucket list, description: List the buckets in the account.}
+    - {name: bucket get, description: Show a bucket's settings.}
+    - {name: bucket update, description: Update bucket settings.}
+    - {name: bucket delete, description: Delete an empty bucket.}
+    - {name: bucket get-download-auth, description: Mint a prefix-scoped download authorization token.}
+    - {name: bucket notification-rule, description: Create, list, update, or delete bucket event-notification rules.}
+  file:
+    - {name: file upload, description: Upload a local file to a bucket.}
+    - {name: file download, description: Download a file by name or id.}
+    - {name: file copy-by-id, description: Server-side copy a file into a bucket.}
+    - {name: file info, description: Show metadata for a file version.}
+    - {name: file hide, description: Hide a file so it no longer appears in name listings.}
+    - {name: file rm, description: Delete file versions.}
+    - {name: file large, description: Manage/resume large (multipart) file uploads.}
+    - {name: ls, description: List files in a bucket (optionally recursive).}
+    - {name: rm, description: Bulk-delete files by prefix.}
+    - {name: get-url, description: Get a friendly or authorized download URL for a file.}
+  key:
+    - {name: key create, description: Create a capability-scoped application key (optionally restricted to buckets/prefix).}
+    - {name: key list, description: List application keys.}
+    - {name: key delete, description: Delete an application key.}
+  sync:
+    - {name: sync, description: One-way synchronize a local directory to/from a bucket (uploads, downloads, deletions).}
+  replication:
+    - {name: replication setup, description: Configure cross-bucket/cross-account replication rules.}
+    - {name: replication status, description: Show replication status for buckets/files.}
+key_flows:
+  - Authorize then sync a directory: b2 account authorize; b2 sync ./data b2://my-bucket/backup
+  - Create a scoped key: b2 key create --bucket my-bucket restrictedKey listFiles,readFiles
+  - Resume a large upload: b2 file large parts / b2 file large unfinished

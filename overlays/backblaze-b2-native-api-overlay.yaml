@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Backblaze B2 Native API
+  version: 1.0.0
+extends: openapi/backblaze-b2-native-api.yaml
+generated: '2026-06-20'
+method: generated
+source: openapi/backblaze-b2-native-api.yaml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        catalog: https://apis.io/backblaze
+        provider: Backblaze
+        maintainer: Kin Lane <kin@apievangelist.com>
+        artifacts:
+          - apis.yml
+          - authentication/backblaze-authentication.yml
+          - conventions/backblaze-conventions.yml
+          - errors/backblaze-problem-types.yml
+          - data-model/backblaze-data-model.yml
+          - lifecycle/backblaze-lifecycle.yml
+          - conformance/backblaze-conformance.yml
+          - packages/backblaze-packages.yml
+          - mcp/backblaze-mcp.yml
+          - cli/backblaze-cli.yml
+          - changelog/backblaze-changelog.yml
+          - security/backblaze-trust-center.yml
+          - agentic-access/backblaze-agentic-access.yml
+  - target: $.info
+    update:
+      x-apievangelist-rating: 4
+      x-api-lifecycle: lifecycle/backblaze-lifecycle.yml

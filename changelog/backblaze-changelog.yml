@@ -1,0 +1,35 @@
+generated: '2026-06-20'
+method: searched
+source: https://www.backblaze.com/docs/cloud-storage-native-api-versions
+description: >-
+  Backblaze versions the B2 Native API by whole numbers carried in the URL path
+  (/b2api/v4/). A new version is cut for backwards-incompatible changes; older
+  path versions keep working. This captures the dated version history; the live
+  versions page is the source of truth.
+docs: https://www.backblaze.com/docs/cloud-storage-native-api-versions
+versioning:
+  scheme: uri-path integer versions
+  current: v4
+  detail: lifecycle/backblaze-lifecycle.yml
+entries:
+  - version: v4
+    date: '2025-04-29'
+    latest: true
+    breaking:
+      - b2_authorize_account response drops bucketId/bucketName/infoType in favor of an `allowed` object (buckets, capabilities, namePrefix).
+      - b2_create_key request/response replace bucketId with bucketIds; b2_delete_key and b2_list_keys responses use bucketIds.
+    additions:
+      - Multi-Bucket Application Keys — a key can grant access to a specific group of buckets, optionally limited to a single file prefix.
+  - version: v3
+    date: '2021-09-23'
+    additions:
+      - b2_authorize_account extended to work with multiple API suites (B2 Storage and Partner APIs); response reorganized by suite.
+  - version: v2
+    date: '2021-05-11'
+    additions:
+      - Object Lock (retention, legal hold) and Server-Side Encryption support.
+      - List operations return serverSideEncryption, fileRetention, and legalHold; standardized file structure across operations.
+  - version: v1
+    date: '2018-07-26'
+    additions:
+      - Application key management and authorization controls (original B2 API launched 2015-09-22).

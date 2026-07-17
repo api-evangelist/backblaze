@@ -1,0 +1,52 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from openapi/backblaze-b2-native-api.yaml (securitySchemes, error
+  schema, pagination parameters) and Backblaze documentation claims
+  (backblaze.com/apidocs, /docs/cloud-storage-native-api-versions,
+  /apidocs/introduction-to-the-s3-compatible-api, /cloud-storage/compliance).
+standards:
+  - id: s3-api-compatibility
+    conforms: true
+    evidence: >-
+      Backblaze publishes an S3-Compatible API (AWS Signature V4, s3.<region>.backblazeb2.com)
+      that works with existing S3 SDKs and tools unchanged.
+  - id: aws-signature-v4
+    conforms: true
+    evidence: The S3-compatible endpoint authenticates with AWS Signature Version 4.
+  - id: http-basic-bearer-auth
+    conforms: true
+    evidence: >-
+      openapi securitySchemes define BasicAuth (application key id/secret to
+      b2_authorize_account) and ApplicationKeyAuth (bearer authorization token).
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 securityScheme; B2 uses application-key + token auth, not OAuth.
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on the API or website host (404).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors return application/json with a B2 shape { status, code, message },
+      not application/problem+json.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      Cursor pagination on list operations via startFileName / nextFileName (and
+      startFileId / nextFileId) with maxFileCount.
+  - id: idempotency
+    conforms: false
+    evidence: No Idempotency-Key header; uploads are made idempotent by file name + SHA1 verification instead.
+  - id: object-lock
+    conforms: true
+    evidence: B2 supports S3-style Object Lock (WORM) retention and legal hold on file versions.
+  - id: server-side-encryption
+    conforms: true
+    evidence: SSE-B2 (Backblaze-managed) and SSE-C (customer-managed) encryption at rest.
+  - id: soc2-type2
+    conforms: true
+    evidence: Backblaze is SOC 2 Type 2 certified (backblaze.com/cloud-storage/compliance). See security/backblaze-trust-center.yml.
+  - id: hipaa
+    conforms: true
+    evidence: Backblaze executes Business Associate Agreements for HIPAA-covered entities.

@@ -1,0 +1,43 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://www.backblaze.com/docs/cloud-storage-native-api-versions,
+  https://www.backblaze.com/apidocs/, https://status.backblaze.com
+versioning:
+  scheme: uri-path
+  current: v4
+  current_released: '2025-04-29'
+  mechanism: >-
+    The API version number is embedded in the request URL path (e.g.
+    /b2api/v4/b2_authorize_account). Clients pin a version by choosing the path.
+  docs: https://www.backblaze.com/docs/cloud-storage-native-api-versions
+  history:
+    - version: v4
+      date: '2025-04-29'
+      summary: Multi-Bucket Application Keys; authorize response uses an `allowed` object; b2_create_key/delete_key/list_keys use bucketIds.
+    - version: v3
+      date: '2021-09-23'
+      summary: b2_authorize_account extended to work with multiple API suites (B2 Storage + Partner APIs); response reorganized by suite.
+    - version: v2
+      date: '2021-05-11'
+      summary: Object Lock and Server-Side Encryption; list operations return serverSideEncryption, fileRetention, legalHold; standardized file structure.
+    - version: v1
+      date: '2018-07-26'
+      summary: Application key management and authorization controls (original B2 API launched 2015-09-22).
+deprecation:
+  policy_url: https://www.backblaze.com/docs/cloud-storage-native-api-versions
+  sunset_header: false
+  notes: >-
+    Backblaze has no plans to stop supporting old versions and commits to at
+    least one year of advance notice if a version is ever retired. Older path
+    versions (v1-v3) remain callable; no RFC 8594 Sunset/Deprecation headers are used.
+sla:
+  url: https://www.backblaze.com/cloud-storage/service-level-agreement
+  public_uptime_target: null
+  notes: >-
+    Backblaze publishes a B2 Cloud Storage SLA covering uptime and durability;
+    specific credit terms are in the agreement. No single numeric uptime figure
+    is asserted here to avoid misquoting the contract.
+status_page: https://status.backblaze.com
+rate_limits: rate-limits/backblaze-rate-limits.yml
+deprecated_operations: []

@@ -1,0 +1,59 @@
+generated: '2026-06-20'
+method: derived
+source: arazzo/*.yml
+description: >-
+  Catalog of native Arazzo 1.0.1 workflows that stitch Backblaze B2 Native API
+  operations into real multi-step use cases. One entry per workflow file.
+workflows:
+  - file: backblaze-authorize-and-provision-bucket-workflow.yml
+    workflowId: authorize-and-provision-bucket
+    title: Backblaze Authorize and Provision Bucket
+    summary: Authorize the account, then create a new private bucket using the returned account context.
+  - file: backblaze-browse-bucket-files-workflow.yml
+    workflowId: browse-bucket-files
+    title: Backblaze Browse Bucket Files
+    summary: Authorize, list buckets, list the file names in a bucket, then fetch full info for the first file.
+  - file: backblaze-cleanup-unfinished-large-files-workflow.yml
+    workflowId: cleanup-unfinished-large-files
+    title: Backblaze Clean Up Unfinished Large Files
+    summary: Authorize, list unfinished large files in a bucket, then cancel the first stalled upload found.
+  - file: backblaze-configure-bucket-notifications-workflow.yml
+    workflowId: configure-bucket-notifications
+    title: Backblaze Configure Bucket Event Notifications
+    summary: Authorize, set a webhook notification rule on a bucket, then read the rules back to confirm.
+  - file: backblaze-copy-file-into-bucket-workflow.yml
+    workflowId: copy-file-into-bucket
+    title: Backblaze Copy a File Into Another Bucket
+    summary: Authorize, locate a source file by listing, then server-side copy it into a destination bucket.
+  - file: backblaze-create-application-key-workflow.yml
+    workflowId: create-application-key
+    title: Backblaze Create Scoped Application Key
+    summary: Authorize, create a capability-scoped application key, then confirm it appears in the key list.
+  - file: backblaze-large-file-upload-workflow.yml
+    workflowId: large-file-upload
+    title: Backblaze Large File Multi-Part Upload
+    summary: Authorize, start a large file, get a part upload URL, then finish the large file from its parts.
+  - file: backblaze-provision-bucket-and-upload-workflow.yml
+    workflowId: provision-bucket-and-upload
+    title: Backblaze Provision Bucket and Upload First File
+    summary: Authorize, create a bucket, get its upload URL, and upload the first file end to end.
+  - file: backblaze-purge-file-versions-workflow.yml
+    workflowId: purge-file-versions
+    title: Backblaze Purge a File's Versions
+    summary: Authorize, list a file's versions by prefix, then delete the most recent version found.
+  - file: backblaze-rotate-application-key-workflow.yml
+    workflowId: rotate-application-key
+    title: Backblaze Rotate Application Key
+    summary: Authorize, create a replacement application key, then delete the old key it supersedes.
+  - file: backblaze-share-private-files-workflow.yml
+    workflowId: share-private-files
+    title: Backblaze Share Private Files
+    summary: Authorize, mint a prefix-scoped download authorization token, then download a private file by name.
+  - file: backblaze-teardown-bucket-workflow.yml
+    workflowId: teardown-bucket
+    title: Backblaze Tear Down a Bucket
+    summary: Authorize, list a bucket's file names, delete the first file version, then delete the empty bucket.
+  - file: backblaze-upload-file-workflow.yml
+    workflowId: upload-file
+    title: Backblaze Upload a File
+    summary: Authorize, request a bucket upload URL, then upload a single file to that bucket.

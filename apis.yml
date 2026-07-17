@@ -15,18 +15,14 @@ apis:
     url: https://www.backblaze.com/docs/cloud-storage-native-api
   - type: OpenAPI
     url: openapi/backblaze-b2-native-api.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/b2-native-application-keys.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/b2-native-authorization.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/b2-native-buckets.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/b2-native-files.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/b2-native-large-files.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/b2-native-notifications.yaml
+  - type: Overlay
+    url: overlays/backblaze-b2-native-api-overlay.yaml
+  - type: MCPServer
+    url: mcp/backblaze-mcp.yml
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
   description: The Backblaze B2 Native API provides programmatic access to all B2 Cloud Storage functions including account
     authorization, bucket management, file upload and download, large file multi-part uploads, application key management,
     lifecycle rules, replication, and event notifications. Uses HTTP Basic authentication to obtain authorization tokens for
@@ -62,6 +58,24 @@ common:
     url: security/backblaze-domain-security.yml
   - type: Authentication
     url: authentication/backblaze-authentication.yml
+  - type: Packages
+    url: packages/backblaze-packages.yml
+  - type: WellKnown
+    url: well-known/backblaze-well-known.yml
+  - type: LLMsTxt
+    url: llms/backblaze-llms.txt
+  - type: Conformance
+    url: conformance/backblaze-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/backblaze-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/backblaze-changelog.yml
+  - type: Conventions
+    url: conventions/backblaze-conventions.yml
+  - type: CLI
+    url: cli/backblaze-cli.yml
+  - type: TrustCenter
+    url: security/backblaze-trust-center.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/backblaze/overview
   - type: Arazzo
@@ -210,7 +224,7 @@ common:
   - type: Integrations
     url: https://www.backblaze.com/cloud-backup/personal/landing/podcast/marketplace
 created: '2025-03-01'
-modified: '2026-05-19'
+modified: '2026-06-20'
 position: Consumer
 description: Backblaze is a cloud storage and data backup provider offering B2 Cloud Storage - a low-cost, S3-compatible object
   storage service. Backblaze provides both a native B2 API and an S3-compatible API, enabling developers to build applications

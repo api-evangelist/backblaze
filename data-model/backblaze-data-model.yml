@@ -1,0 +1,36 @@
+generated: '2026-06-20'
+method: derived
+source: >-
+  Derived from the schemas and id-reference fields in
+  openapi/backblaze-b2-native-api.yaml (accountId, bucketId, fileId,
+  applicationKeyId, etc.) and the Backblaze B2 object reference
+  (backblaze.com/apidocs). Captures the core entity-relationship graph behind
+  B2 Cloud Storage.
+docs: https://www.backblaze.com/apidocs/
+notation: >-
+  relationships use has_one / has_many / belongs_to with the foreign-key field
+  name (via); direction is from the entity that owns the reference.
+entities:
+  - {name: Account, id_field: accountId, domain: account, description: A Backblaze account; root of all resources.}
+  - {name: Bucket, id_field: bucketId, domain: storage, description: A container for files, with type, lifecycle rules, encryption, and object-lock config.}
+  - {name: File, id_field: fileId, domain: storage, description: A stored object identified by fileId; a fileName may have multiple versions.}
+  - {name: FileVersion, id_field: fileId, domain: storage, description: A specific version of a file (same fileName, distinct fileId); listing/deletion operate on versions.}
+  - {name: LargeFile, id_field: fileId, domain: storage, description: A multipart upload in progress (b2_start_large_file) assembled from Parts.}
+  - {name: Part, id_field: partNumber, domain: storage, description: One chunk of a large file, uploaded to a part upload URL.}
+  - {name: ApplicationKey, id_field: applicationKeyId, domain: access, description: A capability-scoped credential, optionally restricted to buckets and a name prefix.}
+  - {name: NotificationRule, id_field: name, domain: events, description: A bucket event-notification rule pointing at a webhook target URL.}
+  - {name: UploadUrl, id_field: uploadUrl, domain: storage, description: A transient per-request endpoint+token for uploading a file or part.}
+relationships:
+  - {from: Account, to: Bucket, kind: has_many, via: accountId}
+  - {from: Account, to: ApplicationKey, kind: has_many, via: accountId}
+  - {from: Bucket, to: File, kind: has_many, via: bucketId}
+  - {from: Bucket, to: NotificationRule, kind: has_many, via: bucketId}
+  - {from: File, to: FileVersion, kind: has_many, via: fileName}
+  - {from: FileVersion, to: Bucket, kind: belongs_to, via: bucketId}
+  - {from: LargeFile, to: Part, kind: has_many, via: fileId}
+  - {from: LargeFile, to: Bucket, kind: belongs_to, via: bucketId}
+  - {from: ApplicationKey, to: Bucket, kind: belongs_to, via: bucketIds}
+  - {from: NotificationRule, to: Bucket, kind: belongs_to, via: bucketId}
+id_notes:
+  - File and large-file ids share the fileId space; a version is addressed by (fileName, fileId).
+  - Application keys carry a capabilities[] list plus optional bucketIds[] and namePrefix restrictions (v4).

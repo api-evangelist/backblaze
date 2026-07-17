@@ -1,0 +1,78 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api and
+  openapi/backblaze-b2-native-api.yaml — cross-cutting request/response
+  semantics that apply across the B2 Native API rather than to any single
+  operation.
+description: >-
+  How the Backblaze B2 Native API behaves across operations: authentication and
+  token flow, endpoint discovery, pagination, request tracing, versioning, the
+  error envelope, and rate-limit signaling.
+base_url: https://api.backblazeb2.com
+api_style: JSON over HTTPS; most operations are POST with a JSON body (downloads and authorize are GET).
+
+authentication:
+  scheme: Two-step — HTTP Basic to b2_authorize_account, then bearer Authorization token.
+  flow: >-
+    Call b2_authorize_account with the applicationKeyId as username and
+    applicationKey as password. The response returns an authorizationToken (valid
+    up to 24 hours) plus an apiUrl, downloadUrl, and s3ApiUrl. Use the returned
+    apiUrl as the base for subsequent calls and pass the token in the
+    Authorization header.
+  token_ttl: 24 hours (maximum)
+  detail: authentication/backblaze-authentication.yml
+  docs: https://www.backblaze.com/apidocs/b2-authorize-account
+
+endpoint_discovery:
+  note: >-
+    Base URLs are not fixed. b2_authorize_account returns cluster-specific apiUrl,
+    downloadUrl, and s3ApiUrl values that the client must use for all later calls.
+  upload_urls: >-
+    Uploads require a per-request URL+token from b2_get_upload_url (files) or
+    b2_get_upload_part_url (large-file parts); these are single-endpoint and may be reused until they fail.
+
+idempotency:
+  supported: false
+  mechanism: null
+  note: >-
+    No Idempotency-Key header. Uploads are made safe to retry because a file is
+    identified by name + SHA1; re-uploading the same content is deduplicated, and
+    a failed upload URL simply gets replaced with a fresh one.
+
+pagination:
+  style: cursor
+  request_params:
+    maxFileCount: Page size for file listings (default and max vary by operation).
+    startFileName: Cursor — start listing at this file name.
+    startFileId: Cursor — start listing at this file id (versions/parts).
+    maxKeyCount: Page size for b2_list_keys.
+    startApplicationKeyId: Cursor for key listing.
+  response_fields:
+    nextFileName: Cursor to pass as startFileName for the next page (null when done).
+    nextFileId: Cursor to pass as startFileId for the next page.
+    nextApplicationKeyId: Cursor for the next page of keys.
+
+metadata:
+  mechanism: >-
+    Custom file metadata is carried as fileInfo key/value pairs set at upload and
+    returned on file-info/list operations (X-Bz-Info-* headers on the S3-style paths).
+
+request_tracing:
+  request_id_header: null
+  note: B2 does not document a client-facing request-id header; support requests reference the file/bucket id.
+
+versioning:
+  scheme: uri-path
+  example: /b2api/v4/b2_authorize_account
+  detail: lifecycle/backblaze-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  shape: '{ "status": integer, "code": string, "message": string }'
+  detail: errors/backblaze-problem-types.yml
+
+rate_limiting:
+  signal: HTTP 429 (too_many_requests) and 503 (service_unavailable / busy upload server).
+  retry: Honor Retry-After; on 503 for uploads, request a fresh upload URL and retry with backoff.
+  detail: rate-limits/backblaze-rate-limits.yml

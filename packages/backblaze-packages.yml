@@ -1,0 +1,56 @@
+generated: '2026-06-20'
+method: searched
+source: >-
+  https://www.backblaze.com/docs/cloud-storage-sdks and the public package
+  registries (PyPI, GitHub, Maven Central). First-party Backblaze B2 client
+  libraries and tools; registry status verified at fetch time.
+description: >-
+  First-party Backblaze client libraries, CLI, and infrastructure tooling for
+  the B2 Cloud Storage (B2 Native + S3-compatible) APIs. Backblaze maintains an
+  official Python SDK and CLI, a Java SDK, and a Go SDK, plus a Terraform
+  provider. There is no first-party JavaScript/Node SDK; Node developers use the
+  S3-compatible API via the AWS SDK, or community wrappers.
+packages:
+  - language: python
+    registry: pypi
+    name: b2sdk
+    url: https://pypi.org/project/b2sdk/
+    source: https://github.com/Backblaze/b2-sdk-python
+    install: pip install b2sdk
+    official: true
+    note: Official B2 Python SDK / client library (all B2 Cloud Storage capabilities).
+  - language: python
+    registry: pypi
+    name: b2
+    url: https://pypi.org/project/b2/
+    source: https://github.com/Backblaze/B2_Command_Line_Tool
+    install: pip install b2
+    official: true
+    note: Official B2 command-line tool (ships the CLI; built on b2sdk). See cli/backblaze-cli.yml.
+  - language: java
+    registry: maven
+    name: com.backblaze.b2:b2-sdk-core
+    url: https://github.com/Backblaze/b2-sdk-java
+    source: https://github.com/Backblaze/b2-sdk-java
+    install: "implementation 'com.backblaze.b2:b2-sdk-core'"
+    official: true
+    note: Official B2 Java SDK (b2-sdk-core + b2-sdk-httpclient modules).
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/Backblaze/blazer
+    url: https://pkg.go.dev/github.com/Backblaze/blazer
+    source: https://github.com/Backblaze/blazer
+    install: go get github.com/Backblaze/blazer/b2
+    official: true
+    note: Official B2 Go SDK (Blazer).
+  - language: terraform
+    registry: registry.terraform.io
+    name: Backblaze/b2
+    url: https://registry.terraform.io/providers/Backblaze/b2/latest
+    source: https://github.com/Backblaze/terraform-provider-b2
+    install: 'terraform { required_providers { b2 = { source = "Backblaze/b2" } } }'
+    official: true
+    note: Official Terraform provider for B2 buckets, keys, and files.
+notes:
+  - No first-party npm/Node SDK; use the S3-compatible endpoint with the AWS SDK for JavaScript.
+  - The S3-compatible API works with any AWS SDK (boto3, aws-sdk-js, aws-sdk-go, etc.) unchanged.

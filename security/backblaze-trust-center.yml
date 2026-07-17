@@ -1,0 +1,39 @@
+generated: '2026-06-20'
+method: searched
+probe: false
+source: https://www.backblaze.com/cloud-storage/compliance
+url: https://www.backblaze.com/cloud-storage/compliance
+description: >-
+  Backblaze publishes a compliance page enumerating its certifications and
+  attestations. There is no dedicated trust.backblaze.com portal; compliance
+  documents and questionnaires are distributed via Whistic, and BAAs / SOC 2
+  reports are provided on request to eligible customers. Captured from the
+  public compliance page (no automated probe hit; recorded from docs search).
+certifications:
+  - SOC 2 Type 2
+  - ISO 27001
+  - HIPAA
+  - GDPR
+  - UK GDPR
+  - CCPA/CPRA
+  - PCI-DSS
+  - GovRAMP
+  - TX-RAMP
+  - HECVAT
+  - TPN (Trusted Partner Network) Blue Shield
+  - VPAT (Section 508)
+  - Internet2 Cloud Scorecard
+notes:
+  - SOC 2 Type 2 achieved at the company level (not only data-center level); report available to eligible customers via Sales.
+  - ISO 27001 certificates held by the data centers Backblaze predominantly uses; accessible via Whistic.
+  - HIPAA Business Associate Agreements executed for Covered Entity customers.
+  - PCI-DSS scope covers card processing via Stripe; Backblaze adheres to PCI standards.
+request_channels:
+  whistic: >-
+    Whistic profiles for Education Industry, EU Customers, and All Other
+    Customers (documents + security questionnaires).
+  sales: BAA requests and SOC 2 report access via Backblaze Sales.
+  privacy: https://preferences.backblaze.com
+evidence:
+  - {source: https://www.backblaze.com/cloud-storage/compliance, kind: compliance-page}
+  - {source: https://www.backblaze.com/blog/our-journey-to-soc-2-type-2-certification/, kind: soc2-attestation}

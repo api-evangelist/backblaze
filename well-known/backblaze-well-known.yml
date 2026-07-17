@@ -1,0 +1,34 @@
+generated: '2026-06-20'
+method: searched
+description: >-
+  Results of probing the /.well-known/ discovery surface for the Backblaze
+  website host and the B2 Native API host (from apis.yml and the OpenAPI
+  servers[]). Status is the HTTP code observed at fetch time. No discovery
+  documents are published: B2 uses HTTP Basic auth to b2_authorize_account (not
+  OAuth/OIDC), so there is no openid-configuration or oauth-authorization-server,
+  and no security.txt or api-catalog is served. Nothing was saved verbatim.
+hosts:
+  - host: https://www.backblaze.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://api.backblazeb2.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
