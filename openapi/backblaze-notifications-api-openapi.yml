@@ -1,0 +1,213 @@
+openapi: 3.0.3
+info:
+  title: Backblaze B2 Native Application Keys Notifications API
+  description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
+  version: v4
+  x-generated-from: documentation
+  contact:
+    name: Backblaze Developer Support
+    url: https://www.backblaze.com/docs
+  license:
+    name: Proprietary
+    url: https://www.backblaze.com/company/terms-of-service
+servers:
+- url: https://api.backblazeb2.com
+  description: Backblaze B2 API (cluster-specific URL returned by b2_authorize_account)
+security:
+- ApplicationKeyAuth: []
+tags:
+- name: Notifications
+  description: Bucket event notification configuration
+paths:
+  /b2api/v4/b2_get_bucket_notification_rules:
+    post:
+      operationId: getBucketNotificationRules
+      summary: Backblaze B2 Native API Get Bucket Notification Rules
+      description: Returns the notification rules for a bucket.
+      tags:
+      - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetBucketNotificationRulesRequest'
+            examples:
+              GetBucketNotificationRulesRequestExample:
+                summary: Default getBucketNotificationRules request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: Bucket notification rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BucketNotificationRulesResponse'
+              examples:
+                GetBucketNotificationRules200Example:
+                  summary: Default getBucketNotificationRules 200 response
+                  x-microcks-default: true
+                  value:
+                    bucketId: e73ede9969c64355ef8b
+                    rules: []
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_set_bucket_notification_rules:
+    post:
+      operationId: setBucketNotificationRules
+      summary: Backblaze B2 Native API Set Bucket Notification Rules
+      description: Sets the notification rules for a bucket. Replaces all existing notification rules.
+      tags:
+      - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetBucketNotificationRulesRequest'
+            examples:
+              SetBucketNotificationRulesRequestExample:
+                summary: Default setBucketNotificationRules request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  rules:
+                  - name: my-notification
+                    eventTypes:
+                    - b2:ObjectCreated:Upload
+                    isEnabled: true
+                    targetConfiguration:
+                      targetType: url
+                      url: https://my-app.example.com/webhooks/b2
+      responses:
+        '200':
+          description: Notification rules set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BucketNotificationRulesResponse'
+              examples:
+                SetBucketNotificationRules200Example:
+                  summary: Default setBucketNotificationRules 200 response
+                  x-microcks-default: true
+                  value:
+                    bucketId: e73ede9969c64355ef8b
+                    rules:
+                    - name: my-notification
+                      eventTypes:
+                      - b2:ObjectCreated:Upload
+                      isEnabled: true
+                      targetConfiguration:
+                        targetType: url
+                        url: https://my-app.example.com/webhooks/b2
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    BucketNotificationRulesResponse:
+      title: BucketNotificationRulesResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRule'
+    GetBucketNotificationRulesRequest:
+      title: GetBucketNotificationRulesRequest
+      type: object
+      required:
+      - bucketId
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+    NotificationRule:
+      title: NotificationRule
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name for this notification rule
+          example: my-notification
+        eventTypes:
+          type: array
+          items:
+            type: string
+          description: Event types that trigger this notification
+          example:
+          - b2:ObjectCreated:Upload
+        isEnabled:
+          type: boolean
+          description: Whether this rule is enabled
+          example: true
+        targetConfiguration:
+          type: object
+          properties:
+            targetType:
+              type: string
+              enum:
+              - url
+              description: Type of notification target
+            url:
+              type: string
+              description: Webhook URL to send notifications to
+              example: https://my-app.example.com/webhooks/b2
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    SetBucketNotificationRulesRequest:
+      title: SetBucketNotificationRulesRequest
+      type: object
+      required:
+      - bucketId
+      - rules
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRule'
+  securitySchemes:
+    ApplicationKeyAuth:
+      type: http
+      scheme: bearer
+      description: Authorization token obtained from b2_authorize_account
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic auth using applicationKeyId as username and applicationKey as password

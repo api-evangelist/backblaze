@@ -1,0 +1,418 @@
+openapi: 3.0.3
+info:
+  title: Backblaze B2 Native Application Keys Buckets API
+  description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
+  version: v4
+  x-generated-from: documentation
+  contact:
+    name: Backblaze Developer Support
+    url: https://www.backblaze.com/docs
+  license:
+    name: Proprietary
+    url: https://www.backblaze.com/company/terms-of-service
+servers:
+- url: https://api.backblazeb2.com
+  description: Backblaze B2 API (cluster-specific URL returned by b2_authorize_account)
+security:
+- ApplicationKeyAuth: []
+tags:
+- name: Buckets
+  description: Bucket creation, management, and configuration
+paths:
+  /b2api/v4/b2_create_bucket:
+    post:
+      operationId: createBucket
+      summary: Backblaze B2 Native API Create Bucket
+      description: Creates a new bucket. A bucket must be globally unique across all of Backblaze B2 or the request will fail.
+      tags:
+      - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBucketRequest'
+            examples:
+              CreateBucketRequestExample:
+                summary: Default createBucket request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  bucketName: my-media-bucket
+                  bucketType: allPrivate
+      responses:
+        '200':
+          description: Bucket created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+              examples:
+                CreateBucket200Example:
+                  summary: Default createBucket 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    bucketName: my-media-bucket
+                    bucketType: allPrivate
+                    bucketInfo: {}
+                    corsRules: []
+                    lifecycleRules: []
+                    revision: 1
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_delete_bucket:
+    post:
+      operationId: deleteBucket
+      summary: Backblaze B2 Native API Delete Bucket
+      description: Deletes the bucket specified. Only buckets that contain no version of any files can be deleted.
+      tags:
+      - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteBucketRequest'
+            examples:
+              DeleteBucketRequestExample:
+                summary: Default deleteBucket request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: Bucket deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+              examples:
+                DeleteBucket200Example:
+                  summary: Default deleteBucket 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    bucketName: my-media-bucket
+                    bucketType: allPrivate
+                    bucketInfo: {}
+                    corsRules: []
+                    lifecycleRules: []
+                    revision: 1
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_buckets:
+    post:
+      operationId: listBuckets
+      summary: Backblaze B2 Native API List Buckets
+      description: Lists buckets associated with an account, in alphabetical order by bucket name.
+      tags:
+      - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListBucketsRequest'
+            examples:
+              ListBucketsRequestExample:
+                summary: Default listBuckets request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+      responses:
+        '200':
+          description: List of buckets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBucketsResponse'
+              examples:
+                ListBuckets200Example:
+                  summary: Default listBuckets 200 response
+                  x-microcks-default: true
+                  value:
+                    buckets:
+                    - accountId: abc123def456
+                      bucketId: e73ede9969c64355ef8b
+                      bucketName: my-media-bucket
+                      bucketType: allPrivate
+                      bucketInfo: {}
+                      corsRules: []
+                      lifecycleRules: []
+                      revision: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_update_bucket:
+    post:
+      operationId: updateBucket
+      summary: Backblaze B2 Native API Update Bucket
+      description: Update an existing bucket. Can be used to change the bucket type, bucket info, CORS rules, and lifecycle rules.
+      tags:
+      - Buckets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBucketRequest'
+            examples:
+              UpdateBucketRequestExample:
+                summary: Default updateBucket request
+                x-microcks-default: true
+                value:
+                  accountId: abc123def456
+                  bucketId: e73ede9969c64355ef8b
+                  bucketType: allPublic
+      responses:
+        '200':
+          description: Bucket updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bucket'
+              examples:
+                UpdateBucket200Example:
+                  summary: Default updateBucket 200 response
+                  x-microcks-default: true
+                  value:
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    bucketName: my-media-bucket
+                    bucketType: allPublic
+                    bucketInfo: {}
+                    corsRules: []
+                    lifecycleRules: []
+                    revision: 2
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    UpdateBucketRequest:
+      title: UpdateBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to update
+          example: e73ede9969c64355ef8b
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          description: New privacy setting
+        bucketInfo:
+          type: object
+          description: New bucket info
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: New CORS rules
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: New lifecycle rules
+        ifRevisionIs:
+          type: integer
+          description: Only update if bucket revision matches this value
+    CreateBucketRequest:
+      title: CreateBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketName
+      - bucketType
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketName:
+          type: string
+          description: The name of the new bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          description: Privacy setting for the bucket
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined info to store with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+    Bucket:
+      title: Bucket
+      type: object
+      description: Represents a B2 bucket
+      properties:
+        accountId:
+          type: string
+          description: The account that owns the bucket
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The unique ID of the bucket
+          example: e73ede9969c64355ef8b
+        bucketName:
+          type: string
+          description: The unique name of the bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          - snapshot
+          description: The bucket privacy setting
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined information stored with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+        revision:
+          type: integer
+          description: The number of times the bucket info has been modified
+          example: 1
+    ListBucketsResponse:
+      title: ListBucketsResponse
+      type: object
+      properties:
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bucket'
+    ListBucketsRequest:
+      title: ListBucketsRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: Filter to a specific bucket
+        bucketName:
+          type: string
+          description: Filter by bucket name
+        bucketTypes:
+          type: array
+          items:
+            type: string
+          description: Filter by bucket type
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    DeleteBucketRequest:
+      title: DeleteBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to delete
+          example: e73ede9969c64355ef8b
+  securitySchemes:
+    ApplicationKeyAuth:
+      type: http
+      scheme: bearer
+      description: Authorization token obtained from b2_authorize_account
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic auth using applicationKeyId as username and applicationKey as password

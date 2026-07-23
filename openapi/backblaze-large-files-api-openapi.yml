@@ -1,0 +1,530 @@
+openapi: 3.0.3
+info:
+  title: Backblaze B2 Native Application Keys Large Files API
+  description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
+  version: v4
+  x-generated-from: documentation
+  contact:
+    name: Backblaze Developer Support
+    url: https://www.backblaze.com/docs
+  license:
+    name: Proprietary
+    url: https://www.backblaze.com/company/terms-of-service
+servers:
+- url: https://api.backblazeb2.com
+  description: Backblaze B2 API (cluster-specific URL returned by b2_authorize_account)
+security:
+- ApplicationKeyAuth: []
+tags:
+- name: Large Files
+  description: Multi-part upload for large files
+paths:
+  /b2api/v4/b2_start_large_file:
+    post:
+      operationId: startLargeFile
+      summary: Backblaze B2 Native API Start Large File
+      description: Prepares for uploading the parts of a large file. Files over 100MB must be uploaded in parts. Returns a fileId that is used when uploading parts of this file, finishing this file, and canceling this file.
+      tags:
+      - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartLargeFileRequest'
+            examples:
+              StartLargeFileRequestExample:
+                summary: Default startLargeFile request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+                  fileName: videos/large-video.mp4
+                  contentType: video/mp4
+      responses:
+        '200':
+          description: Large file started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                StartLargeFile200Example:
+                  summary: Default startLargeFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    fileName: videos/large-video.mp4
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentType: video/mp4
+                    fileInfo: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_get_upload_part_url:
+    post:
+      operationId: getUploadPartUrl
+      summary: Backblaze B2 Native API Get Upload Part URL
+      description: Gets an URL to use for uploading parts of a large file.
+      tags:
+      - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUploadPartUrlRequest'
+            examples:
+              GetUploadPartUrlRequestExample:
+                summary: Default getUploadPartUrl request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+      responses:
+        '200':
+          description: Upload part URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUploadPartUrlResponse'
+              examples:
+                GetUploadPartUrl200Example:
+                  summary: Default getUploadPartUrl 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    uploadUrl: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
+                    authorizationToken: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_finish_large_file:
+    post:
+      operationId: finishLargeFile
+      summary: Backblaze B2 Native API Finish Large File
+      description: Converts the parts that have been uploaded into a single B2 file.
+      tags:
+      - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FinishLargeFileRequest'
+            examples:
+              FinishLargeFileRequestExample:
+                summary: Default finishLargeFile request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+                  partSha1Array:
+                  - a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                  - b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3
+      responses:
+        '200':
+          description: Large file finished
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileInfo'
+              examples:
+                FinishLargeFile200Example:
+                  summary: Default finishLargeFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    fileName: videos/large-video.mp4
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    contentLength: 2048000000
+                    contentSha1: none
+                    contentType: video/mp4
+                    fileInfo: {}
+                    uploadTimestamp: 1660600000000
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_cancel_large_file:
+    post:
+      operationId: cancelLargeFile
+      summary: Backblaze B2 Native API Cancel Large File
+      description: Cancels a large file upload and deletes all of the parts that have been uploaded.
+      tags:
+      - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelLargeFileRequest'
+            examples:
+              CancelLargeFileRequestExample:
+                summary: Default cancelLargeFile request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+      responses:
+        '200':
+          description: Large file upload cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelLargeFileResponse'
+              examples:
+                CancelLargeFile200Example:
+                  summary: Default cancelLargeFile 200 response
+                  x-microcks-default: true
+                  value:
+                    fileId: 4_za71c4725f4f4a14a14a14a14a
+                    accountId: abc123def456
+                    bucketId: e73ede9969c64355ef8b
+                    fileName: videos/large-video.mp4
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_parts:
+    post:
+      operationId: listParts
+      summary: Backblaze B2 Native API List Parts
+      description: Lists the parts that have been uploaded for a large file, in order of part number.
+      tags:
+      - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListPartsRequest'
+            examples:
+              ListPartsRequestExample:
+                summary: Default listParts request
+                x-microcks-default: true
+                value:
+                  fileId: 4_za71c4725f4f4a14a14a14a14a
+      responses:
+        '200':
+          description: List of parts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPartsResponse'
+              examples:
+                ListParts200Example:
+                  summary: Default listParts 200 response
+                  x-microcks-default: true
+                  value:
+                    parts:
+                    - fileId: 4_za71c4725f4f4a14a14a14a14a
+                      partNumber: 1
+                      contentLength: 100000000
+                      contentSha1: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+                      uploadTimestamp: 1660500000000
+                    nextPartNumber: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /b2api/v4/b2_list_unfinished_large_files:
+    post:
+      operationId: listUnfinishedLargeFiles
+      summary: Backblaze B2 Native API List Unfinished Large Files
+      description: Lists information about large file uploads that have been started but not finished or cancelled.
+      tags:
+      - Large Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListUnfinishedLargeFilesRequest'
+            examples:
+              ListUnfinishedLargeFilesRequestExample:
+                summary: Default listUnfinishedLargeFiles request
+                x-microcks-default: true
+                value:
+                  bucketId: e73ede9969c64355ef8b
+      responses:
+        '200':
+          description: List of unfinished large files
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUnfinishedLargeFilesResponse'
+              examples:
+                ListUnfinishedLargeFiles200Example:
+                  summary: Default listUnfinishedLargeFiles 200 response
+                  x-microcks-default: true
+                  value:
+                    files:
+                    - fileId: 4_za71c4725f4f4a14a14a14a14a
+                      fileName: videos/large-video.mp4
+                      accountId: abc123def456
+                      bucketId: e73ede9969c64355ef8b
+                      contentType: video/mp4
+                      uploadTimestamp: 1660500000000
+                    nextFileId: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ListPartsResponse:
+      title: ListPartsResponse
+      type: object
+      properties:
+        parts:
+          type: array
+          items:
+            type: object
+            properties:
+              fileId:
+                type: string
+              partNumber:
+                type: integer
+              contentLength:
+                type: integer
+              contentSha1:
+                type: string
+              uploadTimestamp:
+                type: integer
+        nextPartNumber:
+          type: integer
+          nullable: true
+    FinishLargeFileRequest:
+      title: FinishLargeFileRequest
+      type: object
+      required:
+      - fileId
+      - partSha1Array
+      properties:
+        fileId:
+          type: string
+          description: The file ID from b2_start_large_file
+          example: 4_za71c4725f4f4a14a14a14a14a
+        partSha1Array:
+          type: array
+          items:
+            type: string
+          description: SHA1 checksums of each part in order
+    ListUnfinishedLargeFilesResponse:
+      title: ListUnfinishedLargeFilesResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileId:
+          type: string
+          nullable: true
+    ListUnfinishedLargeFilesRequest:
+      title: ListUnfinishedLargeFilesRequest
+      type: object
+      required:
+      - bucketId
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        namePrefix:
+          type: string
+        startFileId:
+          type: string
+        maxFileCount:
+          type: integer
+    GetUploadPartUrlRequest:
+      title: GetUploadPartUrlRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          description: The file ID from b2_start_large_file
+          example: 4_za71c4725f4f4a14a14a14a14a
+    CancelLargeFileRequest:
+      title: CancelLargeFileRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+    StartLargeFileRequest:
+      title: StartLargeFileRequest
+      type: object
+      required:
+      - bucketId
+      - fileName
+      - contentType
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+        contentType:
+          type: string
+          example: video/mp4
+        fileInfo:
+          type: object
+          description: Custom file info
+        serverSideEncryption:
+          type: object
+          description: Server side encryption settings
+    GetUploadPartUrlResponse:
+      title: GetUploadPartUrlResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        uploadUrl:
+          type: string
+          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    FileInfo:
+      title: FileInfo
+      type: object
+      description: Information about a stored file
+      properties:
+        fileId:
+          type: string
+          description: The unique identifier for this version of this file
+          example: 4_h4a48fe8875c6214145260818
+        fileName:
+          type: string
+          description: The name of the file
+          example: photos/image.jpg
+        accountId:
+          type: string
+          description: The account that owns the file
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The bucket that the file is in
+          example: e73ede9969c64355ef8b
+        contentLength:
+          type: integer
+          description: The size of the file in bytes
+          example: 102400
+        contentSha1:
+          type: string
+          description: The SHA1 checksum of the bytes in the file
+          example: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+        contentType:
+          type: string
+          description: The MIME type of the file
+          example: image/jpeg
+        fileInfo:
+          type: object
+          description: Custom information about the file
+        action:
+          type: string
+          enum:
+          - upload
+          - hide
+          - start
+          - copy
+          description: The action that created this file version
+          example: upload
+        uploadTimestamp:
+          type: integer
+          description: Milliseconds since midnight, January 1, 1970 UTC
+          example: 1660000000000
+    ListPartsRequest:
+      title: ListPartsRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        startPartNumber:
+          type: integer
+          description: Start listing from this part number
+        maxPartCount:
+          type: integer
+          description: Maximum number of parts to return
+    CancelLargeFileResponse:
+      title: CancelLargeFileResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        accountId:
+          type: string
+          example: abc123def456
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+  securitySchemes:
+    ApplicationKeyAuth:
+      type: http
+      scheme: bearer
+      description: Authorization token obtained from b2_authorize_account
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic auth using applicationKeyId as username and applicationKey as password
