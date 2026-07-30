@@ -1,32 +1,6 @@
 aid: backblaze
 url: https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/apis.yml
 apis:
-- aid: backblaze:backblaze-b2-cloud-storage-api
-  name: Backblaze B2 Cloud Storage API
-  tags:
-  - Cloud Storage
-  - Object Storage
-  - Storage
-  humanURL: https://www.backblaze.com/b2/cloud-storage.html
-  properties:
-  - type: Documentation
-    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
-  - type: GettingStarted
-    url: https://www.backblaze.com/docs/cloud-storage-native-api
-  - type: OpenAPI
-    url: openapi/backblaze-b2-native-api.yaml
-  - type: Overlay
-    url: overlays/backblaze-b2-native-api-overlay.yaml
-  - type: MCPServer
-    url: mcp/backblaze-mcp.yml
-  - type: ErrorCatalog
-    url: errors/backblaze-problem-types.yml
-  - type: DataModel
-    url: data-model/backblaze-data-model.yml
-  description: The Backblaze B2 Native API provides programmatic access to all B2 Cloud Storage functions including account
-    authorization, bucket management, file upload and download, large file multi-part uploads, application key management,
-    lifecycle rules, replication, and event notifications. Uses HTTP Basic authentication to obtain authorization tokens for
-    subsequent API calls. API v4 is the current stable version.
 - aid: backblaze:backblaze-s3-compatible-api
   name: Backblaze S3-Compatible API
   tags:
@@ -39,9 +13,112 @@ apis:
     url: https://www.backblaze.com/apidocs/introduction-to-the-s3-compatible-api
   - type: APIReference
     url: https://www.backblaze.com/docs/cloud-storage-call-the-s3-compatible-api
-  description: The Backblaze S3-Compatible API allows existing applications built for Amazon S3 to work with Backblaze B2
-    Cloud Storage with minimal code changes. Supports S3 authentication (AWS Signature V4) and S3 API operations for bucket
-    and object management. Endpoint URLs follow the pattern s3.<region>.backblazeb2.com.
+  description: >-
+    The Backblaze S3-Compatible API allows existing applications built for Amazon S3 to work with Backblaze
+    B2 Cloud Storage with minimal code changes. Supports S3 authentication (AWS Signature V4) and S3 API
+    operations for bucket and object management. Endpoint URLs follow the pattern s3.<region>.backblazeb2.com.
+- aid: backblaze:backblaze-application-keys-api
+  name: Backblaze Application Keys API
+  description: Create and manage application keys for access control
+  humanURL: https://www.backblaze.com/b2/cloud-storage.html
+  tags:
+  - Application Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/backblaze-application-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
+- aid: backblaze:backblaze-authorization-api
+  name: Backblaze Authorization API
+  description: Account authorization and token management
+  humanURL: https://www.backblaze.com/b2/cloud-storage.html
+  tags:
+  - Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/backblaze-authorization-api-openapi.yml
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
+- aid: backblaze:backblaze-buckets-api
+  name: Backblaze Buckets API
+  description: Bucket creation, management, and configuration
+  humanURL: https://www.backblaze.com/b2/cloud-storage.html
+  tags:
+  - Buckets
+  properties:
+  - type: OpenAPI
+    url: openapi/backblaze-buckets-api-openapi.yml
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
+- aid: backblaze:backblaze-files-api
+  name: Backblaze Files API
+  description: File upload, download, listing, deletion, and metadata
+  humanURL: https://www.backblaze.com/b2/cloud-storage.html
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/backblaze-files-api-openapi.yml
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
+- aid: backblaze:backblaze-large-files-api
+  name: Backblaze Large Files API
+  description: Multi-part upload for large files
+  humanURL: https://www.backblaze.com/b2/cloud-storage.html
+  tags:
+  - Large Files
+  properties:
+  - type: OpenAPI
+    url: openapi/backblaze-large-files-api-openapi.yml
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
+- aid: backblaze:backblaze-notifications-api
+  name: Backblaze Notifications API
+  description: Bucket event notification configuration
+  humanURL: https://www.backblaze.com/b2/cloud-storage.html
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/backblaze-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api
+  - type: GettingStarted
+    url: https://www.backblaze.com/docs/cloud-storage-native-api
+  - type: ErrorCatalog
+    url: errors/backblaze-problem-types.yml
+  - type: DataModel
+    url: data-model/backblaze-data-model.yml
 name: Backblaze
 tags:
 - Cloud Storage
@@ -49,7 +126,20 @@ tags:
 - Storage
 - Backup
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/backblaze.png
 access: 3rd-Party
 common:
   - type: AgenticAccess
