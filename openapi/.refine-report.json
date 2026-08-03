@@ -1,0 +1,24 @@
+{
+  "provider": "backblaze",
+  "sources": [
+    "backblaze-application-keys-api-openapi.yml",
+    "backblaze-authorization-api-openapi.yml",
+    "backblaze-buckets-api-openapi.yml",
+    "backblaze-files-api-openapi.yml",
+    "backblaze-large-files-api-openapi.yml",
+    "backblaze-notifications-api-openapi.yml"
+  ],
+  "outputs": [
+    "backblaze-application-keys-api-openapi.yml",
+    "backblaze-authorization-api-openapi.yml",
+    "backblaze-buckets-api-openapi.yml",
+    "backblaze-files-api-openapi.yml",
+    "backblaze-large-files-api-openapi.yml",
+    "backblaze-notifications-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
