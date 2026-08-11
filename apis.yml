@@ -142,6 +142,16 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/backblaze.png
 access: 3rd-Party
 common:
+  - type: MCPServer
+    url: mcp/backblaze-mcp.yml
+  - type: Overlay
+    url: overlays/backblaze-b2-native-api-overlay.yaml
+  - type: IssueTracker
+    url: https://github.com/Backblaze/b2-sdk-python/issues
+  - type: Releases
+    url: https://github.com/Backblaze/b2-sdk-python/releases
+  - type: ContributionGuide
+    url: https://github.com/Backblaze/b2-sdk-python/blob/master/CONTRIBUTING.md
   - type: AgenticAccess
     url: agentic-access/backblaze-agentic-access.yml
   - type: DomainSecurity
