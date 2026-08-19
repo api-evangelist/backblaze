@@ -1,0 +1,353 @@
+{
+  "item": [
+    {
+      "id": "824ac1d5-b76c-4e10-a8b7-fdc90f417cbe",
+      "name": "Notifications",
+      "description": {
+        "content": "Bucket event notification configuration",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1d7921d9-ef1b-4946-84d0-52a5f4d8bfab",
+          "name": "Backblaze B2 Native API Get Bucket Notification Rules",
+          "request": {
+            "name": "Backblaze B2 Native API Get Bucket Notification Rules",
+            "description": {
+              "content": "Returns the notification rules for a bucket.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_get_bucket_notification_rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f4fdf7dd-17ab-42c1-aa9f-ca2f77007be7",
+              "name": "Bucket notification rules",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_bucket_notification_rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"rules\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c23df177-6bf8-4f3d-9944-295211c6b439",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_bucket_notification_rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5370db4c-4338-4229-a158-d921d8f3ca09",
+          "name": "Backblaze B2 Native API Set Bucket Notification Rules",
+          "request": {
+            "name": "Backblaze B2 Native API Set Bucket Notification Rules",
+            "description": {
+              "content": "Sets the notification rules for a bucket. Replaces all existing notification rules.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_set_bucket_notification_rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"rules\": [\n    {\n      \"name\": \"<string>\",\n      \"eventTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"isEnabled\": \"<boolean>\",\n      \"targetConfiguration\": {\n        \"targetType\": \"<string>\",\n        \"url\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"eventTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"isEnabled\": \"<boolean>\",\n      \"targetConfiguration\": {\n        \"targetType\": \"<string>\",\n        \"url\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "de88638f-4b1d-474b-ad40-bb396d677bd8",
+              "name": "Notification rules set",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_set_bucket_notification_rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"rules\": [\n    {\n      \"name\": \"my-notification\",\n      \"eventTypes\": [\n        \"b2:ObjectCreated:Upload\"\n      ],\n      \"isEnabled\": true,\n      \"targetConfiguration\": {\n        \"targetType\": \"url\",\n        \"url\": \"https://my-app.example.com/webhooks/b2\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"rules\": [\n    {\n      \"name\": \"my-notification\",\n      \"eventTypes\": [\n        \"b2:ObjectCreated:Upload\"\n      ],\n      \"isEnabled\": true,\n      \"targetConfiguration\": {\n        \"targetType\": \"url\",\n        \"url\": \"https://my-app.example.com/webhooks/b2\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0411497-42d8-40b8-9024-e55e38148b28",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_set_bucket_notification_rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"rules\": [\n    {\n      \"name\": \"my-notification\",\n      \"eventTypes\": [\n        \"b2:ObjectCreated:Upload\"\n      ],\n      \"isEnabled\": true,\n      \"targetConfiguration\": {\n        \"targetType\": \"url\",\n        \"url\": \"https://my-app.example.com/webhooks/b2\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.backblazeb2.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "20918211-7e48-442c-a8a6-fb0fe116ca1e",
+    "name": "Backblaze B2 Native Application Keys Notifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.\n\nContact Support:\n Name: Backblaze Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

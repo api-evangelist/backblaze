@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Backblaze B2 Native Application Keys Buckets API",
+    "version": "v4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Buckets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Create Bucket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_create_bucket",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new bucket. A bucket must be globally unique across all of Backblaze B2 or the request will fail."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Delete Bucket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_delete_bucket",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes the bucket specified. Only buckets that contain no version of any files can be deleted."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API List Buckets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_list_buckets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists buckets associated with an account, in alphabetical order by bucket name."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Update Bucket",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_update_bucket",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing bucket. Can be used to change the bucket type, bucket info, CORS rules, and lifecycle rules."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

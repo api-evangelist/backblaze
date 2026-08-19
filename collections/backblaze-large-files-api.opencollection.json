@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Backblaze B2 Native Application Keys Large Files API",
+    "version": "v4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Large Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Start Large File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_start_large_file",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Prepares for uploading the parts of a large file. Files over 100MB must be uploaded in parts. Returns a fileId that is used when uploading parts of this file, finishing this file, and canceling this file."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Get Upload Part URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_get_upload_part_url",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets an URL to use for uploading parts of a large file."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Finish Large File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_finish_large_file",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts the parts that have been uploaded into a single B2 file."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Cancel Large File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_cancel_large_file",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels a large file upload and deletes all of the parts that have been uploaded."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API List Parts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_list_parts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists the parts that have been uploaded for a large file, in order of part number."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API List Unfinished Large Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_list_unfinished_large_files",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists information about large file uploads that have been started but not finished or cancelled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

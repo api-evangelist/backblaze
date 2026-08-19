@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Backblaze B2 Native Application Keys API",
+    "version": "v4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Application Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Create Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_create_key",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new application key. The key returned by this API can only be used to access the account that created it."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Delete Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_delete_key",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes the application key specified."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API List Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_list_keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lists application keys associated with an account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Backblaze B2 Native Application Keys Notifications API",
+    "version": "v4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Get Bucket Notification Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_get_bucket_notification_rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the notification rules for a bucket."
+        },
+        {
+          "info": {
+            "name": "Backblaze B2 Native API Set Bucket Notification Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.backblazeb2.com/b2api/v4/b2_set_bucket_notification_rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the notification rules for a bucket. Replaces all existing notification rules."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

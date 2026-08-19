@@ -1,0 +1,1889 @@
+{
+  "item": [
+    {
+      "id": "c3fed230-2c85-4ccc-b67c-b98e68e70abb",
+      "name": "Files",
+      "description": {
+        "content": "File upload, download, listing, deletion, and metadata",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3d2f75d4-1195-4419-8969-8a5060829430",
+          "name": "Backblaze B2 Native API Get Upload URL",
+          "request": {
+            "name": "Backblaze B2 Native API Get Upload URL",
+            "description": {
+              "content": "Gets a URL for uploading a single file to a bucket. The URL returned is specific to the bucket and can only be used to upload to that bucket.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_get_upload_url"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "679dee4d-e1bb-4aa6-827c-84ad8160873d",
+              "name": "Upload URL details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_upload_url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"uploadUrl\": \"https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_file\",\n  \"authorizationToken\": \"3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dbde77af-3bfe-428f-939b-a0dca72c97bf",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_upload_url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3f5c961-7a92-43f0-9e55-a84a0e754b98",
+          "name": "Backblaze B2 Native API Upload File",
+          "request": {
+            "name": "Backblaze B2 Native API Upload File",
+            "description": {
+              "content": "Uploads one file to B2, returning its unique file ID. The file data is the request body. Before calling this function, b2_get_upload_url must be called to get the URL and authorization token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_upload_file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) URL-encoded name of the file",
+                "key": "X-Bz-File-Name",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Length of the file in bytes",
+                "key": "Content-Length",
+                "value": "<integer>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) SHA1 checksum of the file content",
+                "key": "X-Bz-Content-Sha1",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/octet-stream"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "file"
+            }
+          },
+          "response": [
+            {
+              "id": "f2c1b3e6-80e4-43c0-87d5-8ecd355789d4",
+              "name": "File uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_upload_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Upload authorization token from b2_get_upload_url",
+                    "key": "Authorization",
+                    "value": "3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) URL-encoded name of the file",
+                    "key": "X-Bz-File-Name",
+                    "value": "photos%2Fimage.jpg"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) MIME type of the file",
+                    "key": "Content-Type",
+                    "value": "image/jpeg"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Length of the file in bytes",
+                    "key": "Content-Length",
+                    "value": "102400"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) SHA1 checksum of the file content",
+                    "key": "X-Bz-Content-Sha1",
+                    "value": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\",\n  \"fileName\": \"photos/image.jpg\",\n  \"accountId\": \"abc123def456\",\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"contentLength\": 102400,\n  \"contentSha1\": \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\",\n  \"contentType\": \"image/jpeg\",\n  \"fileInfo\": {},\n  \"uploadTimestamp\": 1660000000000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3b7fbdd-627b-4630-8dea-616d98bf5030",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_upload_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Upload authorization token from b2_get_upload_url",
+                    "key": "Authorization",
+                    "value": "3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) URL-encoded name of the file",
+                    "key": "X-Bz-File-Name",
+                    "value": "photos%2Fimage.jpg"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) MIME type of the file",
+                    "key": "Content-Type",
+                    "value": "image/jpeg"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Length of the file in bytes",
+                    "key": "Content-Length",
+                    "value": "102400"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) SHA1 checksum of the file content",
+                    "key": "X-Bz-Content-Sha1",
+                    "value": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed11c9cc-baa8-4fd9-b020-f4cd9a658a90",
+          "name": "Backblaze B2 Native API Download File by ID",
+          "request": {
+            "name": "Backblaze B2 Native API Download File by ID",
+            "description": {
+              "content": "Downloads one file by its file ID. Can be used to download a specific version of a file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_download_file_by_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fileId",
+                  "value": "<string>",
+                  "description": "(Required) The unique file ID to download"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d665906a-3a64-4dea-a328-4f0954f311ad",
+              "name": "File content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_download_file_by_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileId",
+                      "value": "4_h4a48fe8875c6214145260818"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e2f3fd48-5696-4270-bcb3-daad7a5f111f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_download_file_by_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileId",
+                      "value": "4_h4a48fe8875c6214145260818"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfcb075e-7d6f-4d4c-8f59-0e6c0f676af9",
+              "name": "File not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_download_file_by_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileId",
+                      "value": "4_h4a48fe8875c6214145260818"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0cc0decf-2e1e-4b06-91b6-b2a29fe8df2f",
+          "name": "Backblaze B2 Native API Download File by Name",
+          "request": {
+            "name": "Backblaze B2 Native API Download File by Name",
+            "description": {
+              "content": "Downloads one file from a public or private bucket by name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_download_file_by_name",
+                ":bucketName",
+                ":fileName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "bucketName",
+                  "description": "(Required) Name of the bucket containing the file"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "fileName",
+                  "description": "(Required) Full name of the file including any prefix"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ebd4714-a604-49de-ac41-412983abad8c",
+              "name": "File content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_download_file_by_name",
+                    ":bucketName",
+                    ":fileName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bucketName",
+                      "description": "(Required) Name of the bucket containing the file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fileName",
+                      "description": "(Required) Full name of the file including any prefix"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91bcf8d5-ae55-44dc-910b-b167c53f52c2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_download_file_by_name",
+                    ":bucketName",
+                    ":fileName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bucketName",
+                      "description": "(Required) Name of the bucket containing the file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fileName",
+                      "description": "(Required) Full name of the file including any prefix"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a18f93e-f0bc-4df7-8b40-24a799a7b751",
+              "name": "File not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_download_file_by_name",
+                    ":bucketName",
+                    ":fileName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "bucketName",
+                      "description": "(Required) Name of the bucket containing the file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "fileName",
+                      "description": "(Required) Full name of the file including any prefix"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40a963f7-72ef-406e-bce9-8a9a042ae44b",
+          "name": "Backblaze B2 Native API Get File Info",
+          "request": {
+            "name": "Backblaze B2 Native API Get File Info",
+            "description": {
+              "content": "Gets information about one file stored in B2.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_get_file_info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "28f50c66-6338-4e6b-903f-f5314a28339b",
+              "name": "File information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_file_info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\",\n  \"fileName\": \"photos/image.jpg\",\n  \"accountId\": \"abc123def456\",\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"contentLength\": 102400,\n  \"contentSha1\": \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\",\n  \"contentType\": \"image/jpeg\",\n  \"fileInfo\": {},\n  \"uploadTimestamp\": 1660000000000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "760c7e8f-f87b-4183-a022-0d7e052792a3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_file_info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e11fa45f-c580-4ea0-8209-f8772e3f063b",
+              "name": "File not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_file_info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec1d0759-a8f2-44a1-8b4b-a6a7fe43be16",
+          "name": "Backblaze B2 Native API Delete File Version",
+          "request": {
+            "name": "Backblaze B2 Native API Delete File Version",
+            "description": {
+              "content": "Deletes one version of a file from B2. If the version you delete is the latest version, and there are older versions, then the most recent older version will become the current version of the file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_delete_file_version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileName\": \"<string>\",\n  \"fileId\": \"<string>\",\n  \"bypassGovernance\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1dc0e13b-63fc-4c9c-883a-f171491824c2",
+              "name": "File version deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_delete_file_version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileName\": \"photos/image.jpg\",\n  \"fileId\": \"4_h4a48fe8875c6214145260818\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\",\n  \"fileName\": \"photos/image.jpg\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71720ee2-f08b-4eec-b8f4-b4a4b2bc3960",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_delete_file_version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileName\": \"photos/image.jpg\",\n  \"fileId\": \"4_h4a48fe8875c6214145260818\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1681a117-7b6f-41df-94d6-dc5bb4c8ccbb",
+              "name": "File not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_delete_file_version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileName\": \"photos/image.jpg\",\n  \"fileId\": \"4_h4a48fe8875c6214145260818\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "afec1e2c-00fb-4f40-b411-0e15f40195b5",
+          "name": "Backblaze B2 Native API List File Names",
+          "request": {
+            "name": "Backblaze B2 Native API List File Names",
+            "description": {
+              "content": "Lists the names of all files in a bucket, starting at a given name. Returns at most 1000 file names, but it can be set to return fewer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_list_file_names"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"startFileName\": \"<string>\",\n  \"maxFileCount\": \"<integer>\",\n  \"prefix\": \"<string>\",\n  \"delimiter\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2f9b0c29-423a-4f9f-b518-e39baa9ad0bb",
+              "name": "List of file names",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_file_names"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"maxFileCount\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"files\": [\n    {\n      \"fileId\": \"4_h4a48fe8875c6214145260818\",\n      \"fileName\": \"photos/image.jpg\",\n      \"contentLength\": 102400,\n      \"contentType\": \"image/jpeg\",\n      \"uploadTimestamp\": 1660000000000\n    }\n  ],\n  \"nextFileName\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9555d81-c56b-4504-891c-1c3af6fd05ed",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_file_names"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"maxFileCount\": 100\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "699627f1-10dc-4d32-b6e8-361db0aa65b5",
+          "name": "Backblaze B2 Native API List File Versions",
+          "request": {
+            "name": "Backblaze B2 Native API List File Versions",
+            "description": {
+              "content": "Lists all of the versions of all of the files contained in one bucket, in alphabetical order by file name, and by reverse of date/time uploaded for versions of files with the same name.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_list_file_versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"startFileName\": \"<string>\",\n  \"startFileId\": \"<string>\",\n  \"maxFileCount\": \"<integer>\",\n  \"prefix\": \"<string>\",\n  \"delimiter\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ec41903d-6249-418c-a523-9c9f6aa74a2a",
+              "name": "List of file versions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_file_versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"files\": [\n    {\n      \"fileId\": \"4_h4a48fe8875c6214145260818\",\n      \"fileName\": \"photos/image.jpg\",\n      \"action\": \"upload\",\n      \"contentLength\": 102400,\n      \"contentType\": \"image/jpeg\",\n      \"uploadTimestamp\": 1660000000000\n    }\n  ],\n  \"nextFileName\": null,\n  \"nextFileId\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ac1df5e-f0fc-4de6-b04e-4385034ae5ec",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_file_versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d46e3d8f-2f23-4329-9ab9-862f26ab8e46",
+          "name": "Backblaze B2 Native API Copy File",
+          "request": {
+            "name": "Backblaze B2 Native API Copy File",
+            "description": {
+              "content": "Creates a new file by copying from an existing file. It copies the source file's contents and optionally overrides some of the source file's metadata.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_copy_file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceFileId\": \"<string>\",\n  \"fileName\": \"<string>\",\n  \"destinationBucketId\": \"<string>\",\n  \"range\": \"<string>\",\n  \"metadataDirective\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8c312a9b-ac49-4c80-ae20-6713fee8449a",
+              "name": "File copied successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_copy_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceFileId\": \"4_h4a48fe8875c6214145260818\",\n  \"fileName\": \"photos/image-copy.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_z71c4725f4f4a14a14a14a14a\",\n  \"fileName\": \"photos/image-copy.jpg\",\n  \"accountId\": \"abc123def456\",\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"contentLength\": 102400,\n  \"contentSha1\": \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\",\n  \"contentType\": \"image/jpeg\",\n  \"fileInfo\": {},\n  \"uploadTimestamp\": 1660500000000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f01ab99b-fcc6-4133-84c1-bb46b49a0450",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_copy_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sourceFileId\": \"4_h4a48fe8875c6214145260818\",\n  \"fileName\": \"photos/image-copy.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e03e790-469c-43b7-8650-a26627d02f3c",
+          "name": "Backblaze B2 Native API Hide File",
+          "request": {
+            "name": "Backblaze B2 Native API Hide File",
+            "description": {
+              "content": "Hides a file so that downloading by name will not find the file, but previous versions of the file are still stored. Can be used to effectively delete a file if versioning is enabled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_hide_file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"fileName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8beee19b-9d50-4aee-acf4-b3cdde49d30a",
+              "name": "File hidden successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_hide_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileName\": \"photos/image.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_h4a48fe8875c6214145260818\",\n  \"fileName\": \"photos/image.jpg\",\n  \"action\": \"hide\",\n  \"contentLength\": 0,\n  \"uploadTimestamp\": 1660500000000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a81f88b8-f4f4-49e4-aa0d-cd67feb3c76b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_hide_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileName\": \"photos/image.jpg\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.backblazeb2.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "555ee2d0-b5c8-4c35-b42e-f7466624139c",
+    "name": "Backblaze B2 Native Application Keys Files API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.\n\nContact Support:\n Name: Backblaze Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

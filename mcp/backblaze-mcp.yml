@@ -2,103 +2,106 @@ generated: '2026-06-20'
 method: derived
 status: candidate
 source: openapi/backblaze-b2-native-api.yaml
-description: >-
-  Backblaze does not operate an official hosted/remote MCP server. Several
-  community MCP servers wrap B2 (e.g. BraveRam/backblaze-mcp on Glama, a
-  Pipedream connector), but none are first-party. This is a DERIVED candidate
-  tool list — one tool per B2 Native API operation — provided as a starting
-  point for exposing B2 to AI agents. Bind auth (b2_authorize_account token) and
-  review consequence classes in agentic-access/backblaze-agentic-access.yml
-  before deploying.
+description: Backblaze does not operate an official hosted/remote MCP server. Several community MCP servers
+  wrap B2 (e.g. BraveRam/backblaze-mcp on Glama, a Pipedream connector), but none are first-party. This
+  is a DERIVED candidate tool list — one tool per B2 Native API operation — provided as a starting point
+  for exposing B2 to AI agents. Bind auth (b2_authorize_account token) and review consequence classes
+  in agentic-access/backblaze-agentic-access.yml before deploying.
 server:
   name: backblaze-b2
   transport: stdio
 community_servers:
-  - name: backblaze-mcp (BraveRam)
-    url: https://glama.ai/mcp/servers/@BraveRam/backblaze-mcp
-    official: false
-  - name: Backblaze (Pipedream)
-    url: https://mcp.pipedream.com/app/backblaze
-    official: false
+- name: backblaze-mcp (BraveRam)
+  url: https://glama.ai/mcp/servers/@BraveRam/backblaze-mcp
+  official: false
+- name: Backblaze (Pipedream)
+  url: https://mcp.pipedream.com/app/backblaze
+  official: false
 tools:
-  - name: authorize_account
-    description: Log in to B2 and obtain an authorization token and API base URL.
-    source_operation: openapi/backblaze-b2-native-api.yaml#authorizeAccount
-  - name: create_bucket
-    description: Create a new bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#createBucket
-  - name: delete_bucket
-    description: Delete an existing bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#deleteBucket
-  - name: list_buckets
-    description: List buckets in the account.
-    source_operation: openapi/backblaze-b2-native-api.yaml#listBuckets
-  - name: update_bucket
-    description: Update bucket settings (type, lifecycle rules, CORS, encryption).
-    source_operation: openapi/backblaze-b2-native-api.yaml#updateBucket
-  - name: get_upload_url
-    description: Get a URL and token for uploading a file to a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#getUploadUrl
-  - name: upload_file
-    description: Upload a file to a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#uploadFile
-  - name: download_file_by_id
-    description: Download a file by its file ID.
-    source_operation: openapi/backblaze-b2-native-api.yaml#downloadFileById
-  - name: download_file_by_name
-    description: Download a file by bucket and file name.
-    source_operation: openapi/backblaze-b2-native-api.yaml#downloadFileByName
-  - name: get_file_info
-    description: Retrieve metadata about a file version.
-    source_operation: openapi/backblaze-b2-native-api.yaml#getFileInfo
-  - name: delete_file_version
-    description: Delete a specific version of a file.
-    source_operation: openapi/backblaze-b2-native-api.yaml#deleteFileVersion
-  - name: list_file_names
-    description: List file names in a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#listFileNames
-  - name: list_file_versions
-    description: List all versions of files in a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#listFileVersions
-  - name: copy_file
-    description: Server-side copy a file into a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#copyFile
-  - name: hide_file
-    description: Hide a file so it does not show in file-name listings.
-    source_operation: openapi/backblaze-b2-native-api.yaml#hideFile
-  - name: get_download_authorization
-    description: Mint a prefix-scoped download authorization token for private files.
-    source_operation: openapi/backblaze-b2-native-api.yaml#getDownloadAuthorization
-  - name: start_large_file
-    description: Begin a multi-part large-file upload.
-    source_operation: openapi/backblaze-b2-native-api.yaml#startLargeFile
-  - name: get_upload_part_url
-    description: Get a URL for uploading one part of a large file.
-    source_operation: openapi/backblaze-b2-native-api.yaml#getUploadPartUrl
-  - name: finish_large_file
-    description: Finish a large file by assembling its uploaded parts.
-    source_operation: openapi/backblaze-b2-native-api.yaml#finishLargeFile
-  - name: cancel_large_file
-    description: Cancel an unfinished large-file upload.
-    source_operation: openapi/backblaze-b2-native-api.yaml#cancelLargeFile
-  - name: list_parts
-    description: List the parts uploaded for a large file.
-    source_operation: openapi/backblaze-b2-native-api.yaml#listParts
-  - name: list_unfinished_large_files
-    description: List large files that have been started but not finished.
-    source_operation: openapi/backblaze-b2-native-api.yaml#listUnfinishedLargeFiles
-  - name: create_key
-    description: Create a capability-scoped application key.
-    source_operation: openapi/backblaze-b2-native-api.yaml#createKey
-  - name: delete_key
-    description: Delete an application key.
-    source_operation: openapi/backblaze-b2-native-api.yaml#deleteKey
-  - name: list_keys
-    description: List application keys in the account.
-    source_operation: openapi/backblaze-b2-native-api.yaml#listKeys
-  - name: get_bucket_notification_rules
-    description: Read the event-notification rules for a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#getBucketNotificationRules
-  - name: set_bucket_notification_rules
-    description: Set the event-notification rules for a bucket.
-    source_operation: openapi/backblaze-b2-native-api.yaml#setBucketNotificationRules
+- name: authorize_account
+  description: Log in to B2 and obtain an authorization token and API base URL.
+  source_operation: openapi/backblaze-b2-native-api.yaml#authorizeAccount
+- name: create_bucket
+  description: Create a new bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#createBucket
+- name: delete_bucket
+  description: Delete an existing bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#deleteBucket
+- name: list_buckets
+  description: List buckets in the account.
+  source_operation: openapi/backblaze-b2-native-api.yaml#listBuckets
+- name: update_bucket
+  description: Update bucket settings (type, lifecycle rules, CORS, encryption).
+  source_operation: openapi/backblaze-b2-native-api.yaml#updateBucket
+- name: get_upload_url
+  description: Get a URL and token for uploading a file to a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#getUploadUrl
+- name: upload_file
+  description: Upload a file to a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#uploadFile
+- name: download_file_by_id
+  description: Download a file by its file ID.
+  source_operation: openapi/backblaze-b2-native-api.yaml#downloadFileById
+- name: download_file_by_name
+  description: Download a file by bucket and file name.
+  source_operation: openapi/backblaze-b2-native-api.yaml#downloadFileByName
+- name: get_file_info
+  description: Retrieve metadata about a file version.
+  source_operation: openapi/backblaze-b2-native-api.yaml#getFileInfo
+- name: delete_file_version
+  description: Delete a specific version of a file.
+  source_operation: openapi/backblaze-b2-native-api.yaml#deleteFileVersion
+- name: list_file_names
+  description: List file names in a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#listFileNames
+- name: list_file_versions
+  description: List all versions of files in a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#listFileVersions
+- name: copy_file
+  description: Server-side copy a file into a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#copyFile
+- name: hide_file
+  description: Hide a file so it does not show in file-name listings.
+  source_operation: openapi/backblaze-b2-native-api.yaml#hideFile
+- name: get_download_authorization
+  description: Mint a prefix-scoped download authorization token for private files.
+  source_operation: openapi/backblaze-b2-native-api.yaml#getDownloadAuthorization
+- name: start_large_file
+  description: Begin a multi-part large-file upload.
+  source_operation: openapi/backblaze-b2-native-api.yaml#startLargeFile
+- name: get_upload_part_url
+  description: Get a URL for uploading one part of a large file.
+  source_operation: openapi/backblaze-b2-native-api.yaml#getUploadPartUrl
+- name: finish_large_file
+  description: Finish a large file by assembling its uploaded parts.
+  source_operation: openapi/backblaze-b2-native-api.yaml#finishLargeFile
+- name: cancel_large_file
+  description: Cancel an unfinished large-file upload.
+  source_operation: openapi/backblaze-b2-native-api.yaml#cancelLargeFile
+- name: list_parts
+  description: List the parts uploaded for a large file.
+  source_operation: openapi/backblaze-b2-native-api.yaml#listParts
+- name: list_unfinished_large_files
+  description: List large files that have been started but not finished.
+  source_operation: openapi/backblaze-b2-native-api.yaml#listUnfinishedLargeFiles
+- name: create_key
+  description: Create a capability-scoped application key.
+  source_operation: openapi/backblaze-b2-native-api.yaml#createKey
+- name: delete_key
+  description: Delete an application key.
+  source_operation: openapi/backblaze-b2-native-api.yaml#deleteKey
+- name: list_keys
+  description: List application keys in the account.
+  source_operation: openapi/backblaze-b2-native-api.yaml#listKeys
+- name: get_bucket_notification_rules
+  description: Read the event-notification rules for a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#getBucketNotificationRules
+- name: set_bucket_notification_rules
+  description: Set the event-notification rules for a bucket.
+  source_operation: openapi/backblaze-b2-native-api.yaml#setBucketNotificationRules
+deployment:
+  mode: none
+  verified: derived
+  tools: 27
+  checked: '2026-08-12'
+  source: catalog MCP census

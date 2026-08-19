@@ -1,0 +1,977 @@
+{
+  "item": [
+    {
+      "id": "b6ac6e9b-0de7-464d-b298-9eadc1ba69e7",
+      "name": "Large Files",
+      "description": {
+        "content": "Multi-part upload for large files",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "30644f55-826f-432b-8229-f90948604f13",
+          "name": "Backblaze B2 Native API Start Large File",
+          "request": {
+            "name": "Backblaze B2 Native API Start Large File",
+            "description": {
+              "content": "Prepares for uploading the parts of a large file. Files over 100MB must be uploaded in parts. Returns a fileId that is used when uploading parts of this file, finishing this file, and canceling this file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_start_large_file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"fileName\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileInfo\": \"<object>\",\n  \"serverSideEncryption\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "31cb6ad9-be80-4e74-af61-8260f0d024a1",
+              "name": "Large file started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_start_large_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileName\": \"videos/large-video.mp4\",\n  \"contentType\": \"video/mp4\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n  \"fileName\": \"videos/large-video.mp4\",\n  \"accountId\": \"abc123def456\",\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"contentType\": \"video/mp4\",\n  \"fileInfo\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d8ef9d7-bb3c-40bf-9253-f22fca41d273",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_start_large_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileName\": \"videos/large-video.mp4\",\n  \"contentType\": \"video/mp4\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a0f1ac09-19cc-4b13-b7ca-155ec1c0b6d2",
+          "name": "Backblaze B2 Native API Get Upload Part URL",
+          "request": {
+            "name": "Backblaze B2 Native API Get Upload Part URL",
+            "description": {
+              "content": "Gets an URL to use for uploading parts of a large file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_get_upload_part_url"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "76d7d5ee-0020-4e1c-b6f7-f478cb9a3cda",
+              "name": "Upload part URL",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_upload_part_url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n  \"uploadUrl\": \"https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part\",\n  \"authorizationToken\": \"3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3f74dfe-53cb-499f-9d7d-f52f9e02856b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_upload_part_url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2b303e6-b2ed-40a1-b183-07da0dc171b3",
+          "name": "Backblaze B2 Native API Finish Large File",
+          "request": {
+            "name": "Backblaze B2 Native API Finish Large File",
+            "description": {
+              "content": "Converts the parts that have been uploaded into a single B2 file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_finish_large_file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileId\": \"<string>\",\n  \"partSha1Array\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a958ce40-6b5e-4706-98c4-bc016a2e2a42",
+              "name": "Large file finished",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_finish_large_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n  \"partSha1Array\": [\n    \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\",\n    \"b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n  \"fileName\": \"videos/large-video.mp4\",\n  \"accountId\": \"abc123def456\",\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"contentLength\": 2048000000,\n  \"contentSha1\": \"none\",\n  \"contentType\": \"video/mp4\",\n  \"fileInfo\": {},\n  \"uploadTimestamp\": 1660600000000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de02c5c3-cca8-4beb-bcf2-21636a3db2fa",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_finish_large_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n  \"partSha1Array\": [\n    \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\",\n    \"b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "541b4589-c735-435d-b90c-322566016838",
+          "name": "Backblaze B2 Native API Cancel Large File",
+          "request": {
+            "name": "Backblaze B2 Native API Cancel Large File",
+            "description": {
+              "content": "Cancels a large file upload and deletes all of the parts that have been uploaded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_cancel_large_file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5b748198-5483-42a8-b8f2-f65acb981514",
+              "name": "Large file upload cancelled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_cancel_large_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n  \"accountId\": \"abc123def456\",\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileName\": \"videos/large-video.mp4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c53384ac-2ed0-4349-9793-91fb60b12d56",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_cancel_large_file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cecf1d3b-8d09-4edf-9429-a54f6dba0e43",
+          "name": "Backblaze B2 Native API List Parts",
+          "request": {
+            "name": "Backblaze B2 Native API List Parts",
+            "description": {
+              "content": "Lists the parts that have been uploaded for a large file, in order of part number.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_list_parts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileId\": \"<string>\",\n  \"startPartNumber\": \"<integer>\",\n  \"maxPartCount\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4adb002b-5c49-4085-bd22-7b65d63dc732",
+              "name": "List of parts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_parts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parts\": [\n    {\n      \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n      \"partNumber\": 1,\n      \"contentLength\": 100000000,\n      \"contentSha1\": \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\",\n      \"uploadTimestamp\": 1660500000000\n    }\n  ],\n  \"nextPartNumber\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c94e9ed-9ccd-484c-9c81-3a1b6870ad43",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_parts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "019f6834-60c9-4829-a7d3-0d74df811802",
+          "name": "Backblaze B2 Native API List Unfinished Large Files",
+          "request": {
+            "name": "Backblaze B2 Native API List Unfinished Large Files",
+            "description": {
+              "content": "Lists information about large file uploads that have been started but not finished or cancelled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_list_unfinished_large_files"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"namePrefix\": \"<string>\",\n  \"startFileId\": \"<string>\",\n  \"maxFileCount\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3d8a6c21-7008-41f2-89bf-d99d961a0d61",
+              "name": "List of unfinished large files",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_unfinished_large_files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"files\": [\n    {\n      \"fileId\": \"4_za71c4725f4f4a14a14a14a14a\",\n      \"fileName\": \"videos/large-video.mp4\",\n      \"accountId\": \"abc123def456\",\n      \"bucketId\": \"e73ede9969c64355ef8b\",\n      \"contentType\": \"video/mp4\",\n      \"uploadTimestamp\": 1660500000000\n    }\n  ],\n  \"nextFileId\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d75b3bb7-a93e-4b9b-b78c-012b44c81596",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_list_unfinished_large_files"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.backblazeb2.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f82fee83-f3cc-40bb-b693-b76ca403a417",
+    "name": "Backblaze B2 Native Application Keys Large Files API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.\n\nContact Support:\n Name: Backblaze Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

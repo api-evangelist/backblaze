@@ -1,0 +1,336 @@
+{
+  "item": [
+    {
+      "id": "2e996235-ccd8-4231-af36-2a6eb85c8411",
+      "name": "Authorization",
+      "description": {
+        "content": "Account authorization and token management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "08b8f0bf-d2ae-4fa8-9070-2d84fe27198e",
+          "name": "Backblaze B2 Native API Authorize Account",
+          "request": {
+            "name": "Backblaze B2 Native API Authorize Account",
+            "description": {
+              "content": "Used to log in to the B2 API. Returns an authorization token that can be used for account-level operations. The authorization token is valid for at most 24 hours. This endpoint uses HTTP Basic authentication with the application key ID as the username and the application key as the password.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_authorize_account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{basicAuthUsername}}"
+                },
+                {
+                  "key": "password",
+                  "value": "{{basicAuthPassword}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ce9ffd74-0d8e-4170-9d64-4be6a39ed9b3",
+              "name": "Successful authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_authorize_account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountId\": \"abc123def456\",\n  \"authorizationToken\": \"4_002acd2a08df7f8c0c4d21e9deef28c7\",\n  \"allowed\": {\n    \"capabilities\": [\n      \"listKeys\",\n      \"writeKeys\",\n      \"deleteKeys\",\n      \"listBuckets\",\n      \"readBuckets\",\n      \"writeBuckets\",\n      \"deleteBuckets\",\n      \"listFiles\",\n      \"readFiles\",\n      \"shareFiles\",\n      \"writeFiles\",\n      \"deleteFiles\"\n    ],\n    \"bucketId\": null,\n    \"bucketName\": null,\n    \"namePrefix\": null\n  },\n  \"apiInfo\": {\n    \"storageApi\": {\n      \"absoluteMinimumPartSize\": 5000000,\n      \"recommendedPartSize\": 100000000,\n      \"apiUrl\": \"https://api005.backblazeb2.com\",\n      \"downloadUrl\": \"https://f005.backblazeb2.com\",\n      \"s3ApiUrl\": \"https://s3.us-west-004.backblazeb2.com\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f718cc7f-d676-43fb-b6a8-e7e4ddbabbe7",
+              "name": "Unauthorized - invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_authorize_account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "586b044f-0b71-494d-ba70-93f2108581aa",
+          "name": "Backblaze B2 Native API Get Download Authorization",
+          "request": {
+            "name": "Backblaze B2 Native API Get Download Authorization",
+            "description": {
+              "content": "Used to generate an authorization token that can be used to download files with the specified prefix from a private bucket.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "b2api",
+                "v4",
+                "b2_get_download_authorization"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bucketId\": \"<string>\",\n  \"fileNamePrefix\": \"<string>\",\n  \"validDurationInSeconds\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5ffedaa2-a29c-4345-8447-b5483966a84c",
+              "name": "Download authorization token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_download_authorization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileNamePrefix\": \"photos/\",\n  \"validDurationInSeconds\": 3600\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileNamePrefix\": \"photos/\",\n  \"authorizationToken\": \"3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "616bbca6-bb25-4daf-a8b5-42649da14f8a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "b2api",
+                    "v4",
+                    "b2_get_download_authorization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bucketId\": \"e73ede9969c64355ef8b\",\n  \"fileNamePrefix\": \"photos/\",\n  \"validDurationInSeconds\": 3600\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 401,\n  \"code\": \"unauthorized\",\n  \"message\": \"Authorization token not valid\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.backblazeb2.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d54a1e30-8639-4126-82d6-c60fd2cf2822",
+    "name": "Backblaze B2 Native Application Keys Authorization API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.\n\nContact Support:\n Name: Backblaze Developer Support",
+      "type": "text/plain"
+    }
+  }
+}
