@@ -73,6 +73,8 @@ apis:
   description: File upload, download, listing, deletion, and metadata
   humanURL: https://www.backblaze.com/b2/cloud-storage.html
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
@@ -107,6 +109,8 @@ apis:
   description: Bucket event notification configuration
   humanURL: https://www.backblaze.com/b2/cloud-storage.html
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
