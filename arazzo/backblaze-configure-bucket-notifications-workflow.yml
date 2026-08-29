@@ -12,8 +12,11 @@ info:
     be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: backblazeB2
-  url: ../openapi/backblaze-b2-native-api.yaml
+- name: authorizationApi
+  url: ../openapi/backblaze-authorization-api-openapi.yml
+  type: openapi
+- name: notificationsApi
+  url: ../openapi/backblaze-notifications-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: configure-bucket-notifications

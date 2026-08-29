@@ -13,8 +13,14 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: backblazeB2
-  url: ../openapi/backblaze-b2-native-api.yaml
+- name: authorizationApi
+  url: ../openapi/backblaze-authorization-api-openapi.yml
+  type: openapi
+- name: bucketsApi
+  url: ../openapi/backblaze-buckets-api-openapi.yml
+  type: openapi
+- name: filesApi
+  url: ../openapi/backblaze-files-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: provision-bucket-and-upload

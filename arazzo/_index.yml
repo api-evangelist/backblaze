@@ -1,7 +1,7 @@
-generated: '2026-06-20'
-method: derived
-source: arazzo/*.yml
-description: >-
+x-generated: '2026-06-20'
+x-method: derived
+x-source: arazzo/*.yml
+x-description: >-
   Catalog of native Arazzo 1.0.1 workflows that stitch Backblaze B2 Native API
   operations into real multi-step use cases. One entry per workflow file.
 workflows:
