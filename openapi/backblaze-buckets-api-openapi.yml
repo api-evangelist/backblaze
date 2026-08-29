@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Backblaze B2 Native Application Keys Buckets API
   description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
@@ -231,6 +231,67 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ListBucketsResponse:
+      title: ListBucketsResponse
+      type: object
+      properties:
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bucket'
+    ListBucketsRequest:
+      title: ListBucketsRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: Filter to a specific bucket
+        bucketName:
+          type: string
+          description: Filter by bucket name
+        bucketTypes:
+          type: array
+          items:
+            type: string
+          description: Filter by bucket type
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    DeleteBucketRequest:
+      title: DeleteBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to delete
+          example: e73ede9969c64355ef8b
     UpdateBucketRequest:
       title: UpdateBucketRequest
       type: object
@@ -346,67 +407,6 @@ components:
           type: integer
           description: The number of times the bucket info has been modified
           example: 1
-    ListBucketsResponse:
-      title: ListBucketsResponse
-      type: object
-      properties:
-        buckets:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bucket'
-    ListBucketsRequest:
-      title: ListBucketsRequest
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: Filter to a specific bucket
-        bucketName:
-          type: string
-          description: Filter by bucket name
-        bucketTypes:
-          type: array
-          items:
-            type: string
-          description: Filter by bucket type
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
-    DeleteBucketRequest:
-      title: DeleteBucketRequest
-      type: object
-      required:
-      - accountId
-      - bucketId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: The ID of the bucket to delete
-          example: e73ede9969c64355ef8b
   securitySchemes:
     ApplicationKeyAuth:
       type: http

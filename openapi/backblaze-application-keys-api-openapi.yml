@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Backblaze B2 Native Application Keys API
   description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
@@ -173,86 +173,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
-    DeleteKeyRequest:
-      title: DeleteKeyRequest
-      type: object
-      required:
-      - applicationKeyId
-      properties:
-        applicationKeyId:
-          type: string
-          description: The ID of the key to delete
-          example: 0014a98f9d9e8d0000000001
-    ListKeysRequest:
-      title: ListKeysRequest
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          example: abc123def456
-        maxKeyCount:
-          type: integer
-          description: Maximum number of keys to return
-        startApplicationKeyId:
-          type: string
-          description: Start listing from this key ID
-    ApplicationKey:
-      title: ApplicationKey
-      type: object
-      description: A Backblaze B2 application key
-      properties:
-        keyName:
-          type: string
-          description: A name for this key
-          example: my-app-key
-        applicationKeyId:
-          type: string
-          description: The ID of the newly created key
-          example: 0014a98f9d9e8d0000000001
-        applicationKey:
-          type: string
-          description: The secret key - only returned at creation time
-          example: K0014a98f9d9e8d0000000001a9b2c3d4
-        accountId:
-          type: string
-          description: The account this key is associated with
-          example: abc123def456
-        capabilities:
-          type: array
-          items:
-            type: string
-          description: A list of capabilities this key has
-        expirationTimestamp:
-          type: integer
-          nullable: true
-          description: When this key expires, or null for no expiration
-        bucketId:
-          type: string
-          nullable: true
-          description: Restrict key to this bucket, or null for all buckets
-        namePrefix:
-          type: string
-          nullable: true
-          description: Restrict key to file names starting with this prefix
     CreateKeyRequest:
       title: CreateKeyRequest
       type: object
@@ -282,6 +202,89 @@ components:
         namePrefix:
           type: string
           description: Restrict key to files with this prefix
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    DeleteKeyRequest:
+      title: DeleteKeyRequest
+      type: object
+      required:
+      - applicationKeyId
+      properties:
+        applicationKeyId:
+          type: string
+          description: The ID of the key to delete
+          example: 0014a98f9d9e8d0000000001
+    ApplicationKey:
+      title: ApplicationKey
+      type: object
+      description: A Backblaze B2 application key
+      properties:
+        keyName:
+          type: string
+          description: A name for this key
+          example: my-app-key
+        applicationKeyId:
+          type: string
+          description: The ID of the newly created key
+          example: 0014a98f9d9e8d0000000001
+        applicationKey:
+          type: string
+          description: The secret key - only returned at creation time
+          example: K0014a98f9d9e8d0000000001a9b2c3d4
+        accountId:
+          type: string
+          description: The account this key is associated with
+          example: abc123def456
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of capabilities this key has
+        expirationTimestamp:
+          type:
+          - integer
+          - 'null'
+          description: When this key expires, or null for no expiration
+        bucketId:
+          type:
+          - string
+          - 'null'
+          description: Restrict key to this bucket, or null for all buckets
+        namePrefix:
+          type:
+          - string
+          - 'null'
+          description: Restrict key to file names starting with this prefix
+    ListKeysRequest:
+      title: ListKeysRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          example: abc123def456
+        maxKeyCount:
+          type: integer
+          description: Maximum number of keys to return
+        startApplicationKeyId:
+          type: string
+          description: Start listing from this key ID
     ListKeysResponse:
       title: ListKeysResponse
       type: object
@@ -291,8 +294,9 @@ components:
           items:
             $ref: '#/components/schemas/ApplicationKey'
         nextApplicationKeyId:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
   securitySchemes:
     ApplicationKeyAuth:
       type: http

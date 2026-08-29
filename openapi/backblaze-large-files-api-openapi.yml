@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Backblaze B2 Native Application Keys Large Files API
   description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
@@ -303,55 +303,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ListPartsResponse:
-      title: ListPartsResponse
-      type: object
-      properties:
-        parts:
-          type: array
-          items:
-            type: object
-            properties:
-              fileId:
-                type: string
-              partNumber:
-                type: integer
-              contentLength:
-                type: integer
-              contentSha1:
-                type: string
-              uploadTimestamp:
-                type: integer
-        nextPartNumber:
-          type: integer
-          nullable: true
-    FinishLargeFileRequest:
-      title: FinishLargeFileRequest
-      type: object
-      required:
-      - fileId
-      - partSha1Array
-      properties:
-        fileId:
-          type: string
-          description: The file ID from b2_start_large_file
-          example: 4_za71c4725f4f4a14a14a14a14a
-        partSha1Array:
-          type: array
-          items:
-            type: string
-          description: SHA1 checksums of each part in order
-    ListUnfinishedLargeFilesResponse:
-      title: ListUnfinishedLargeFilesResponse
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/FileInfo'
-        nextFileId:
-          type: string
-          nullable: true
     ListUnfinishedLargeFilesRequest:
       title: ListUnfinishedLargeFilesRequest
       type: object
@@ -367,61 +318,22 @@ components:
           type: string
         maxFileCount:
           type: integer
-    GetUploadPartUrlRequest:
-      title: GetUploadPartUrlRequest
+    CancelLargeFileResponse:
+      title: CancelLargeFileResponse
       type: object
-      required:
-      - fileId
-      properties:
-        fileId:
-          type: string
-          description: The file ID from b2_start_large_file
-          example: 4_za71c4725f4f4a14a14a14a14a
-    CancelLargeFileRequest:
-      title: CancelLargeFileRequest
-      type: object
-      required:
-      - fileId
       properties:
         fileId:
           type: string
           example: 4_za71c4725f4f4a14a14a14a14a
-    StartLargeFileRequest:
-      title: StartLargeFileRequest
-      type: object
-      required:
-      - bucketId
-      - fileName
-      - contentType
-      properties:
+        accountId:
+          type: string
+          example: abc123def456
         bucketId:
           type: string
           example: e73ede9969c64355ef8b
         fileName:
           type: string
           example: videos/large-video.mp4
-        contentType:
-          type: string
-          example: video/mp4
-        fileInfo:
-          type: object
-          description: Custom file info
-        serverSideEncryption:
-          type: object
-          description: Server side encryption settings
-    GetUploadPartUrlResponse:
-      title: GetUploadPartUrlResponse
-      type: object
-      properties:
-        fileId:
-          type: string
-          example: 4_za71c4725f4f4a14a14a14a14a
-        uploadUrl:
-          type: string
-          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
-        authorizationToken:
-          type: string
-          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
     FileInfo:
       title: FileInfo
       type: object
@@ -486,22 +398,6 @@ components:
         maxPartCount:
           type: integer
           description: Maximum number of parts to return
-    CancelLargeFileResponse:
-      title: CancelLargeFileResponse
-      type: object
-      properties:
-        fileId:
-          type: string
-          example: 4_za71c4725f4f4a14a14a14a14a
-        accountId:
-          type: string
-          example: abc123def456
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        fileName:
-          type: string
-          example: videos/large-video.mp4
     ErrorResponse:
       title: ErrorResponse
       type: object
@@ -519,6 +415,112 @@ components:
           type: string
           description: A human-readable message describing the error
           example: Authorization token not valid
+    ListUnfinishedLargeFilesResponse:
+      title: ListUnfinishedLargeFilesResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileId:
+          type:
+          - string
+          - 'null'
+    FinishLargeFileRequest:
+      title: FinishLargeFileRequest
+      type: object
+      required:
+      - fileId
+      - partSha1Array
+      properties:
+        fileId:
+          type: string
+          description: The file ID from b2_start_large_file
+          example: 4_za71c4725f4f4a14a14a14a14a
+        partSha1Array:
+          type: array
+          items:
+            type: string
+          description: SHA1 checksums of each part in order
+    ListPartsResponse:
+      title: ListPartsResponse
+      type: object
+      properties:
+        parts:
+          type: array
+          items:
+            type: object
+            properties:
+              fileId:
+                type: string
+              partNumber:
+                type: integer
+              contentLength:
+                type: integer
+              contentSha1:
+                type: string
+              uploadTimestamp:
+                type: integer
+        nextPartNumber:
+          type:
+          - integer
+          - 'null'
+    CancelLargeFileRequest:
+      title: CancelLargeFileRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+    StartLargeFileRequest:
+      title: StartLargeFileRequest
+      type: object
+      required:
+      - bucketId
+      - fileName
+      - contentType
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+        contentType:
+          type: string
+          example: video/mp4
+        fileInfo:
+          type: object
+          description: Custom file info
+        serverSideEncryption:
+          type: object
+          description: Server side encryption settings
+    GetUploadPartUrlRequest:
+      title: GetUploadPartUrlRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          description: The file ID from b2_start_large_file
+          example: 4_za71c4725f4f4a14a14a14a14a
+    GetUploadPartUrlResponse:
+      title: GetUploadPartUrlResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        uploadUrl:
+          type: string
+          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
   securitySchemes:
     ApplicationKeyAuth:
       type: http
