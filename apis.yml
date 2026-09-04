@@ -150,17 +150,19 @@ accessModel:
   try_now: true
   public: false
   label: Freemium · Self-serve signup
-  confidence: high
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/backblaze.png
 access: 3rd-Party
 common:
-  - type: MCPServer
+  - type: X-MCPServerCandidate
     url: mcp/backblaze-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
   - type: Overlay
     url: overlays/backblaze-b2-native-api-overlay.yaml
   - type: IssueTracker
@@ -342,7 +344,7 @@ common:
     url: https://www.backblaze.com/cloud-backup/personal/landing/podcast/marketplace
 created: '2025-03-01'
 modified: '2026-06-20'
-position: Consumer
+position: Consuming
 description: Backblaze is a cloud storage and data backup provider offering B2 Cloud Storage - a low-cost, S3-compatible object
   storage service. Backblaze provides both a native B2 API and an S3-compatible API, enabling developers to build applications
   that store unlimited data at a fraction of major cloud provider costs. Features include file versioning, lifecycle rules,
