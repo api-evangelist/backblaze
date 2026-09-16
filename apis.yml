@@ -342,8 +342,14 @@ common:
       description: Command-line sync tool with native B2 Native and S3-compatible API support.
   - type: Integrations
     url: https://www.backblaze.com/cloud-backup/personal/landing/podcast/marketplace
+  - name: MCP Server Source
+    url: https://github.com/backblaze-labs/b2-mcp
+    type: MCPServer
+  - name: MCP Documentation
+    url: https://www.backblaze.com/blog/introducing-the-backblaze-b2-mcp-server/
+    type: MCPDocumentation
 created: '2025-03-01'
-modified: '2026-06-20'
+modified: '2026-09-13'
 position: Consuming
 description: Backblaze is a cloud storage and data backup provider offering B2 Cloud Storage - a low-cost, S3-compatible object
   storage service. Backblaze provides both a native B2 API and an S3-compatible API, enabling developers to build applications
