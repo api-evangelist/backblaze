@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Backblaze B2 Native Application Keys Buckets API
+  title: Backblaze B2 Native Buckets API
   description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
   version: v4
   x-generated-from: documentation
@@ -239,44 +239,48 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Bucket'
-    ListBucketsRequest:
-      title: ListBucketsRequest
+    Bucket:
+      title: Bucket
       type: object
-      required:
-      - accountId
+      description: Represents a B2 bucket
       properties:
         accountId:
           type: string
-          description: The account ID
+          description: The account that owns the bucket
           example: abc123def456
         bucketId:
           type: string
-          description: Filter to a specific bucket
+          description: The unique ID of the bucket
+          example: e73ede9969c64355ef8b
         bucketName:
           type: string
-          description: Filter by bucket name
-        bucketTypes:
+          description: The unique name of the bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          - snapshot
+          description: The bucket privacy setting
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined information stored with the bucket
+        corsRules:
           type: array
           items:
-            type: string
-          description: Filter by bucket type
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+        revision:
           type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
+          description: The number of times the bucket info has been modified
+          example: 1
     DeleteBucketRequest:
       title: DeleteBucketRequest
       type: object
@@ -329,6 +333,27 @@ components:
         ifRevisionIs:
           type: integer
           description: Only update if bucket revision matches this value
+    ListBucketsRequest:
+      title: ListBucketsRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: Filter to a specific bucket
+        bucketName:
+          type: string
+          description: Filter by bucket name
+        bucketTypes:
+          type: array
+          items:
+            type: string
+          description: Filter by bucket type
     CreateBucketRequest:
       title: CreateBucketRequest
       type: object
@@ -365,48 +390,23 @@ components:
           items:
             type: object
           description: Lifecycle rules for the bucket
-    Bucket:
-      title: Bucket
+    ErrorResponse:
+      title: ErrorResponse
       type: object
-      description: Represents a B2 bucket
+      description: Standard B2 error response
       properties:
-        accountId:
-          type: string
-          description: The account that owns the bucket
-          example: abc123def456
-        bucketId:
-          type: string
-          description: The unique ID of the bucket
-          example: e73ede9969c64355ef8b
-        bucketName:
-          type: string
-          description: The unique name of the bucket
-          example: my-media-bucket
-        bucketType:
-          type: string
-          enum:
-          - allPublic
-          - allPrivate
-          - snapshot
-          description: The bucket privacy setting
-          example: allPrivate
-        bucketInfo:
-          type: object
-          description: User-defined information stored with the bucket
-        corsRules:
-          type: array
-          items:
-            type: object
-          description: CORS rules for the bucket
-        lifecycleRules:
-          type: array
-          items:
-            type: object
-          description: Lifecycle rules for the bucket
-        revision:
+        status:
           type: integer
-          description: The number of times the bucket info has been modified
-          example: 1
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
   securitySchemes:
     ApplicationKeyAuth:
       type: http

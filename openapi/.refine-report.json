@@ -1,12 +1,7 @@
 {
   "provider": "backblaze",
   "sources": [
-    "backblaze-application-keys-api-openapi.yml",
-    "backblaze-authorization-api-openapi.yml",
-    "backblaze-buckets-api-openapi.yml",
-    "backblaze-files-api-openapi.yml",
-    "backblaze-large-files-api-openapi.yml",
-    "backblaze-notifications-api-openapi.yml"
+    "_ae-authored/backblaze-b2-native-api.yaml"
   ],
   "outputs": [
     "backblaze-application-keys-api-openapi.yml",
@@ -20,13 +15,16 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "backblaze-application-keys-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "backblaze-authorization-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "backblaze-buckets-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "backblaze-files-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "backblaze-large-files-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "backblaze-notifications-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "backblaze-b2-native-api.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "backblaze-application-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "backblaze-authorization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "backblaze-buckets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "backblaze-files-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "backblaze-large-files-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "backblaze-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Backblaze B2 Native Application Keys Authorization API
+  title: Backblaze B2 Native Authorization API
   description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
   version: v4
   x-generated-from: documentation
@@ -122,43 +122,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    AuthorizeAccountResponse:
-      title: AuthorizeAccountResponse
-      type: object
-      description: Response from the b2_authorize_account operation
-      properties:
-        accountId:
-          type: string
-          description: The identifier for the account
-          example: abc123def456
-        authorizationToken:
-          type: string
-          description: An authorization token to use with all calls other than b2_authorize_account
-          example: 4_002acd2a08df7f8c0c4d21e9deef28c7
-        allowed:
-          $ref: '#/components/schemas/AllowedCapabilities'
-        apiInfo:
-          $ref: '#/components/schemas/ApiInfo'
-    GetDownloadAuthorizationRequest:
-      title: GetDownloadAuthorizationRequest
-      type: object
-      required:
-      - bucketId
-      - fileNamePrefix
-      - validDurationInSeconds
-      properties:
-        bucketId:
-          type: string
-          description: Bucket to authorize downloads from
-          example: e73ede9969c64355ef8b
-        fileNamePrefix:
-          type: string
-          description: Files must have this name prefix
-          example: photos/
-        validDurationInSeconds:
-          type: integer
-          description: Duration (1 to 604800) the token is valid
-          example: 3600
     GetDownloadAuthorizationResponse:
       title: GetDownloadAuthorizationResponse
       type: object
@@ -172,48 +135,6 @@ components:
         authorizationToken:
           type: string
           example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
-    AllowedCapabilities:
-      title: AllowedCapabilities
-      type: object
-      description: What the credentials allow
-      properties:
-        capabilities:
-          type: array
-          items:
-            type: string
-          description: A list of capabilities
-        bucketId:
-          type:
-          - string
-          - 'null'
-          description: Bucket ID restricted to, or null
-        bucketName:
-          type:
-          - string
-          - 'null'
-          description: Bucket name restricted to, or null
-        namePrefix:
-          type:
-          - string
-          - 'null'
-          description: File name prefix restriction, or null
     ApiInfo:
       title: ApiInfo
       type: object
@@ -242,6 +163,85 @@ components:
               type: string
               description: S3-compatible API URL
               example: https://s3.us-west-004.backblazeb2.com
+    AllowedCapabilities:
+      title: AllowedCapabilities
+      type: object
+      description: What the credentials allow
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of capabilities
+        bucketId:
+          type:
+          - string
+          - 'null'
+          description: Bucket ID restricted to, or null
+        bucketName:
+          type:
+          - string
+          - 'null'
+          description: Bucket name restricted to, or null
+        namePrefix:
+          type:
+          - string
+          - 'null'
+          description: File name prefix restriction, or null
+    GetDownloadAuthorizationRequest:
+      title: GetDownloadAuthorizationRequest
+      type: object
+      required:
+      - bucketId
+      - fileNamePrefix
+      - validDurationInSeconds
+      properties:
+        bucketId:
+          type: string
+          description: Bucket to authorize downloads from
+          example: e73ede9969c64355ef8b
+        fileNamePrefix:
+          type: string
+          description: Files must have this name prefix
+          example: photos/
+        validDurationInSeconds:
+          type: integer
+          description: Duration (1 to 604800) the token is valid
+          example: 3600
+    AuthorizeAccountResponse:
+      title: AuthorizeAccountResponse
+      type: object
+      description: Response from the b2_authorize_account operation
+      properties:
+        accountId:
+          type: string
+          description: The identifier for the account
+          example: abc123def456
+        authorizationToken:
+          type: string
+          description: An authorization token to use with all calls other than b2_authorize_account
+          example: 4_002acd2a08df7f8c0c4d21e9deef28c7
+        allowed:
+          $ref: '#/components/schemas/AllowedCapabilities'
+        apiInfo:
+          $ref: '#/components/schemas/ApiInfo'
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
   securitySchemes:
     ApplicationKeyAuth:
       type: http

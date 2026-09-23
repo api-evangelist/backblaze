@@ -3,9 +3,9 @@ info:
   title: API Evangelist enhancements for Backblaze B2 Native API
   version: 1.0.0
 extends: openapi/backblaze-b2-native-api.yaml
-generated: '2026-06-20'
-method: generated
-source: openapi/backblaze-b2-native-api.yaml
+x-generated: '2026-06-20'
+x-method: generated
+x-source: openapi/backblaze-b2-native-api.yaml
 actions:
   - target: $.info
     update:

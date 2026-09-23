@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Backblaze B2 Native Application Keys Notifications API
+  title: Backblaze B2 Native Notifications API
   description: The Backblaze B2 Native API provides programmatic access to Backblaze B2 Cloud Storage. It covers account authorization, bucket management, file upload and download, lifecycle rules, application key management, large file handling, replication, and event notifications. The API uses HTTPS with JSON request and response bodies. Authentication is performed via the b2_authorize_account endpoint which returns an authorization token used for subsequent calls.
   version: v4
   x-generated-from: documentation
@@ -120,6 +120,17 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    BucketNotificationRulesResponse:
+      title: BucketNotificationRulesResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRule'
     NotificationRule:
       title: NotificationRule
       type: object
@@ -151,6 +162,15 @@ components:
               type: string
               description: Webhook URL to send notifications to
               example: https://my-app.example.com/webhooks/b2
+    GetBucketNotificationRulesRequest:
+      title: GetBucketNotificationRulesRequest
+      type: object
+      required:
+      - bucketId
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
     ErrorResponse:
       title: ErrorResponse
       type: object
@@ -182,26 +202,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NotificationRule'
-    BucketNotificationRulesResponse:
-      title: BucketNotificationRulesResponse
-      type: object
-      properties:
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/NotificationRule'
-    GetBucketNotificationRulesRequest:
-      title: GetBucketNotificationRulesRequest
-      type: object
-      required:
-      - bucketId
-      properties:
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
   securitySchemes:
     ApplicationKeyAuth:
       type: http
