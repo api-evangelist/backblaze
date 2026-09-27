@@ -231,6 +231,60 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    UpdateBucketRequest:
+      title: UpdateBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to update
+          example: e73ede9969c64355ef8b
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          description: New privacy setting
+        bucketInfo:
+          type: object
+          description: New bucket info
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: New CORS rules
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: New lifecycle rules
+        ifRevisionIs:
+          type: integer
+          description: Only update if bucket revision matches this value
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
     ListBucketsResponse:
       title: ListBucketsResponse
       type: object
@@ -239,6 +293,63 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Bucket'
+    CreateBucketRequest:
+      title: CreateBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketName
+      - bucketType
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketName:
+          type: string
+          description: The name of the new bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          description: Privacy setting for the bucket
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined info to store with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+    ListBucketsRequest:
+      title: ListBucketsRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: Filter to a specific bucket
+        bucketName:
+          type: string
+          description: Filter by bucket name
+        bucketTypes:
+          type: array
+          items:
+            type: string
+          description: Filter by bucket type
     Bucket:
       title: Bucket
       type: object
@@ -296,117 +407,6 @@ components:
           type: string
           description: The ID of the bucket to delete
           example: e73ede9969c64355ef8b
-    UpdateBucketRequest:
-      title: UpdateBucketRequest
-      type: object
-      required:
-      - accountId
-      - bucketId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: The ID of the bucket to update
-          example: e73ede9969c64355ef8b
-        bucketType:
-          type: string
-          enum:
-          - allPublic
-          - allPrivate
-          description: New privacy setting
-        bucketInfo:
-          type: object
-          description: New bucket info
-        corsRules:
-          type: array
-          items:
-            type: object
-          description: New CORS rules
-        lifecycleRules:
-          type: array
-          items:
-            type: object
-          description: New lifecycle rules
-        ifRevisionIs:
-          type: integer
-          description: Only update if bucket revision matches this value
-    ListBucketsRequest:
-      title: ListBucketsRequest
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: Filter to a specific bucket
-        bucketName:
-          type: string
-          description: Filter by bucket name
-        bucketTypes:
-          type: array
-          items:
-            type: string
-          description: Filter by bucket type
-    CreateBucketRequest:
-      title: CreateBucketRequest
-      type: object
-      required:
-      - accountId
-      - bucketName
-      - bucketType
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketName:
-          type: string
-          description: The name of the new bucket
-          example: my-media-bucket
-        bucketType:
-          type: string
-          enum:
-          - allPublic
-          - allPrivate
-          description: Privacy setting for the bucket
-          example: allPrivate
-        bucketInfo:
-          type: object
-          description: User-defined info to store with the bucket
-        corsRules:
-          type: array
-          items:
-            type: object
-          description: CORS rules for the bucket
-        lifecycleRules:
-          type: array
-          items:
-            type: object
-          description: Lifecycle rules for the bucket
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
   securitySchemes:
     ApplicationKeyAuth:
       type: http

@@ -122,6 +122,23 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
     GetDownloadAuthorizationResponse:
       title: GetDownloadAuthorizationResponse
       type: object
@@ -225,23 +242,6 @@ components:
           $ref: '#/components/schemas/AllowedCapabilities'
         apiInfo:
           $ref: '#/components/schemas/ApiInfo'
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
   securitySchemes:
     ApplicationKeyAuth:
       type: http
