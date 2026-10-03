@@ -268,6 +268,27 @@ components:
         ifRevisionIs:
           type: integer
           description: Only update if bucket revision matches this value
+    ListBucketsRequest:
+      title: ListBucketsRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: Filter to a specific bucket
+        bucketName:
+          type: string
+          description: Filter by bucket name
+        bucketTypes:
+          type: array
+          items:
+            type: string
+          description: Filter by bucket type
     ErrorResponse:
       title: ErrorResponse
       type: object
@@ -285,6 +306,63 @@ components:
           type: string
           description: A human-readable message describing the error
           example: Authorization token not valid
+    DeleteBucketRequest:
+      title: DeleteBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to delete
+          example: e73ede9969c64355ef8b
+    Bucket:
+      title: Bucket
+      type: object
+      description: Represents a B2 bucket
+      properties:
+        accountId:
+          type: string
+          description: The account that owns the bucket
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The unique ID of the bucket
+          example: e73ede9969c64355ef8b
+        bucketName:
+          type: string
+          description: The unique name of the bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          - snapshot
+          description: The bucket privacy setting
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined information stored with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+        revision:
+          type: integer
+          description: The number of times the bucket info has been modified
+          example: 1
     ListBucketsResponse:
       title: ListBucketsResponse
       type: object
@@ -329,84 +407,6 @@ components:
           items:
             type: object
           description: Lifecycle rules for the bucket
-    ListBucketsRequest:
-      title: ListBucketsRequest
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: Filter to a specific bucket
-        bucketName:
-          type: string
-          description: Filter by bucket name
-        bucketTypes:
-          type: array
-          items:
-            type: string
-          description: Filter by bucket type
-    Bucket:
-      title: Bucket
-      type: object
-      description: Represents a B2 bucket
-      properties:
-        accountId:
-          type: string
-          description: The account that owns the bucket
-          example: abc123def456
-        bucketId:
-          type: string
-          description: The unique ID of the bucket
-          example: e73ede9969c64355ef8b
-        bucketName:
-          type: string
-          description: The unique name of the bucket
-          example: my-media-bucket
-        bucketType:
-          type: string
-          enum:
-          - allPublic
-          - allPrivate
-          - snapshot
-          description: The bucket privacy setting
-          example: allPrivate
-        bucketInfo:
-          type: object
-          description: User-defined information stored with the bucket
-        corsRules:
-          type: array
-          items:
-            type: object
-          description: CORS rules for the bucket
-        lifecycleRules:
-          type: array
-          items:
-            type: object
-          description: Lifecycle rules for the bucket
-        revision:
-          type: integer
-          description: The number of times the bucket info has been modified
-          example: 1
-    DeleteBucketRequest:
-      title: DeleteBucketRequest
-      type: object
-      required:
-      - accountId
-      - bucketId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: The ID of the bucket to delete
-          example: e73ede9969c64355ef8b
   securitySchemes:
     ApplicationKeyAuth:
       type: http

@@ -152,6 +152,31 @@ components:
         authorizationToken:
           type: string
           example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    AllowedCapabilities:
+      title: AllowedCapabilities
+      type: object
+      description: What the credentials allow
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of capabilities
+        bucketId:
+          type:
+          - string
+          - 'null'
+          description: Bucket ID restricted to, or null
+        bucketName:
+          type:
+          - string
+          - 'null'
+          description: Bucket name restricted to, or null
+        namePrefix:
+          type:
+          - string
+          - 'null'
+          description: File name prefix restriction, or null
     ApiInfo:
       title: ApiInfo
       type: object
@@ -180,31 +205,6 @@ components:
               type: string
               description: S3-compatible API URL
               example: https://s3.us-west-004.backblazeb2.com
-    AllowedCapabilities:
-      title: AllowedCapabilities
-      type: object
-      description: What the credentials allow
-      properties:
-        capabilities:
-          type: array
-          items:
-            type: string
-          description: A list of capabilities
-        bucketId:
-          type:
-          - string
-          - 'null'
-          description: Bucket ID restricted to, or null
-        bucketName:
-          type:
-          - string
-          - 'null'
-          description: Bucket name restricted to, or null
-        namePrefix:
-          type:
-          - string
-          - 'null'
-          description: File name prefix restriction, or null
     GetDownloadAuthorizationRequest:
       title: GetDownloadAuthorizationRequest
       type: object

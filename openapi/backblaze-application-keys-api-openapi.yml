@@ -173,79 +173,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ListKeysRequest:
-      title: ListKeysRequest
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          example: abc123def456
-        maxKeyCount:
-          type: integer
-          description: Maximum number of keys to return
-        startApplicationKeyId:
-          type: string
-          description: Start listing from this key ID
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
-    ListKeysResponse:
-      title: ListKeysResponse
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationKey'
-        nextApplicationKeyId:
-          type:
-          - string
-          - 'null'
-    CreateKeyRequest:
-      title: CreateKeyRequest
-      type: object
-      required:
-      - accountId
-      - capabilities
-      - keyName
-      properties:
-        accountId:
-          type: string
-          example: abc123def456
-        capabilities:
-          type: array
-          items:
-            type: string
-          description: List of capabilities for the key
-        keyName:
-          type: string
-          description: A name for the key (letters, numbers, hyphens)
-          example: my-app-key
-        validDurationInSeconds:
-          type: integer
-          description: Duration before key expires
-        bucketId:
-          type: string
-          description: Restrict key to this bucket
-        namePrefix:
-          type: string
-          description: Restrict key to files with this prefix
     ApplicationKey:
       title: ApplicationKey
       type: object
@@ -287,6 +214,50 @@ components:
           - string
           - 'null'
           description: Restrict key to file names starting with this prefix
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    ListKeysRequest:
+      title: ListKeysRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          example: abc123def456
+        maxKeyCount:
+          type: integer
+          description: Maximum number of keys to return
+        startApplicationKeyId:
+          type: string
+          description: Start listing from this key ID
+    ListKeysResponse:
+      title: ListKeysResponse
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationKey'
+        nextApplicationKeyId:
+          type:
+          - string
+          - 'null'
     DeleteKeyRequest:
       title: DeleteKeyRequest
       type: object
@@ -297,6 +268,35 @@ components:
           type: string
           description: The ID of the key to delete
           example: 0014a98f9d9e8d0000000001
+    CreateKeyRequest:
+      title: CreateKeyRequest
+      type: object
+      required:
+      - accountId
+      - capabilities
+      - keyName
+      properties:
+        accountId:
+          type: string
+          example: abc123def456
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: List of capabilities for the key
+        keyName:
+          type: string
+          description: A name for the key (letters, numbers, hyphens)
+          example: my-app-key
+        validDurationInSeconds:
+          type: integer
+          description: Duration before key expires
+        bucketId:
+          type: string
+          description: Restrict key to this bucket
+        namePrefix:
+          type: string
+          description: Restrict key to files with this prefix
   securitySchemes:
     ApplicationKeyAuth:
       type: http
