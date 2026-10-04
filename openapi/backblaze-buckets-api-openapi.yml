@@ -289,6 +289,65 @@ components:
           items:
             type: string
           description: Filter by bucket type
+    DeleteBucketRequest:
+      title: DeleteBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketId
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketId:
+          type: string
+          description: The ID of the bucket to delete
+          example: e73ede9969c64355ef8b
+    CreateBucketRequest:
+      title: CreateBucketRequest
+      type: object
+      required:
+      - accountId
+      - bucketName
+      - bucketType
+      properties:
+        accountId:
+          type: string
+          description: The account ID
+          example: abc123def456
+        bucketName:
+          type: string
+          description: The name of the new bucket
+          example: my-media-bucket
+        bucketType:
+          type: string
+          enum:
+          - allPublic
+          - allPrivate
+          description: Privacy setting for the bucket
+          example: allPrivate
+        bucketInfo:
+          type: object
+          description: User-defined info to store with the bucket
+        corsRules:
+          type: array
+          items:
+            type: object
+          description: CORS rules for the bucket
+        lifecycleRules:
+          type: array
+          items:
+            type: object
+          description: Lifecycle rules for the bucket
+    ListBucketsResponse:
+      title: ListBucketsResponse
+      type: object
+      properties:
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bucket'
     ErrorResponse:
       title: ErrorResponse
       type: object
@@ -306,21 +365,6 @@ components:
           type: string
           description: A human-readable message describing the error
           example: Authorization token not valid
-    DeleteBucketRequest:
-      title: DeleteBucketRequest
-      type: object
-      required:
-      - accountId
-      - bucketId
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketId:
-          type: string
-          description: The ID of the bucket to delete
-          example: e73ede9969c64355ef8b
     Bucket:
       title: Bucket
       type: object
@@ -363,50 +407,6 @@ components:
           type: integer
           description: The number of times the bucket info has been modified
           example: 1
-    ListBucketsResponse:
-      title: ListBucketsResponse
-      type: object
-      properties:
-        buckets:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bucket'
-    CreateBucketRequest:
-      title: CreateBucketRequest
-      type: object
-      required:
-      - accountId
-      - bucketName
-      - bucketType
-      properties:
-        accountId:
-          type: string
-          description: The account ID
-          example: abc123def456
-        bucketName:
-          type: string
-          description: The name of the new bucket
-          example: my-media-bucket
-        bucketType:
-          type: string
-          enum:
-          - allPublic
-          - allPrivate
-          description: Privacy setting for the bucket
-          example: allPrivate
-        bucketInfo:
-          type: object
-          description: User-defined info to store with the bucket
-        corsRules:
-          type: array
-          items:
-            type: object
-          description: CORS rules for the bucket
-        lifecycleRules:
-          type: array
-          items:
-            type: object
-          description: Lifecycle rules for the bucket
   securitySchemes:
     ApplicationKeyAuth:
       type: http

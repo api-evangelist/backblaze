@@ -173,6 +173,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ListKeysResponse:
+      title: ListKeysResponse
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationKey'
+        nextApplicationKeyId:
+          type:
+          - string
+          - 'null'
     ApplicationKey:
       title: ApplicationKey
       type: object
@@ -214,6 +226,16 @@ components:
           - string
           - 'null'
           description: Restrict key to file names starting with this prefix
+    DeleteKeyRequest:
+      title: DeleteKeyRequest
+      type: object
+      required:
+      - applicationKeyId
+      properties:
+        applicationKeyId:
+          type: string
+          description: The ID of the key to delete
+          example: 0014a98f9d9e8d0000000001
     ErrorResponse:
       title: ErrorResponse
       type: object
@@ -231,43 +253,6 @@ components:
           type: string
           description: A human-readable message describing the error
           example: Authorization token not valid
-    ListKeysRequest:
-      title: ListKeysRequest
-      type: object
-      required:
-      - accountId
-      properties:
-        accountId:
-          type: string
-          example: abc123def456
-        maxKeyCount:
-          type: integer
-          description: Maximum number of keys to return
-        startApplicationKeyId:
-          type: string
-          description: Start listing from this key ID
-    ListKeysResponse:
-      title: ListKeysResponse
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationKey'
-        nextApplicationKeyId:
-          type:
-          - string
-          - 'null'
-    DeleteKeyRequest:
-      title: DeleteKeyRequest
-      type: object
-      required:
-      - applicationKeyId
-      properties:
-        applicationKeyId:
-          type: string
-          description: The ID of the key to delete
-          example: 0014a98f9d9e8d0000000001
     CreateKeyRequest:
       title: CreateKeyRequest
       type: object
@@ -297,6 +282,21 @@ components:
         namePrefix:
           type: string
           description: Restrict key to files with this prefix
+    ListKeysRequest:
+      title: ListKeysRequest
+      type: object
+      required:
+      - accountId
+      properties:
+        accountId:
+          type: string
+          example: abc123def456
+        maxKeyCount:
+          type: integer
+          description: Maximum number of keys to return
+        startApplicationKeyId:
+          type: string
+          description: Start listing from this key ID
   securitySchemes:
     ApplicationKeyAuth:
       type: http

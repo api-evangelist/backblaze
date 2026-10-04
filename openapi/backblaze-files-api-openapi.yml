@@ -524,152 +524,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    GetUploadUrlResponse:
-      title: GetUploadUrlResponse
-      type: object
-      properties:
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        uploadUrl:
-          type: string
-          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_file
-        authorizationToken:
-          type: string
-          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
-    CopyFileRequest:
-      title: CopyFileRequest
-      type: object
-      required:
-      - sourceFileId
-      - fileName
-      properties:
-        sourceFileId:
-          type: string
-          description: The ID of the file to copy
-          example: 4_h4a48fe8875c6214145260818
-        fileName:
-          type: string
-          description: The name for the new file
-          example: photos/image-copy.jpg
-        destinationBucketId:
-          type: string
-          description: Bucket ID to copy to (defaults to source bucket)
-        range:
-          type: string
-          description: Byte range to copy
-        metadataDirective:
-          type: string
-          enum:
-          - COPY
-          - REPLACE
-          description: Whether to copy or replace metadata
-    GetFileInfoRequest:
-      title: GetFileInfoRequest
-      type: object
-      required:
-      - fileId
-      properties:
-        fileId:
-          type: string
-          description: The ID of the file
-          example: 4_h4a48fe8875c6214145260818
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
-    DeleteFileVersionRequest:
-      title: DeleteFileVersionRequest
-      type: object
-      required:
-      - fileName
-      - fileId
-      properties:
-        fileName:
-          type: string
-          description: The name of the file
-          example: photos/image.jpg
-        fileId:
-          type: string
-          description: The ID of the file version to delete
-          example: 4_h4a48fe8875c6214145260818
-        bypassGovernance:
-          type: boolean
-          description: Set to true to bypass object lock governance mode
-    ListFileNamesRequest:
-      title: ListFileNamesRequest
-      type: object
-      required:
-      - bucketId
-      properties:
-        bucketId:
-          type: string
-          description: The bucket to list
-          example: e73ede9969c64355ef8b
-        startFileName:
-          type: string
-          description: Start listing from this file name
-        maxFileCount:
-          type: integer
-          description: Maximum number of files to return (1-10000)
-          example: 100
-        prefix:
-          type: string
-          description: Prefix to filter file names
-        delimiter:
-          type: string
-          description: Delimiter used for virtual folder simulation
-    HideFileRequest:
-      title: HideFileRequest
-      type: object
-      required:
-      - bucketId
-      - fileName
-      properties:
-        bucketId:
-          type: string
-          description: The bucket containing the file
-          example: e73ede9969c64355ef8b
-        fileName:
-          type: string
-          description: The name of the file to hide
-          example: photos/image.jpg
-    GetUploadUrlRequest:
-      title: GetUploadUrlRequest
-      type: object
-      required:
-      - bucketId
-      properties:
-        bucketId:
-          type: string
-          description: The ID of the bucket to upload to
-          example: e73ede9969c64355ef8b
-    ListFileNamesResponse:
-      title: ListFileNamesResponse
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/FileInfo'
-        nextFileName:
-          type:
-          - string
-          - 'null'
-          description: Next file name for pagination
     ListFileVersionsResponse:
       title: ListFileVersionsResponse
       type: object
@@ -686,16 +540,6 @@ components:
           type:
           - string
           - 'null'
-    DeleteFileVersionResponse:
-      title: DeleteFileVersionResponse
-      type: object
-      properties:
-        fileId:
-          type: string
-          example: 4_h4a48fe8875c6214145260818
-        fileName:
-          type: string
-          example: photos/image.jpg
     ListFileVersionsRequest:
       title: ListFileVersionsRequest
       type: object
@@ -766,6 +610,162 @@ components:
           type: integer
           description: Milliseconds since midnight, January 1, 1970 UTC
           example: 1660000000000
+    GetFileInfoRequest:
+      title: GetFileInfoRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          description: The ID of the file
+          example: 4_h4a48fe8875c6214145260818
+    ListFileNamesRequest:
+      title: ListFileNamesRequest
+      type: object
+      required:
+      - bucketId
+      properties:
+        bucketId:
+          type: string
+          description: The bucket to list
+          example: e73ede9969c64355ef8b
+        startFileName:
+          type: string
+          description: Start listing from this file name
+        maxFileCount:
+          type: integer
+          description: Maximum number of files to return (1-10000)
+          example: 100
+        prefix:
+          type: string
+          description: Prefix to filter file names
+        delimiter:
+          type: string
+          description: Delimiter used for virtual folder simulation
+    DeleteFileVersionRequest:
+      title: DeleteFileVersionRequest
+      type: object
+      required:
+      - fileName
+      - fileId
+      properties:
+        fileName:
+          type: string
+          description: The name of the file
+          example: photos/image.jpg
+        fileId:
+          type: string
+          description: The ID of the file version to delete
+          example: 4_h4a48fe8875c6214145260818
+        bypassGovernance:
+          type: boolean
+          description: Set to true to bypass object lock governance mode
+    DeleteFileVersionResponse:
+      title: DeleteFileVersionResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_h4a48fe8875c6214145260818
+        fileName:
+          type: string
+          example: photos/image.jpg
+    GetUploadUrlRequest:
+      title: GetUploadUrlRequest
+      type: object
+      required:
+      - bucketId
+      properties:
+        bucketId:
+          type: string
+          description: The ID of the bucket to upload to
+          example: e73ede9969c64355ef8b
+    CopyFileRequest:
+      title: CopyFileRequest
+      type: object
+      required:
+      - sourceFileId
+      - fileName
+      properties:
+        sourceFileId:
+          type: string
+          description: The ID of the file to copy
+          example: 4_h4a48fe8875c6214145260818
+        fileName:
+          type: string
+          description: The name for the new file
+          example: photos/image-copy.jpg
+        destinationBucketId:
+          type: string
+          description: Bucket ID to copy to (defaults to source bucket)
+        range:
+          type: string
+          description: Byte range to copy
+        metadataDirective:
+          type: string
+          enum:
+          - COPY
+          - REPLACE
+          description: Whether to copy or replace metadata
+    ListFileNamesResponse:
+      title: ListFileNamesResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileName:
+          type:
+          - string
+          - 'null'
+          description: Next file name for pagination
+    GetUploadUrlResponse:
+      title: GetUploadUrlResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        uploadUrl:
+          type: string
+          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_file
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    HideFileRequest:
+      title: HideFileRequest
+      type: object
+      required:
+      - bucketId
+      - fileName
+      properties:
+        bucketId:
+          type: string
+          description: The bucket containing the file
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          description: The name of the file to hide
+          example: photos/image.jpg
   securitySchemes:
     ApplicationKeyAuth:
       type: http

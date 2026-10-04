@@ -139,6 +139,54 @@ components:
           type: string
           description: A human-readable message describing the error
           example: Authorization token not valid
+    GetDownloadAuthorizationRequest:
+      title: GetDownloadAuthorizationRequest
+      type: object
+      required:
+      - bucketId
+      - fileNamePrefix
+      - validDurationInSeconds
+      properties:
+        bucketId:
+          type: string
+          description: Bucket to authorize downloads from
+          example: e73ede9969c64355ef8b
+        fileNamePrefix:
+          type: string
+          description: Files must have this name prefix
+          example: photos/
+        validDurationInSeconds:
+          type: integer
+          description: Duration (1 to 604800) the token is valid
+          example: 3600
+    ApiInfo:
+      title: ApiInfo
+      type: object
+      description: API endpoint information
+      properties:
+        storageApi:
+          type: object
+          properties:
+            absoluteMinimumPartSize:
+              type: integer
+              description: Minimum part size in bytes for large files
+              example: 5000000
+            recommendedPartSize:
+              type: integer
+              description: Recommended part size in bytes
+              example: 100000000
+            apiUrl:
+              type: string
+              description: URL to use for subsequent API calls
+              example: https://api005.backblazeb2.com
+            downloadUrl:
+              type: string
+              description: URL to use for downloading files
+              example: https://f005.backblazeb2.com
+            s3ApiUrl:
+              type: string
+              description: S3-compatible API URL
+              example: https://s3.us-west-004.backblazeb2.com
     GetDownloadAuthorizationResponse:
       title: GetDownloadAuthorizationResponse
       type: object
@@ -177,54 +225,6 @@ components:
           - string
           - 'null'
           description: File name prefix restriction, or null
-    ApiInfo:
-      title: ApiInfo
-      type: object
-      description: API endpoint information
-      properties:
-        storageApi:
-          type: object
-          properties:
-            absoluteMinimumPartSize:
-              type: integer
-              description: Minimum part size in bytes for large files
-              example: 5000000
-            recommendedPartSize:
-              type: integer
-              description: Recommended part size in bytes
-              example: 100000000
-            apiUrl:
-              type: string
-              description: URL to use for subsequent API calls
-              example: https://api005.backblazeb2.com
-            downloadUrl:
-              type: string
-              description: URL to use for downloading files
-              example: https://f005.backblazeb2.com
-            s3ApiUrl:
-              type: string
-              description: S3-compatible API URL
-              example: https://s3.us-west-004.backblazeb2.com
-    GetDownloadAuthorizationRequest:
-      title: GetDownloadAuthorizationRequest
-      type: object
-      required:
-      - bucketId
-      - fileNamePrefix
-      - validDurationInSeconds
-      properties:
-        bucketId:
-          type: string
-          description: Bucket to authorize downloads from
-          example: e73ede9969c64355ef8b
-        fileNamePrefix:
-          type: string
-          description: Files must have this name prefix
-          example: photos/
-        validDurationInSeconds:
-          type: integer
-          description: Duration (1 to 604800) the token is valid
-          example: 3600
     AuthorizeAccountResponse:
       title: AuthorizeAccountResponse
       type: object

@@ -303,143 +303,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ListPartsResponse:
-      title: ListPartsResponse
-      type: object
-      properties:
-        parts:
-          type: array
-          items:
-            type: object
-            properties:
-              fileId:
-                type: string
-              partNumber:
-                type: integer
-              contentLength:
-                type: integer
-              contentSha1:
-                type: string
-              uploadTimestamp:
-                type: integer
-        nextPartNumber:
-          type:
-          - integer
-          - 'null'
-    ListPartsRequest:
-      title: ListPartsRequest
-      type: object
-      required:
-      - fileId
-      properties:
-        fileId:
-          type: string
-          example: 4_za71c4725f4f4a14a14a14a14a
-        startPartNumber:
-          type: integer
-          description: Start listing from this part number
-        maxPartCount:
-          type: integer
-          description: Maximum number of parts to return
-    CancelLargeFileRequest:
-      title: CancelLargeFileRequest
-      type: object
-      required:
-      - fileId
-      properties:
-        fileId:
-          type: string
-          example: 4_za71c4725f4f4a14a14a14a14a
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
-    GetUploadPartUrlRequest:
-      title: GetUploadPartUrlRequest
-      type: object
-      required:
-      - fileId
-      properties:
-        fileId:
-          type: string
-          description: The file ID from b2_start_large_file
-          example: 4_za71c4725f4f4a14a14a14a14a
-    ListUnfinishedLargeFilesResponse:
-      title: ListUnfinishedLargeFilesResponse
-      type: object
-      properties:
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/FileInfo'
-        nextFileId:
-          type:
-          - string
-          - 'null'
-    GetUploadPartUrlResponse:
-      title: GetUploadPartUrlResponse
-      type: object
-      properties:
-        fileId:
-          type: string
-          example: 4_za71c4725f4f4a14a14a14a14a
-        uploadUrl:
-          type: string
-          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
-        authorizationToken:
-          type: string
-          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
-    StartLargeFileRequest:
-      title: StartLargeFileRequest
-      type: object
-      required:
-      - bucketId
-      - fileName
-      - contentType
-      properties:
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        fileName:
-          type: string
-          example: videos/large-video.mp4
-        contentType:
-          type: string
-          example: video/mp4
-        fileInfo:
-          type: object
-          description: Custom file info
-        serverSideEncryption:
-          type: object
-          description: Server side encryption settings
-    ListUnfinishedLargeFilesRequest:
-      title: ListUnfinishedLargeFilesRequest
-      type: object
-      required:
-      - bucketId
-      properties:
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        namePrefix:
-          type: string
-        startFileId:
-          type: string
-        maxFileCount:
-          type: integer
     FinishLargeFileRequest:
       title: FinishLargeFileRequest
       type: object
@@ -456,22 +319,16 @@ components:
           items:
             type: string
           description: SHA1 checksums of each part in order
-    CancelLargeFileResponse:
-      title: CancelLargeFileResponse
+    GetUploadPartUrlRequest:
+      title: GetUploadPartUrlRequest
       type: object
+      required:
+      - fileId
       properties:
         fileId:
           type: string
+          description: The file ID from b2_start_large_file
           example: 4_za71c4725f4f4a14a14a14a14a
-        accountId:
-          type: string
-          example: abc123def456
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        fileName:
-          type: string
-          example: videos/large-video.mp4
     FileInfo:
       title: FileInfo
       type: object
@@ -521,6 +378,149 @@ components:
           type: integer
           description: Milliseconds since midnight, January 1, 1970 UTC
           example: 1660000000000
+    CancelLargeFileRequest:
+      title: CancelLargeFileRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+    ListPartsResponse:
+      title: ListPartsResponse
+      type: object
+      properties:
+        parts:
+          type: array
+          items:
+            type: object
+            properties:
+              fileId:
+                type: string
+              partNumber:
+                type: integer
+              contentLength:
+                type: integer
+              contentSha1:
+                type: string
+              uploadTimestamp:
+                type: integer
+        nextPartNumber:
+          type:
+          - integer
+          - 'null'
+    ListUnfinishedLargeFilesResponse:
+      title: ListUnfinishedLargeFilesResponse
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileInfo'
+        nextFileId:
+          type:
+          - string
+          - 'null'
+    GetUploadPartUrlResponse:
+      title: GetUploadPartUrlResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        uploadUrl:
+          type: string
+          example: https://pod-000-1005-03.backblaze.com/b2api/v4/b2_upload_part
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    ListPartsRequest:
+      title: ListPartsRequest
+      type: object
+      required:
+      - fileId
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        startPartNumber:
+          type: integer
+          description: Start listing from this part number
+        maxPartCount:
+          type: integer
+          description: Maximum number of parts to return
+    StartLargeFileRequest:
+      title: StartLargeFileRequest
+      type: object
+      required:
+      - bucketId
+      - fileName
+      - contentType
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+        contentType:
+          type: string
+          example: video/mp4
+        fileInfo:
+          type: object
+          description: Custom file info
+        serverSideEncryption:
+          type: object
+          description: Server side encryption settings
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
+    CancelLargeFileResponse:
+      title: CancelLargeFileResponse
+      type: object
+      properties:
+        fileId:
+          type: string
+          example: 4_za71c4725f4f4a14a14a14a14a
+        accountId:
+          type: string
+          example: abc123def456
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileName:
+          type: string
+          example: videos/large-video.mp4
+    ListUnfinishedLargeFilesRequest:
+      title: ListUnfinishedLargeFilesRequest
+      type: object
+      required:
+      - bucketId
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        namePrefix:
+          type: string
+        startFileId:
+          type: string
+        maxFileCount:
+          type: integer
   securitySchemes:
     ApplicationKeyAuth:
       type: http
