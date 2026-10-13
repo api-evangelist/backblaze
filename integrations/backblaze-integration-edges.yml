@@ -11,8 +11,8 @@ edges:
   evidence: https://www.backblaze.com/docs/cloud-storage-s3-compatible-api
   evidence_kind: own-docs
   evidence_file: https://github.com/api-evangelist/backblaze/blob/main/evidence/compatibility/backblaze-aws-s3-1.md
-  quote: <!-- fetched 2026-10-13 from https://www.backblaze.com/docs/cloud-storage-s3-compatible-api by sweep-shape-compat.py;
-    text extracted from the provider's own page -->
+  quote: S3-Compatible API are not accessible in advanced search which breaks the dropdown selection functionality
+    -->
   supported_operations: []
   unsupported_operations: []
   supported_share: 0.0
