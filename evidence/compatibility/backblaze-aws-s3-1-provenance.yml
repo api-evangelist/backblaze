@@ -1,0 +1,13 @@
+fetched: '2026-10-13'
+method: fetched
+source: https://www.backblaze.com/docs/cloud-storage-s3-compatible-api
+page: https://www.backblaze.com/docs/cloud-storage-s3-compatible-api
+file: backblaze-aws-s3-1.md
+bytes: 6239
+sha256: 3afcc2053a4b42d883025c43cdf6b3f75809aa84f765ada240033382b0788d60
+anchor: amazon-web-services
+shape: aws-s3
+classification: declares-compatibility
+quote: S3-Compatible API are not accessible in advanced search which breaks the dropdown selection functionality
+  -->
+note: text extracted from the provider's own page (tags stripped), saved for evidence
