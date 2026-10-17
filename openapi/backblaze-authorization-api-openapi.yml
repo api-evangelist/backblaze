@@ -122,23 +122,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ErrorResponse:
-      title: ErrorResponse
-      type: object
-      description: Standard B2 error response
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-          example: 401
-        code:
-          type: string
-          description: A single-identifier code that identifies the error
-          example: unauthorized
-        message:
-          type: string
-          description: A human-readable message describing the error
-          example: Authorization token not valid
     GetDownloadAuthorizationRequest:
       title: GetDownloadAuthorizationRequest
       type: object
@@ -159,6 +142,61 @@ components:
           type: integer
           description: Duration (1 to 604800) the token is valid
           example: 3600
+    AllowedCapabilities:
+      title: AllowedCapabilities
+      type: object
+      description: What the credentials allow
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: A list of capabilities
+        bucketId:
+          type:
+          - string
+          - 'null'
+          description: Bucket ID restricted to, or null
+        bucketName:
+          type:
+          - string
+          - 'null'
+          description: Bucket name restricted to, or null
+        namePrefix:
+          type:
+          - string
+          - 'null'
+          description: File name prefix restriction, or null
+    GetDownloadAuthorizationResponse:
+      title: GetDownloadAuthorizationResponse
+      type: object
+      properties:
+        bucketId:
+          type: string
+          example: e73ede9969c64355ef8b
+        fileNamePrefix:
+          type: string
+          example: photos/
+        authorizationToken:
+          type: string
+          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
+    ErrorResponse:
+      title: ErrorResponse
+      type: object
+      description: Standard B2 error response
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+          example: 401
+        code:
+          type: string
+          description: A single-identifier code that identifies the error
+          example: unauthorized
+        message:
+          type: string
+          description: A human-readable message describing the error
+          example: Authorization token not valid
     ApiInfo:
       title: ApiInfo
       type: object
@@ -187,44 +225,6 @@ components:
               type: string
               description: S3-compatible API URL
               example: https://s3.us-west-004.backblazeb2.com
-    GetDownloadAuthorizationResponse:
-      title: GetDownloadAuthorizationResponse
-      type: object
-      properties:
-        bucketId:
-          type: string
-          example: e73ede9969c64355ef8b
-        fileNamePrefix:
-          type: string
-          example: photos/
-        authorizationToken:
-          type: string
-          example: 3_en0Y0j2f-0r0BVLS8vN9GJTWA-pLEP
-    AllowedCapabilities:
-      title: AllowedCapabilities
-      type: object
-      description: What the credentials allow
-      properties:
-        capabilities:
-          type: array
-          items:
-            type: string
-          description: A list of capabilities
-        bucketId:
-          type:
-          - string
-          - 'null'
-          description: Bucket ID restricted to, or null
-        bucketName:
-          type:
-          - string
-          - 'null'
-          description: Bucket name restricted to, or null
-        namePrefix:
-          type:
-          - string
-          - 'null'
-          description: File name prefix restriction, or null
     AuthorizeAccountResponse:
       title: AuthorizeAccountResponse
       type: object
