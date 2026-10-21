@@ -14,35 +14,6 @@
   relationship: compatible
   status: not-a-workflow
   arazzo: null
-- slug: backblaze-govramp
-  label: GovRAMP
-  partner_name: GovRAMP
-  category: GovRAMP participation
-  type: register
-  channel: standard-directory
-  evidence: https://govramp.org/program-participants
-  source: edge
-  relationship: standard-participant
-  contract_reference:
-    register: GovRAMP Program Participants (govramp.org/program-participants)
-    standard: GovRAMP
-    spec_file: null
-    role: govramp-participant
-    registered_name: Backblaze, Inc
-    register_id: SS23113
-    matched_domain: backblaze.com
-    matched_by: domain
-    domain_source: contact-email
-    statuses:
-    - Progressing
-    offerings:
-    - Backblaze B2 Cloud Storage and Computer Backup
-    signal_note: certified_products = one entry per AUTHORIZED impact level (Authorized / Provisionally Authorized),
-      never per offering; Progressing / Pending / Ready / Core are participation only
-    detected_by: sweep-gov-cloud.py
-    detected: '2026-10-15'
-  status: not-a-workflow
-  arazzo: null
 - slug: backblaze-go-module-proxy
   label: Go module proxy
   partner_name: Go module proxy
@@ -102,5 +73,47 @@
       24 months'
     detected_by: sweep-official-sdks.py
     detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: backblaze-govramp
+  label: GovRAMP
+  partner_name: GovRAMP
+  category: GovRAMP participation
+  type: register
+  channel: standard-directory
+  evidence: https://govramp.org/program-participants
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: GovRAMP Program Participants (govramp.org/program-participants)
+    standard: GovRAMP
+    spec_file: null
+    role: govramp-participant
+    registered_name: Backblaze, Inc
+    register_id: SS23113
+    matched_domain: backblaze.com
+    matched_by: domain
+    domain_source: contact-email
+    statuses:
+    - Progressing
+    offerings:
+    - Backblaze B2 Cloud Storage and Computer Backup
+    signal_note: certified_products = one entry per AUTHORIZED impact level (Authorized / Provisionally Authorized),
+      never per offering; Progressing / Pending / Ready / Core are participation only
+    detected_by: sweep-gov-cloud.py
+    detected: '2026-10-15'
+  status: not-a-workflow
+  arazzo: null
+- slug: backblaze-terraform-terraform-registry
+  label: Terraform (terraform-registry)
+  partner: terraform
+  partner_name: Terraform (terraform-registry)
+  category: infrastructure-as-code provider registry listing
+  type: marketplace
+  marketplace: terraform-registry
+  channel: partner-built
+  evidence: https://registry.terraform.io/providers/Backblaze/b2
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
