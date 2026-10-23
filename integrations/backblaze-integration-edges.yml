@@ -170,6 +170,66 @@ edges:
     detected: '2026-10-22'
   detected_by: sweep-tx-ramp-certified-cloud.py
   first_seen: '2026-10-22'
+- partner_name: Arch User Repository (AUR)
+  partner: null
+  partner_match: null
+  type: register
+  direction: provider-built
+  category: official CLI (Arch User Repository (AUR))
+  evidence: https://aur.archlinux.org/packages/backblaze-b2
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: Arch User Repository (AUR) (public package index)
+    spec_file: null
+    packages:
+    - name: backblaze-b2
+      kind: aur
+      version: 4.4.2-1
+      released: '2025-12-16'
+      released_field: AUR LastModified
+      out_of_date: true
+      lapsed: true
+      page: https://aur.archlinux.org/packages/backblaze-b2
+      upstream: https://github.com/Backblaze/B2_Command_Line_Tool
+      cli: 'AUR description: Backblaze B2 Command Line Client'
+      repo_leg: github-org:backblaze
+      publisher_leg: artifact-github-org:backblaze
+      matched_by: github-org
+    - name: backblaze-b2-bin
+      kind: aur
+      version: 4.4.2-1
+      released: '2025-09-18'
+      released_field: AUR LastModified
+      out_of_date: false
+      lapsed: false
+      page: https://aur.archlinux.org/packages/backblaze-b2-bin
+      upstream: https://github.com/Backblaze/B2_Command_Line_Tool
+      cli: 'AUR description: Backblaze B2 Command Line Client'
+      repo_leg: github-org:backblaze
+      publisher_leg: artifact-github-org:backblaze
+      matched_by: github-org
+    - name: backblaze-b2-git
+      kind: aur
+      version: r1710.1ddcc6e-1
+      released: '2020-12-13'
+      released_field: AUR LastModified
+      out_of_date: false
+      lapsed: true
+      page: https://aur.archlinux.org/packages/backblaze-b2-git
+      upstream: https://www.backblaze.com/b2/cloud-storage.html
+      cli: 'AUR description: Backblaze B2 Command Line Client'
+      repo_leg: domain:backblaze.com
+      publisher_leg: artifact-github-org:backblaze
+      matched_by: domain
+    current: true
+    signal_note: 'the provider''s own command-line tool packaged for Arch Linux (community-maintained PKGBUILD whose
+      upstream and source artifact are the provider''s): distribution, not an integration; lapsed = flagged out-of-date
+      or not updated in 24 months'
+    detected_by: sweep-aur-vendor-cli-packages.py
+    detected: '2026-10-23'
+  detected_by: sweep-aur-vendor-cli-packages.py
+  first_seen: '2026-10-23'
 generated: '2026-10-13'
 method: searched
 source:
@@ -189,3 +249,6 @@ checked:
 - https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15/suppliers
 - terraform/integrations/terraform-integration-edges.yml
 - https://dir.texas.gov/resource-library-item/tx-ramp-certified-cloud-products
+- https://aur.archlinux.org/cgit/aur.git/tree/.SRCINFO
+- https://aur.archlinux.org/packages-meta-ext-v1.json.gz
+- https://aur.archlinux.org/rpc/v5/info
