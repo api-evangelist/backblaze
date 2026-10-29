@@ -1,4 +1,4 @@
-# Backblaze (backblaze)
+# Backblaze
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,162 +66,279 @@
 
 Backblaze is a cloud storage and data backup provider offering B2 Cloud Storage - a low-cost, S3-compatible object storage service. Backblaze provides both a native B2 API and an S3-compatible API, enabling developers to build applications that store unlimited data at a fraction of major cloud provider costs. Features include file versioning, lifecycle rules, event notifications, object lock, cross-region replication, and a Cloudflare bandwidth alliance for zero-egress CDN delivery.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/backblaze/refs/heads/main/apis.yml)
+**Areas:** Cloud Storage · Object Storage · Storage · Backup
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Backblaze on APIs.io
 
-## Tags:
+Everything profiled for Backblaze is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/backblaze/](https://apis.io/providers/backblaze/)** — or go straight to one of the APIs or properties below.
 
- - Cloud Storage, Object Storage, Storage, Backup
+### APIs (7)
 
-## Timestamps
+- [Backblaze S3-Compatible API](https://apis.io/apis/backblaze/backblaze-s3-compatible-api/) — The Backblaze S3-Compatible API allows existing applications built for Amazon S3 to work with Backblaze B2 Cloud Storage with minimal code changes. Supports…
+- [Backblaze Application Keys API](https://apis.io/apis/backblaze/backblaze-application-keys-api/) — Create and manage application keys for access control
+- [Backblaze Authorization API](https://apis.io/apis/backblaze/backblaze-authorization-api/) — Account authorization and token management
+- [Backblaze Buckets API](https://apis.io/apis/backblaze/backblaze-buckets-api/) — Bucket creation, management, and configuration
+- [Backblaze Files API](https://apis.io/apis/backblaze/backblaze-files-api/) — File upload, download, listing, deletion, and metadata
+- [Backblaze Large Files API](https://apis.io/apis/backblaze/backblaze-large-files-api/) — Multi-part upload for large files
+- [Backblaze Notifications API](https://apis.io/apis/backblaze/backblaze-notifications-api/) — Bucket event notification configuration
 
-- **Created:** 2025-03-01
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Backblaze B2 Cloud Storage API
-The Backblaze B2 Native API provides programmatic access to all B2 Cloud Storage functions including account authorization, bucket management, file upload and download, large file multi-part uploads, application key management, lifecycle rules, replication, and event notifications. Uses HTTP Basic authentication to obtain authorization tokens for subsequent API calls. API v4 is the current stable version.
+#### Arazzo workflows (13)
 
-**Human URL:** [https://www.backblaze.com/b2/cloud-storage.html](https://www.backblaze.com/b2/cloud-storage.html)
+Multi-step workflows that chain operations into a business task.
 
-#### Tags:
+- [Backblaze Authorize and Provision Bucket](https://apis.io/arazzos/backblaze/backblaze-authorize-and-provision-bucket-workflow/)
+- [Backblaze Browse Bucket Files](https://apis.io/arazzos/backblaze/backblaze-browse-bucket-files-workflow/)
+- [Backblaze Clean Up Unfinished Large Files](https://apis.io/arazzos/backblaze/backblaze-cleanup-unfinished-large-files-workflow/)
+- [Backblaze Configure Bucket Event Notifications](https://apis.io/arazzos/backblaze/backblaze-configure-bucket-notifications-workflow/)
+- [Backblaze Copy a File Into Another Bucket](https://apis.io/arazzos/backblaze/backblaze-copy-file-into-bucket-workflow/)
+- [Backblaze Create Scoped Application Key](https://apis.io/arazzos/backblaze/backblaze-create-application-key-workflow/)
+- [Backblaze Large File Multi-Part Upload](https://apis.io/arazzos/backblaze/backblaze-large-file-upload-workflow/)
+- [Backblaze Provision Bucket and Upload First File](https://apis.io/arazzos/backblaze/backblaze-provision-bucket-and-upload-workflow/)
+- [Backblaze Purge a File's Versions](https://apis.io/arazzos/backblaze/backblaze-purge-file-versions-workflow/)
+- [Backblaze Rotate Application Key](https://apis.io/arazzos/backblaze/backblaze-rotate-application-key-workflow/)
+- [Backblaze Share Private Files](https://apis.io/arazzos/backblaze/backblaze-share-private-files-workflow/)
+- [Backblaze Tear Down a Bucket](https://apis.io/arazzos/backblaze/backblaze-teardown-bucket-workflow/)
+- [Backblaze Upload a File](https://apis.io/arazzos/backblaze/backblaze-upload-file-workflow/)
 
- - Cloud Storage, Object Storage, Storage
+#### MCP servers (2)
 
-#### Properties
+Model Context Protocol servers that expose the API to agents.
 
-- [Documentation](https://www.backblaze.com/apidocs/introduction-to-the-b2-native-api)
-- [GettingStarted](https://www.backblaze.com/docs/cloud-storage-native-api)
-- [OpenAPI](openapi/backblaze-b2-native-api.yaml)
+- [backblaze-b2](https://apis.io/servers/backblaze/backblaze-b2/)
+- [MCP Server Source](https://apis.io/servers/backblaze/mcp-server-source/)
 
-### Backblaze S3-Compatible API
-The Backblaze S3-Compatible API allows existing applications built for Amazon S3 to work with Backblaze B2 Cloud Storage with minimal code changes. Supports S3 authentication (AWS Signature V4) and S3 API operations for bucket and object management. Endpoint URLs follow the pattern s3.<region>.backblazeb2.com.
+#### Agentic access (1)
 
-**Human URL:** [https://www.backblaze.com/apidocs/introduction-to-the-s3-compatible-api](https://www.backblaze.com/apidocs/introduction-to-the-s3-compatible-api)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags:
+- [Backblaze Agentic Access](https://apis.io/agentic-access/backblaze/backblaze-agentic-access/)
 
- - Cloud Storage, Object Storage, S3 Compatible
+#### JSON Schema (42)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://www.backblaze.com/apidocs/introduction-to-the-s3-compatible-api)
-- [APIReference](https://www.backblaze.com/docs/cloud-storage-call-the-s3-compatible-api)
+- [AllowedCapabilities](https://apis.io/schemas/backblaze/b2-native-api-allowed-capabilities/)
+- [ApiInfo](https://apis.io/schemas/backblaze/b2-native-api-api-info/)
+- [ApplicationKey](https://apis.io/schemas/backblaze/b2-native-api-application-key/)
+- [AuthorizeAccountResponse](https://apis.io/schemas/backblaze/b2-native-api-authorize-account-response/)
+- [Bucket](https://apis.io/schemas/backblaze/b2-native-api-bucket/)
+- [BucketNotificationRulesResponse](https://apis.io/schemas/backblaze/b2-native-api-bucket-notification-rules-response/)
+- [CancelLargeFileRequest](https://apis.io/schemas/backblaze/b2-native-api-cancel-large-file-request/)
+- [CancelLargeFileResponse](https://apis.io/schemas/backblaze/b2-native-api-cancel-large-file-response/)
+- [CopyFileRequest](https://apis.io/schemas/backblaze/b2-native-api-copy-file-request/)
+- [CreateBucketRequest](https://apis.io/schemas/backblaze/b2-native-api-create-bucket-request/)
+- [CreateKeyRequest](https://apis.io/schemas/backblaze/b2-native-api-create-key-request/)
+- [DeleteBucketRequest](https://apis.io/schemas/backblaze/b2-native-api-delete-bucket-request/)
+- [DeleteFileVersionRequest](https://apis.io/schemas/backblaze/b2-native-api-delete-file-version-request/)
+- [DeleteFileVersionResponse](https://apis.io/schemas/backblaze/b2-native-api-delete-file-version-response/)
+- [DeleteKeyRequest](https://apis.io/schemas/backblaze/b2-native-api-delete-key-request/)
+- [FileInfo](https://apis.io/schemas/backblaze/b2-native-api-file-info/)
+- [FinishLargeFileRequest](https://apis.io/schemas/backblaze/b2-native-api-finish-large-file-request/)
+- [GetBucketNotificationRulesRequest](https://apis.io/schemas/backblaze/b2-native-api-get-bucket-notification-rules-request/)
+- [GetDownloadAuthorizationRequest](https://apis.io/schemas/backblaze/b2-native-api-get-download-authorization-request/)
+- [GetDownloadAuthorizationResponse](https://apis.io/schemas/backblaze/b2-native-api-get-download-authorization-response/)
+- [GetFileInfoRequest](https://apis.io/schemas/backblaze/b2-native-api-get-file-info-request/)
+- [GetUploadPartUrlRequest](https://apis.io/schemas/backblaze/b2-native-api-get-upload-part-url-request/)
+- [GetUploadPartUrlResponse](https://apis.io/schemas/backblaze/b2-native-api-get-upload-part-url-response/)
+- [GetUploadUrlRequest](https://apis.io/schemas/backblaze/b2-native-api-get-upload-url-request/)
+- [GetUploadUrlResponse](https://apis.io/schemas/backblaze/b2-native-api-get-upload-url-response/)
+- …and 17 more published on APIs.io
 
-## Common Properties
+#### JSON Structure (42)
+
+Data models expressed in JSON Structure.
+
+- [B2 Native Api Allowed Capabilities Structure](https://apis.io/json-structure/backblaze/b2-native-api-allowed-capabilities-structure/)
+- [B2 Native Api Api Info Structure](https://apis.io/json-structure/backblaze/b2-native-api-api-info-structure/)
+- [B2 Native Api Application Key Structure](https://apis.io/json-structure/backblaze/b2-native-api-application-key-structure/)
+- [B2 Native Api Authorize Account Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-authorize-account-response-structure/)
+- [B2 Native Api Bucket Notification Rules Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-bucket-notification-rules-response-structure/)
+- [B2 Native Api Bucket Structure](https://apis.io/json-structure/backblaze/b2-native-api-bucket-structure/)
+- [B2 Native Api Cancel Large File Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-cancel-large-file-request-structure/)
+- [B2 Native Api Cancel Large File Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-cancel-large-file-response-structure/)
+- [B2 Native Api Copy File Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-copy-file-request-structure/)
+- [B2 Native Api Create Bucket Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-create-bucket-request-structure/)
+- [B2 Native Api Create Key Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-create-key-request-structure/)
+- [B2 Native Api Delete Bucket Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-delete-bucket-request-structure/)
+- [B2 Native Api Delete File Version Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-delete-file-version-request-structure/)
+- [B2 Native Api Delete File Version Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-delete-file-version-response-structure/)
+- [B2 Native Api Delete Key Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-delete-key-request-structure/)
+- [B2 Native Api File Info Structure](https://apis.io/json-structure/backblaze/b2-native-api-file-info-structure/)
+- [B2 Native Api Finish Large File Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-finish-large-file-request-structure/)
+- [B2 Native Api Get Bucket Notification Rules Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-bucket-notification-rules-request-structure/)
+- [B2 Native Api Get Download Authorization Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-download-authorization-request-structure/)
+- [B2 Native Api Get Download Authorization Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-download-authorization-response-structure/)
+- [B2 Native Api Get File Info Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-file-info-request-structure/)
+- [B2 Native Api Get Upload Part Url Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-upload-part-url-request-structure/)
+- [B2 Native Api Get Upload Part Url Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-upload-part-url-response-structure/)
+- [B2 Native Api Get Upload Url Request Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-upload-url-request-structure/)
+- [B2 Native Api Get Upload Url Response Structure](https://apis.io/json-structure/backblaze/b2-native-api-get-upload-url-response-structure/)
+- …and 17 more published on APIs.io
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Backblaze B2 Context](https://apis.io/jsonld/backblaze/backblaze-b2-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Backblaze Vocabulary](https://apis.io/vocabularies/backblaze/backblaze-vocabulary/)
+
+#### Examples (42)
+
+Example requests and responses.
+
+- [B2 Native Api Allowed Capabilities Example](https://apis.io/examples/backblaze/b2-native-api-allowed-capabilities-example/)
+- [B2 Native Api Api Info Example](https://apis.io/examples/backblaze/b2-native-api-api-info-example/)
+- [B2 Native Api Application Key Example](https://apis.io/examples/backblaze/b2-native-api-application-key-example/)
+- [B2 Native Api Authorize Account Response Example](https://apis.io/examples/backblaze/b2-native-api-authorize-account-response-example/)
+- [B2 Native Api Bucket Example](https://apis.io/examples/backblaze/b2-native-api-bucket-example/)
+- [B2 Native Api Bucket Notification Rules Response Example](https://apis.io/examples/backblaze/b2-native-api-bucket-notification-rules-response-example/)
+- [B2 Native Api Cancel Large File Request Example](https://apis.io/examples/backblaze/b2-native-api-cancel-large-file-request-example/)
+- [B2 Native Api Cancel Large File Response Example](https://apis.io/examples/backblaze/b2-native-api-cancel-large-file-response-example/)
+- [B2 Native Api Copy File Request Example](https://apis.io/examples/backblaze/b2-native-api-copy-file-request-example/)
+- [B2 Native Api Create Bucket Request Example](https://apis.io/examples/backblaze/b2-native-api-create-bucket-request-example/)
+- [B2 Native Api Create Key Request Example](https://apis.io/examples/backblaze/b2-native-api-create-key-request-example/)
+- [B2 Native Api Delete Bucket Request Example](https://apis.io/examples/backblaze/b2-native-api-delete-bucket-request-example/)
+- [B2 Native Api Delete File Version Request Example](https://apis.io/examples/backblaze/b2-native-api-delete-file-version-request-example/)
+- [B2 Native Api Delete File Version Response Example](https://apis.io/examples/backblaze/b2-native-api-delete-file-version-response-example/)
+- [B2 Native Api Delete Key Request Example](https://apis.io/examples/backblaze/b2-native-api-delete-key-request-example/)
+- [B2 Native Api File Info Example](https://apis.io/examples/backblaze/b2-native-api-file-info-example/)
+- [B2 Native Api Finish Large File Request Example](https://apis.io/examples/backblaze/b2-native-api-finish-large-file-request-example/)
+- [B2 Native Api Get Bucket Notification Rules Request Example](https://apis.io/examples/backblaze/b2-native-api-get-bucket-notification-rules-request-example/)
+- [B2 Native Api Get Download Authorization Request Example](https://apis.io/examples/backblaze/b2-native-api-get-download-authorization-request-example/)
+- [B2 Native Api Get Download Authorization Response Example](https://apis.io/examples/backblaze/b2-native-api-get-download-authorization-response-example/)
+- [B2 Native Api Get File Info Request Example](https://apis.io/examples/backblaze/b2-native-api-get-file-info-request-example/)
+- [B2 Native Api Get Upload Part Url Request Example](https://apis.io/examples/backblaze/b2-native-api-get-upload-part-url-request-example/)
+- [B2 Native Api Get Upload Part Url Response Example](https://apis.io/examples/backblaze/b2-native-api-get-upload-part-url-response-example/)
+- [B2 Native Api Get Upload Url Request Example](https://apis.io/examples/backblaze/b2-native-api-get-upload-url-request-example/)
+- [B2 Native Api Get Upload Url Response Example](https://apis.io/examples/backblaze/b2-native-api-get-upload-url-response-example/)
+- …and 17 more published on APIs.io
+
+#### Collections (7)
+
+Postman and Open Collection request collections.
+
+- [Backblaze B2 Native Application Keys API](https://apis.io/collections/backblaze/open-backblaze-application-keys-api/)
+- [Backblaze B2 Native Application Keys Authorization API](https://apis.io/collections/backblaze/open-backblaze-authorization-api/)
+- [Backblaze B2 Native Application Keys Buckets API](https://apis.io/collections/backblaze/open-backblaze-buckets-api/)
+- [Backblaze B2 Native Application Keys Files API](https://apis.io/collections/backblaze/open-backblaze-files-api/)
+- [Backblaze B2 Native Application Keys Large Files API](https://apis.io/collections/backblaze/open-backblaze-large-files-api/)
+- [Backblaze B2 Native Application Keys Notifications API](https://apis.io/collections/backblaze/open-backblaze-notifications-api/)
+- [Backblaze B2 Native API](https://apis.io/collections/backblaze/postman-backblaze-b2-native-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Backblaze B2 Native Api Overlay](https://apis.io/overlays/backblaze/backblaze-b2-native-api-overlay/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Backblaze — jsonschema rules](https://apis.io/rules/backblaze/backblaze-jsonschema-spectral-rules/)
+- [Backblaze API Rules](https://apis.io/rules/backblaze/backblaze-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Backblaze Authentication](https://apis.io/security/backblaze/backblaze-authentication/)
+- [Backblaze Domain Security](https://apis.io/security/backblaze/backblaze-domain-security/)
+- [Backblaze Trust Center](https://apis.io/security/backblaze/backblaze-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Backblaze Plans Pricing](https://apis.io/plans/backblaze/backblaze-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Backblaze Rate Limits](https://apis.io/rate-limits/backblaze/backblaze-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Backblaze Finops](https://apis.io/finops/backblaze/backblaze-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.backblaze.com)
-- [Portal](https://www.backblaze.com/docs)
 - [Documentation](https://www.backblaze.com/apidocs/)
-- [GettingStarted](https://www.backblaze.com/docs/cloud-storage-native-api)
+- [Getting started](https://www.backblaze.com/docs/cloud-storage-native-api)
 - [Pricing](https://www.backblaze.com/cloud-storage/pricing)
-- [SignUp](https://www.backblaze.com/b2/sign-up.html)
-- [Blog](https://www.backblaze.com/blog/)
-- [StatusPage](https://status.backblaze.com)
 - [Support](https://help.backblaze.com)
-- [TermsOfService](https://www.backblaze.com/company/terms-of-service)
-- [PrivacyPolicy](https://www.backblaze.com/company/privacy.html)
-- [GitHubOrganization](https://github.com/Backblaze)
-- [GitHubRepository](https://github.com/Backblaze/b2-sdk-python)
-- [Python SDK (B2 CLI & SDK)](https://pypi.org/project/b2/)
-- [Java SDK](https://github.com/Backblaze/b2-sdk-java)
-- [Go SDK](https://github.com/Backblaze/blazer)
-- [B2 Command Line Tool](https://github.com/Backblaze/B2_Command_Line_Tool)
-- [Terraform Provider](https://github.com/Backblaze/terraform-provider-b2)
+- [Blog](https://www.backblaze.com/blog/)
+- [Terms of service](https://www.backblaze.com/company/terms-of-service)
+- [Privacy policy](https://www.backblaze.com/company/privacy.html)
+- [GitHub](https://github.com/Backblaze)
+- [Status](https://status.backblaze.com)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| Object Storage | Store and retrieve any amount of data with a simple flat namespace and unique file IDs. |
-| S3-Compatible API | Use existing S3 tools and libraries without modification via the S3-compatible API endpoint. |
-| Large File Multi-Part Upload | Upload files larger than 5GB using the multi-part upload API (b2_start_large_file / b2_upload_part / b2_finish_large_file). |
-| Application Key Management | Create and manage scoped application keys with per-bucket and per-prefix restrictions. |
-| Lifecycle Rules | Automatically delete or hide files after a specified number of days using lifecycle rules. |
-| File Versioning | Keep multiple versions of files; older versions are preserved and accessible by file ID. |
-| Event Notifications | Configure webhook-based event notifications when objects are created, modified, or deleted. |
-| Object Lock | Protect files from deletion or modification for a specified retention period using object lock. |
-| Cross-Region Replication | Replicate buckets to other regions or accounts for disaster recovery and data locality. |
-| Server-Side Encryption | Encrypt data at rest using Backblaze-managed or customer-managed keys. |
-| Cloudflare Bandwidth Alliance | Zero egress fees when serving B2 data through Cloudflare CDN. |
+**Kin Score 46.6** — developing · rubric 0.25.0 · scored 2026-10-23
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 53.6 |
+| Contract quality | 23.0 |
+| Contract governance | 31.8 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 82.1 |
+| Access clarity | 50.0 |
 
-| Name | Description |
-|------|-------------|
-| Application Data Storage | Store application data, user-uploaded content, and media files in the cloud. |
-| Backup and Disaster Recovery | Use Backblaze B2 as the storage backend for backup tools like Arq, MSP360, and Veeam. |
-| Media Hosting and Delivery | Host images, videos, and other media files and serve them via CDN integration. |
-| Archival Storage | Store infrequently accessed archival data at low cost with lifecycle-based management. |
-| Data Migration | Migrate data from S3 or other cloud storage providers using the S3-compatible API. |
-| CI/CD Artifact Storage | Store build artifacts, logs, and deployment packages in B2 buckets. |
+**Agent readiness 31.9** — agent-ready
 
-## Integrations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
 
-| Name | Description |
-|------|-------------|
-| Cloudflare | Zero egress bandwidth alliance for CDN delivery of B2 content. |
-| Arq Backup | Popular Mac and Windows backup application with native B2 support. |
-| Synology | Synology NAS Hyper Backup integration for cloud backup. |
-| Veeam | Enterprise backup and replication solution with B2 support. |
-| MSP360 | Managed backup service with native B2 storage support. |
-| Terraform | Infrastructure as code support via the official Terraform provider. |
-| rclone | Command-line sync tool with native B2 Native and S3-compatible API support. |
+**Regulatory alignment 25.5** — Horizontal (data, software, accessibility, platform)
 
-## Artifacts
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/backblaze/](https://apis.io/providers/backblaze/).
 
-Machine-readable API specifications organized by format.
+## How this profile is made
 
-### OpenAPI
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-- [Backblaze B2 Native API](openapi/backblaze-b2-native-api.yaml)
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Backblaze: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-### JSON Schema
+## Open an issue
 
-- [Authorize Account Response](json-schema/b2-native-api-authorize-account-response-schema.json)
-- [Bucket](json-schema/b2-native-api-bucket-schema.json)
-- [File Info](json-schema/b2-native-api-file-info-schema.json)
-- [Application Key](json-schema/b2-native-api-application-key-schema.json)
-- [Notification Rule](json-schema/b2-native-api-notification-rule-schema.json)
-- [+ 37 more schemas](json-schema/)
-
-### JSON Structure
-
-- [Authorize Account Response](json-structure/b2-native-api-authorize-account-response-structure.json)
-- [Bucket](json-structure/b2-native-api-bucket-structure.json)
-- [File Info](json-structure/b2-native-api-file-info-structure.json)
-- [+ 39 more structures](json-structure/)
-
-### JSON-LD
-
-- [Backblaze B2 JSON-LD Context](json-ld/backblaze-b2-context.jsonld)
-
-## Capabilities
-
-Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.
-
-### Shared Per-API Definitions
-
-- [Backblaze B2 Native API](capabilities/shared/b2-native-api.yaml) — 22 operations for account authorization, bucket management, file operations, large file uploads, application key management, and event notifications
-
-### Workflow Capabilities
-
-| Workflow | APIs Combined | Tools | Persona |
-|----------|--------------|-------|---------|
-| [Cloud Storage Management](capabilities/cloud-storage-management.yaml) | B2 Native API | 24 | Developer, DevOps Engineer, Application Integrator |
-
-## Vocabulary
-
-- [Backblaze Vocabulary](vocabulary/backblaze-vocabulary.yaml) — Unified taxonomy mapping 6 resources, 15 actions, 1 workflow, and 3 personas across operational (OpenAPI) and capability (Naftiko) dimensions
-
-## Rules
-
-- [Backblaze Spectral Rules](rules/backblaze-spectral-rules.yml) — 30 rules across 8 categories enforcing Backblaze B2 API conventions
-
-## Maintainers
-
-**FN:** Kin Lane
-
-**Email:** kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/backblaze/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
